@@ -24,28 +24,38 @@
 
 package cn.vika.core.http;
 
-import com.sun.tools.javac.util.Assert;
-
 import java.util.LinkedHashMap;
-import java.util.Map;
+
+import static cn.vika.core.constants.HttpHeaderConstants.CONTENT_LENGTH;
 
 /**
- * A data structure representing HTTP request or response headers, mapping String header names
- * to a list of String values, also offering accessors for common application-level data types.
+ * A data structure representing HTTP request or response headers,
+ * mapping String header names to a list of String values,
+ * also offering accessors for common application-level data types.
  *
  * @author Shawn Deng
  * @date 2020-10-26 18:22:23
  */
-public class HttpHeader {
-
-    final Map<String, String> headers;
+public class HttpHeader extends LinkedHashMap<String, String> {
 
     public HttpHeader() {
-        this(new LinkedHashMap<>(8));
+        super(8);
     }
 
-    public HttpHeader(Map<String, String> headers) {
-        Assert.check(headers != null, "Request Header must not be null");
-        this.headers = headers;
+    /**
+     * Return the length of the body in bytes, as specified by the {@code Content-Length} header.
+     *
+     * @return Returns -1 when the content-length is unknown
+     */
+    public long getContentLength() {
+        String value = get(CONTENT_LENGTH);
+        return (value != null ? Long.parseLong(value) : -1);
+    }
+
+    /**
+     * Set the length of the body in bytes, as specified by the {@code Content-Length} header.
+     */
+    public void setContentLength(long contentLength) {
+        put(CONTENT_LENGTH, Long.toString(contentLength));
     }
 }

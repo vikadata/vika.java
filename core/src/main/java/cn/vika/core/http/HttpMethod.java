@@ -24,24 +24,14 @@
 
 package cn.vika.core.http;
 
-import java.net.URI;
-
 /**
- * Factory for {@link ClientHttpRequest} objects.
- * Requests are created by the {@link #createRequest(URI, HttpMethod)} method.
+ * HTTP request methods. Intended for use
  *
  * @author Shawn Deng
- * @date 2020-10-26 19:18:02
+ * @date 2020-10-27 11:53:03
  */
-public interface ClientHttpRequestFactory {
+@SuppressWarnings("AlibabaEnumConstantsMustHaveComment")
+public enum HttpMethod {
 
-    /**
-     * Create a new {@link ClientHttpRequest} for the specified URI and HTTP method.
-     * <p>The returned request can be written to, and then executed by calling
-     *
-     * @param uri        the URI to create a request for client
-     * @param httpMethod the HTTP method to execute
-     * @return ClientHttpRequest
-     */
-    ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod);
+    GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS, TRACE;
 }

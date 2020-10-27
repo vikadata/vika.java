@@ -24,13 +24,50 @@
 
 package cn.vika.core.http;
 
-/**
- * SDK Request Client
- *
- * @author Shawn Deng
- * @date 2020-10-26 18:57:44
- */
-public class VikaOpenApiClient {
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
 
-    
+/**
+ * @author Shawn Deng
+ * @date 2020-10-27 11:57:08
+ */
+public interface ClientHttpResponse extends Closeable {
+
+    /**
+     * Get the HTTP status code of the response.
+     *
+     * @return the HTTP status as an integer value
+     * @throws IOException in case of I/O errors
+     */
+    int getRawStatusCode() throws IOException;
+
+    /**
+     * Get the HTTP status text of the response.
+     *
+     * @return the HTTP status text
+     * @throws IOException in case of I/O errors
+     */
+    String getStatusText() throws IOException;
+
+    /**
+     * Return the headers of this message.
+     *
+     * @return a corresponding HttpHeaders object (never {@code null})
+     */
+    HttpHeader getHeaders();
+
+    /**
+     * Return the body of the message as an input stream.
+     *
+     * @return the input stream body (never {@code null})
+     * @throws IOException in case of I/O errors
+     */
+    InputStream getBody() throws IOException;
+
+    /**
+     * Close this response, freeing any resources created.
+     */
+    @Override
+    void close();
 }

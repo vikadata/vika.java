@@ -24,24 +24,27 @@
 
 package cn.vika.core.http;
 
-import cn.vika.core.constants.HttpHeaderConstants;
-
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 /**
- * buffers output in a byte array before sending it over the wire.
+ * default implementation of the ResponseErrorHandler interface.
  *
  * @author Shawn Deng
- * @date 2020-10-26 18:11:56
+ * @date 2020-10-27 19:09:34
  */
-public abstract class AbstractBufferingClientHttpRequest extends AbstractHttpRequestClient {
-
-    private ByteArrayOutputStream bufferedOutput = new ByteArrayOutputStream(1024);
+public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 
     @Override
-    protected OutputStream getBodyInternal(HttpHeaderConstants headers) throws IOException {
-        return this.bufferedOutput;
+    public boolean hasError(ClientHttpResponse response) throws IOException {
+        return false;
+    }
+
+    @Override
+    public void handleError(ClientHttpResponse response) throws IOException {
+
+    }
+
+    protected boolean hasError(int unknownStatusCode) {
+        return false;
     }
 }

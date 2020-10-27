@@ -24,21 +24,38 @@
 
 package cn.vika.core.http;
 
-import cn.vika.core.constants.HttpHeaderConstants;
 import com.sun.tools.javac.util.Assert;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 /**
- * Abstract Http Client
+ * Abstract Http Client Object
  *
  * @author Shawn Deng
  * @date 2020-10-26 17:39:20
  */
-public abstract class AbstractHttpRequestClient implements HttpRequestClient {
+public abstract class AbstractHttpRequestClient implements ClientHttpRequest {
+
+    private final HttpHeader headers = new HttpHeader();
+
+    private ByteArrayOutputStream bufferedOutput = new ByteArrayOutputStream(1024);
 
     private boolean executed = false;
+
+    @Override
+    public ClientHttpResponse execute() throws IOException {
+        // asset where request is executing
+        assertNotExecuted();
+        byte[] bytes = bufferedOutput.toByteArray();
+        if (headers.getContentLength() < 0) {
+            headers.setContentLength(bytes.length);
+        }
+        ClientHttpResponse result = this.executeInternal(this.headers, bytes);
+        this.executed = true;
+        this.bufferedOutput = new ByteArrayOutputStream(0);
+        return result;
+    }
 
     /**
      * Assert that this request has not been {@linkplain #execute() executed} yet.
@@ -46,15 +63,16 @@ public abstract class AbstractHttpRequestClient implements HttpRequestClient {
      * @throws IllegalStateException if this request has been executed
      */
     protected void assertNotExecuted() {
-        Assert.check(!this.executed, "ClientHttpRequest already executed");
+        Assert.check(!this.executed, "RequestClient already executed");
     }
 
     /**
-     * Abstract template method that returns the body.
+     * Abstract template method for the HTTP request.
      *
      * @param headers the HTTP headers
-     * @return the body output stream
-     * @throws IOException IO Exception
+     * @param content request body content
+     * @return the response object for the executed request
+     * @throws IOException in case of I/O errors
      */
-    protected abstract OutputStream getBodyInternal(HttpHeaderConstants headers) throws IOException;
+    protected abstract ClientHttpResponse executeInternal(HttpHeader headers, byte[] content) throws IOException;
 }

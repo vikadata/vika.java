@@ -25,7 +25,9 @@
 package cn.vika.core.http;
 
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
+import java.io.IOException;
 import java.net.URI;
 
 /**
@@ -34,16 +36,24 @@ import java.net.URI;
  * @author Shawn Deng
  * @date 2020-10-26 18:02:40
  */
-public class OkHttp3ClientRequest extends AbstractBufferingClientHttpRequest {
+public class OkHttp3ClientRequest extends AbstractHttpRequestClient {
 
     private final OkHttpClient client;
 
     private final URI uri;
 
-    public OkHttp3ClientRequest(OkHttpClient client, URI uri) {
+    private final HttpMethod method;
+
+    public OkHttp3ClientRequest(OkHttpClient client, URI uri, HttpMethod method) {
         this.client = client;
         this.uri = uri;
+        this.method = method;
     }
 
-
+    @Override
+    protected ClientHttpResponse executeInternal(HttpHeader headers, byte[] content) throws IOException {
+        // Create Okhttp Request
+        Request request = OkHttp3ClientHttpRequestFactory.buildRequest(this.uri, this.method, headers, content);
+        return new OkHttp3ClientHttpResponse(this.client.newCall(request).execute());
+    }
 }

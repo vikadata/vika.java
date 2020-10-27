@@ -22,12 +22,38 @@
  * SOFTWARE.
  */
 
-package cn.vika.core.http;
+package cn.vika.core.utils;
 
 /**
+ * this is for {@link String} util method
+ *
  * @author Shawn Deng
- * @date 2020-10-26 19:09:21
+ * @date 2020-10-27 16:55:30
  */
-public interface HttpRequestClient {
+public class StringUtil {
 
+    /**
+     * Check whether the given {@code String} contains actual <em>text</em>.
+     * <p>More specifically, this method returns {@code true} if the
+     * {@code String} is not {@code null}, its length is greater than 0,
+     * and it contains at least one non-whitespace character.
+     *
+     * @param str the {@code String} to check (may be {@code null})
+     * @return {@code true} if the {@code String} is not {@code null}, its
+     * length is greater than 0, and it does not contain whitespace only
+     * @see Character#isWhitespace
+     */
+    public static boolean hasText(String str) {
+        return (str != null && !str.isEmpty() && containsText(str));
+    }
+
+    private static boolean containsText(CharSequence str) {
+        int strLen = str.length();
+        for (int i = 0; i < strLen; i++) {
+            if (!Character.isWhitespace(str.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

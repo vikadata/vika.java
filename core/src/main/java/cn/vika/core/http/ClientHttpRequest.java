@@ -24,28 +24,21 @@
 
 package cn.vika.core.http;
 
-import okhttp3.internal.http.HttpMethod;
-
 import java.io.IOException;
-import java.net.URI;
 
 /**
- * * Base class for {@link cn.vika.core.http.VikaOpenApiClient}
+ * a client-side HTTP request
  *
  * @author Shawn Deng
- * @date 2020-10-26 19:06:40
+ * @date 2020-10-26 19:09:21
  */
-public class BaseClient {
+public interface ClientHttpRequest {
 
     /**
-     * Create a new {@link HttpRequestClient}
+     * Execute request
      *
-     * @param url    the URL to connect to
-     * @param method the HTTP method to execute (GET, POST, etc)
-     * @return the created request
+     * @return the response result of the execution
      * @throws IOException in case of I/O errors
      */
-    protected HttpRequestClient createRequest(URI url, HttpMethod method) throws IOException {
-        return null;
-    }
+    ClientHttpResponse execute() throws IOException;
 }
