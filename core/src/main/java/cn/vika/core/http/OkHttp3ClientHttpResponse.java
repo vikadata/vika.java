@@ -24,7 +24,7 @@
 
 package cn.vika.core.http;
 
-import com.sun.tools.javac.util.Assert;
+import cn.vika.core.utils.Assert;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
@@ -44,7 +44,7 @@ public class OkHttp3ClientHttpResponse implements ClientHttpResponse {
 
 
     public OkHttp3ClientHttpResponse(Response response) {
-        Assert.checkNonNull(response, "Response must not be null");
+        Assert.notNull(response, "Response must not be null");
         this.response = response;
     }
 

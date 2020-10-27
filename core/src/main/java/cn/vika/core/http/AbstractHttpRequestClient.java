@@ -24,7 +24,8 @@
 
 package cn.vika.core.http;
 
-import com.sun.tools.javac.util.Assert;
+
+import cn.vika.core.utils.Assert;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -63,7 +64,7 @@ public abstract class AbstractHttpRequestClient implements ClientHttpRequest {
      * @throws IllegalStateException if this request has been executed
      */
     protected void assertNotExecuted() {
-        Assert.check(!this.executed, "RequestClient already executed");
+        Assert.state(!this.executed, "RequestClient already executed");
     }
 
     /**

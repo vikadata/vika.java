@@ -25,8 +25,8 @@
 package cn.vika.core.http;
 
 import cn.vika.core.constants.HttpHeaderConstants;
+import cn.vika.core.utils.Assert;
 import cn.vika.core.utils.StringUtil;
-import com.sun.tools.javac.util.Assert;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -48,7 +48,7 @@ public class OkHttp3ClientHttpRequestFactory implements ClientHttpRequestFactory
     }
 
     public OkHttp3ClientHttpRequestFactory(OkHttpClient client) {
-        Assert.checkNonNull(client, "OkHttpClient must not be null");
+        Assert.notNull(client, "OkHttpClient must not be null");
         this.client = client;
     }
 

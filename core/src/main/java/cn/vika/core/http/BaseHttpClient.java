@@ -24,7 +24,7 @@
 
 package cn.vika.core.http;
 
-import com.sun.tools.javac.util.Assert;
+import cn.vika.core.utils.Assert;
 
 import java.io.IOException;
 import java.net.URI;
@@ -47,7 +47,7 @@ public abstract class BaseHttpClient {
      * @param requestFactory http request client factory
      */
     public void setRequestFactory(ClientHttpRequestFactory requestFactory) {
-        Assert.checkNonNull(requestFactory, "HttpRequestFactory must not be null");
+        Assert.notNull(requestFactory, "HttpRequestFactory must not be null");
         this.requestFactory = requestFactory;
     }
 

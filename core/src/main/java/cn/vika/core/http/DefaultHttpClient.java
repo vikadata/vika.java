@@ -24,7 +24,7 @@
 
 package cn.vika.core.http;
 
-import com.sun.tools.javac.util.Assert;
+import cn.vika.core.utils.Assert;
 
 import java.io.IOException;
 import java.net.URI;
@@ -72,8 +72,8 @@ public class DefaultHttpClient extends BaseHttpClient {
 
     protected <T> T doExecute(URI url, HttpMethod method) {
         // asset param
-        Assert.checkNonNull(url, "URI is required");
-        Assert.checkNonNull(method, "HttpMethod is required");
+        Assert.notNull(url, "URI is required");
+        Assert.notNull(method, "HttpMethod is required");
         ClientHttpResponse response = null;
         try {
             // create Request instance
@@ -97,7 +97,7 @@ public class DefaultHttpClient extends BaseHttpClient {
     }
 
     private static <T> T nonNull(T result) {
-        Assert.check(result != null, "No Response Result Back!");
+        Assert.state(result != null, "No Response Result Back!");
         return result;
     }
 

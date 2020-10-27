@@ -24,7 +24,7 @@
 
 package cn.vika.core.http;
 
-import com.sun.tools.javac.util.Assert;
+import cn.vika.core.utils.Assert;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.internal.http.HttpMethod;
@@ -58,7 +58,7 @@ public class OkHttpRequestBuildFactory {
      * @param client the client to use
      */
     public OkHttpRequestBuildFactory(OkHttpClient client) {
-        Assert.checkNonNull(client, "OkHttpClient must not be null");
+        Assert.notNull(client, "OkHttpClient must not be null");
         this.client = client;
         this.defaultClient = false;
     }
