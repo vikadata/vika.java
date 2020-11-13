@@ -24,30 +24,32 @@
 
 package cn.vika.core.http;
 
-import cn.vika.core.utils.Assert;
+import cn.vika.core.utils.AssertUtil;
 
 import java.io.IOException;
 import java.net.URI;
 
 /**
+ * abstract http client class
+ *
  * @author Shawn Deng
  * @date 2020-10-27 17:59:37
  */
-public abstract class BaseHttpClient {
+public abstract class AbstractHttpClient {
 
     /**
      * Default implementation OkhttpClient
      */
-    private ClientHttpRequestFactory requestFactory = new OkHttp3ClientHttpRequestFactory();
+    private ClientHttpRequestFactory requestFactory = new OkHttpClientHttpRequestFactory();
 
     /**
      * Set the request factory that this accessor uses for obtaining client request handles.
-     * <p>The default is a {@link OkHttp3ClientHttpRequestFactory} based on the OKHttp libraries.
+     * <p>The default is a {@link OkHttpClientHttpRequestFactory} based on the OKHttp libraries.
      *
      * @param requestFactory http request client factory
      */
     public void setRequestFactory(ClientHttpRequestFactory requestFactory) {
-        Assert.notNull(requestFactory, "HttpRequestFactory must not be null");
+        AssertUtil.notNull(requestFactory, "HttpRequestFactory must not be null");
         this.requestFactory = requestFactory;
     }
 
@@ -60,15 +62,16 @@ public abstract class BaseHttpClient {
 
     /**
      * Create a new {@link ClientHttpRequest} via this template's {@link ClientHttpRequestFactory}.
-     * @param url the URL to connect to
+     *
+     * @param uri    the URL to connect to
      * @param method the HTTP method to execute (GET, POST, etc)
      * @return the created request
      * @throws IOException in case of I/O errors
      * @see #getRequestFactory()
      * @see ClientHttpRequestFactory#createRequest(URI, HttpMethod)
      */
-    protected ClientHttpRequest createRequest(URI url, HttpMethod method) throws IOException {
-        ClientHttpRequest request = getRequestFactory().createRequest(url, method);
-        return request;
+    protected ClientHttpRequest createRequest(URI uri, HttpMethod method) throws IOException {
+        // create request by factory
+        return getRequestFactory().createRequest(uri, method);
     }
 }

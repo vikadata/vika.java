@@ -24,8 +24,7 @@
 
 package cn.vika.core.http;
 
-import cn.vika.core.constants.HttpHeaderConstants;
-import cn.vika.core.utils.Assert;
+import cn.vika.core.utils.AssertUtil;
 import cn.vika.core.utils.StringUtil;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -36,27 +35,39 @@ import java.net.MalformedURLException;
 import java.net.URI;
 
 /**
+ * implementation base Request Factory
+ *
  * @author Shawn Deng
  * @date 2020-10-27 12:08:00
  */
-public class OkHttp3ClientHttpRequestFactory implements ClientHttpRequestFactory {
+public class OkHttpClientHttpRequestFactory implements ClientHttpRequestFactory {
 
-    private OkHttpClient client;
+    private final OkHttpClient client;
 
-    public OkHttp3ClientHttpRequestFactory() {
+    public OkHttpClientHttpRequestFactory() {
         this.client = new OkHttpClient();
     }
 
-    public OkHttp3ClientHttpRequestFactory(OkHttpClient client) {
-        Assert.notNull(client, "OkHttpClient must not be null");
+    public OkHttpClientHttpRequestFactory(OkHttpClient client) {
+        AssertUtil.notNull(client, "OkHttpClient must not be null");
         this.client = client;
     }
 
     @Override
     public ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod) {
-        return new OkHttp3ClientRequest(this.client, uri, httpMethod);
+        return new OkHttpClientRequest(this.client, uri, httpMethod);
     }
 
+    /**
+     * build request instance by necessary input param
+     *
+     * @param uri        connect url
+     * @param httpMethod request method way
+     * @param headers    request header
+     * @param content    request content
+     * @return Okhttp Request instance
+     * @throws MalformedURLException throw if uri error
+     */
     static Request buildRequest(URI uri, HttpMethod httpMethod, HttpHeader headers, byte[] content) throws MalformedURLException {
         // get request content type
         MediaType contentType = getContentType(headers);
@@ -66,11 +77,17 @@ public class OkHttp3ClientHttpRequestFactory implements ClientHttpRequestFactory
             RequestBody.create(content, contentType) : null;
         // Create Okhttp Request
         Request.Builder builder = new Request.Builder().url(uri.toURL()).method(httpMethod.name(), body);
+        // Add Header
+        headers.forEach((headerName, headerValues) -> {
+            for (String headerValue : headerValues) {
+                builder.addHeader(headerName, headerValue);
+            }
+        });
         return builder.build();
     }
 
     private static MediaType getContentType(HttpHeader header) {
-        String rawContentType = header.get(HttpHeaderConstants.CONTENT_TYPE);
+        String rawContentType = header.getFirstValue(HttpHeaderConstants.CONTENT_TYPE);
         return StringUtil.hasText(rawContentType) ? okhttp3.MediaType.parse(rawContentType) : null;
     }
 }

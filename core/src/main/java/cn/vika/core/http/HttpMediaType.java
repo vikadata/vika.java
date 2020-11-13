@@ -24,36 +24,25 @@
 
 package cn.vika.core.http;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-
-import java.io.IOException;
-import java.net.URI;
-
 /**
- * {@link AbstractHttpRequestClient} implementation based on OkHttp.
+ * Http Media type
  *
  * @author Shawn Deng
- * @date 2020-10-26 18:02:40
+ * @date 2020-11-07 00:32:45
  */
-public class OkHttp3ClientRequest extends AbstractHttpRequestClient {
+public class HttpMediaType {
 
-    private final OkHttpClient client;
+    public static final String ALL = "*/*";
 
-    private final URI uri;
+    public static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
 
-    private final HttpMethod method;
+    public static final String APPLICATION_JSON = "application/json";
 
-    public OkHttp3ClientRequest(OkHttpClient client, URI uri, HttpMethod method) {
-        this.client = client;
-        this.uri = uri;
-        this.method = method;
-    }
+    public static final String MULTIPART_FORM_DATA = "multipart/form-data";
 
-    @Override
-    protected ClientHttpResponse executeInternal(HttpHeader headers, byte[] content) throws IOException {
-        // Create Okhttp Request
-        Request request = OkHttp3ClientHttpRequestFactory.buildRequest(this.uri, this.method, headers, content);
-        return new OkHttp3ClientHttpResponse(this.client.newCall(request).execute());
-    }
+    public static final String TEXT_HTML = "text/html";
+
+    public static final String TEXT_PLAIN = "text/plain";
+
+    public static final String APPLICATION_OCTET_STREAM = "application/octet-stream";
 }

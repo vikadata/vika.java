@@ -24,37 +24,36 @@
 
 package cn.vika.core.http;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+
 import java.io.IOException;
-import java.io.OutputStream;
+import java.net.URI;
 
 /**
- * a client-side HTTP request
+ * {@link AbstractClientHttpRequest} implementation based on OkHttp.
  *
  * @author Shawn Deng
- * @date 2020-10-26 19:09:21
+ * @date 2020-10-26 18:02:40
  */
-public interface ClientHttpRequest {
+public class OkHttpClientRequest extends AbstractClientHttpRequest {
 
-    /**
-     * Return the headers of this message.
-     *
-     * @return a corresponding {@link HttpHeader} object (never {@code null})
-     */
-    HttpHeader getHeaders();
+    private final OkHttpClient client;
 
-    /**
-     * Return the body of the message as an output stream.
-     *
-     * @return the output stream body (never {@code null})
-     * @throws IOException in case of I/O errors
-     */
-    OutputStream getBody() throws IOException;
+    private final URI uri;
 
-    /**
-     * Execute request
-     *
-     * @return the response result of the execution
-     * @throws IOException in case of I/O errors
-     */
-    ClientHttpResponse execute() throws IOException;
+    private final HttpMethod method;
+
+    public OkHttpClientRequest(OkHttpClient client, URI uri, HttpMethod method) {
+        this.client = client;
+        this.uri = uri;
+        this.method = method;
+    }
+
+    @Override
+    protected ClientHttpResponse executeInternal(HttpHeader headers, byte[] content) throws IOException {
+        // Create Okhttp Request
+        Request request = OkHttpClientHttpRequestFactory.buildRequest(this.uri, this.method, headers, content);
+        return new OkHttpClientHttpResponse(this.client.newCall(request).execute());
+    }
 }

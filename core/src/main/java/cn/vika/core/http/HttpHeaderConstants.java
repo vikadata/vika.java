@@ -24,37 +24,56 @@
 
 package cn.vika.core.http;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
 /**
- * a client-side HTTP request
+ * Http Request Header Name Constants
  *
  * @author Shawn Deng
- * @date 2020-10-26 19:09:21
+ * @date 2020-10-26 17:53:01
  */
-public interface ClientHttpRequest {
+public interface HttpHeaderConstants {
 
     /**
-     * Return the headers of this message.
-     *
-     * @return a corresponding {@link HttpHeader} object (never {@code null})
+     * SDK Client Version
      */
-    HttpHeader getHeaders();
+    String CLIENT_VERSION_HEADER = "Client-Version";
 
     /**
-     * Return the body of the message as an output stream.
-     *
-     * @return the output stream body (never {@code null})
-     * @throws IOException in case of I/O errors
+     * The HTTP {@code User-Agent} header field name.
      */
-    OutputStream getBody() throws IOException;
+    String USER_AGENT = "User-Agent";
 
     /**
-     * Execute request
-     *
-     * @return the response result of the execution
-     * @throws IOException in case of I/O errors
+     * The HTTP {@code Content-Type} header field name.
      */
-    ClientHttpResponse execute() throws IOException;
+    String CONTENT_TYPE = "Content-Type";
+
+    /**
+     * The HTTP {@code Content-Length} header field name.
+     */
+    String CONTENT_LENGTH = "Content-Length";
+
+    /**
+     * The HTTP {@code Content-Encoding} header field name.
+     */
+    String CONTENT_ENCODING = "Content-Encoding";
+
+    /**
+     * The HTTP {@code Accept} header field name.
+     */
+    String ACCEPT = "Accept";
+
+    /**
+     * The HTTP {@code Accept-Charset} header field name.
+     */
+    String ACCEPT_CHARSET = "Accept-Charset";
+
+    /**
+     * The HTTP {@code Accept-Encoding} header field name.
+     */
+    String ACCEPT_ENCODING = "Accept-Encoding";
+
+    /**
+     * The HTTP {@code Accept-Language} header field name
+     */
+    String ACCEPT_LANGUAGE = "Accept-Language";
 }

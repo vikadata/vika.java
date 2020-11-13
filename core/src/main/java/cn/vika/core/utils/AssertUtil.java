@@ -24,15 +24,13 @@
 
 package cn.vika.core.utils;
 
-import java.util.function.Supplier;
-
 /**
  * similar to junit asset utility
  *
  * @author Shawn Deng
  * @date 2020-10-27 23:07:43
  */
-public abstract class Assert {
+public abstract class AssertUtil {
 
     /**
      * Assert a boolean expression, throwing an {@code IllegalStateException}
@@ -62,9 +60,5 @@ public abstract class Assert {
         if (object == null) {
             throw new IllegalArgumentException(message);
         }
-    }
-
-    private static String nullSafeGet(Supplier<String> messageSupplier) {
-        return (messageSupplier != null ? messageSupplier.get() : null);
     }
 }

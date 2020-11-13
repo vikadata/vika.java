@@ -27,24 +27,19 @@ package cn.vika.core.http;
 import java.io.IOException;
 
 /**
- * default implementation of the ResponseErrorHandler interface.
+ * Request Object Wrapper
  *
  * @author Shawn Deng
- * @date 2020-10-27 19:09:34
+ * @date 2020-10-28 18:06:27
  */
-public class DefaultResponseErrorHandler implements ResponseErrorHandler {
+public interface RequestWrapper {
 
-    @Override
-    public boolean hasError(ClientHttpResponse response) throws IOException {
-        return false;
-    }
-
-    @Override
-    public void handleError(ClientHttpResponse response) throws IOException {
-
-    }
-
-    protected boolean hasError(int unknownStatusCode) {
-        return false;
-    }
+    /**
+     * Does not need to care about closing the request or about handling errors:
+     * this will all be handled by the {@code HttpClient}.
+     *
+     * @param request the active HTTP request
+     * @throws IOException in case of I/O errors
+     */
+    void wrapper(ClientHttpRequest request) throws IOException;
 }

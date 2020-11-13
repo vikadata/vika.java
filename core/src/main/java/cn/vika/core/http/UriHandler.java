@@ -24,37 +24,32 @@
 
 package cn.vika.core.http;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.net.URI;
+import java.util.Map;
 
 /**
- * a client-side HTTP request
+ * handle URI
  *
  * @author Shawn Deng
- * @date 2020-10-26 19:09:21
+ * @date 2020-10-28 18:43:45
  */
-public interface ClientHttpRequest {
+public interface UriHandler {
 
     /**
-     * Return the headers of this message.
+     * Expand the given URI template with a map of URI variables.
      *
-     * @return a corresponding {@link HttpHeader} object (never {@code null})
+     * @param uriTemplate  the URI template
+     * @param uriVariables variable values
+     * @return the created URI instance
      */
-    HttpHeader getHeaders();
+    URI format(String uriTemplate, Map<String, ?> uriVariables);
 
     /**
-     * Return the body of the message as an output stream.
+     * Expand the given URI template with an array of URI variables.
      *
-     * @return the output stream body (never {@code null})
-     * @throws IOException in case of I/O errors
+     * @param uriTemplate  the URI template
+     * @param uriVariables variable values
+     * @return the created URI instance
      */
-    OutputStream getBody() throws IOException;
-
-    /**
-     * Execute request
-     *
-     * @return the response result of the execution
-     * @throws IOException in case of I/O errors
-     */
-    ClientHttpResponse execute() throws IOException;
+    URI format(String uriTemplate, Object... uriVariables);
 }

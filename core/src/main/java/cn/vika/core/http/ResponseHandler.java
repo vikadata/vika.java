@@ -22,58 +22,26 @@
  * SOFTWARE.
  */
 
-package cn.vika.core.constants;
+package cn.vika.core.http;
+
+import cn.vika.core.model.HttpResult;
+
+import java.io.IOException;
 
 /**
- * Http Request Header Name Constants
+ * handling response
  *
  * @author Shawn Deng
- * @date 2020-10-26 17:53:01
+ * @date 2020-11-12 01:30:47
  */
-public interface HttpHeaderConstants {
+public interface ResponseHandler<T> {
 
     /**
-     * SDK Client Version
+     * Extract data from the given {@code ClientHttpResponse} and return it.
+     *
+     * @param response the HTTP response
+     * @return the extracted data
+     * @throws IOException in case of I/O errors
      */
-    String CLIENT_VERSION_HEADER = "Client-Version";
-
-    /**
-     * The HTTP {@code User-Agent} header field name.
-     */
-    String USER_AGENT = "User-Agent";
-
-    /**
-     * The HTTP {@code Content-Type} header field name.
-     */
-    String CONTENT_TYPE = "Content-Type";
-
-    /**
-     * The HTTP {@code Content-Length} header field name.
-     */
-    String CONTENT_LENGTH = "Content-Length";
-
-    /**
-     * The HTTP {@code Content-Encoding} header field name.
-     */
-    String CONTENT_ENCODING = "Content-Encoding";
-
-    /**
-     * The HTTP {@code Accept} header field name.
-     */
-    String ACCEPT = "Accept";
-
-    /**
-     * The HTTP {@code Accept-Charset} header field name.
-     */
-    String ACCEPT_CHARSET = "Accept-Charset";
-
-    /**
-     * The HTTP {@code Accept-Encoding} header field name.
-     */
-    String ACCEPT_ENCODING = "Accept-Encoding";
-
-    /**
-     * The HTTP {@code Accept-Language} header field name
-     */
-    String ACCEPT_LANGUAGE = "Accept-Language";
+    HttpResult<T> extractData(ClientHttpResponse response) throws IOException;
 }

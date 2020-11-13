@@ -25,10 +25,11 @@
 package cn.vika.core.http;
 
 
-import cn.vika.core.utils.Assert;
+import cn.vika.core.utils.AssertUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Abstract Http Client Object
@@ -36,7 +37,7 @@ import java.io.IOException;
  * @author Shawn Deng
  * @date 2020-10-26 17:39:20
  */
-public abstract class AbstractHttpRequestClient implements ClientHttpRequest {
+public abstract class AbstractClientHttpRequest implements ClientHttpRequest {
 
     private final HttpHeader headers = new HttpHeader();
 
@@ -45,16 +46,27 @@ public abstract class AbstractHttpRequestClient implements ClientHttpRequest {
     private boolean executed = false;
 
     @Override
+    public HttpHeader getHeaders() {
+        return this.headers;
+    }
+
+    @Override
+    public OutputStream getBody() throws IOException {
+        return this.bufferedOutput;
+    }
+
+    @Override
     public ClientHttpResponse execute() throws IOException {
         // asset where request is executing
         assertNotExecuted();
         byte[] bytes = bufferedOutput.toByteArray();
+        // letter than 0 mean have no content
         if (headers.getContentLength() < 0) {
             headers.setContentLength(bytes.length);
         }
         ClientHttpResponse result = this.executeInternal(this.headers, bytes);
-        this.executed = true;
         this.bufferedOutput = new ByteArrayOutputStream(0);
+        this.executed = true;
         return result;
     }
 
@@ -64,7 +76,7 @@ public abstract class AbstractHttpRequestClient implements ClientHttpRequest {
      * @throws IllegalStateException if this request has been executed
      */
     protected void assertNotExecuted() {
-        Assert.state(!this.executed, "RequestClient already executed");
+        AssertUtil.state(!this.executed, "Client already executed");
     }
 
     /**

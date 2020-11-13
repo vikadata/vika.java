@@ -22,39 +22,34 @@
  * SOFTWARE.
  */
 
-package cn.vika.core.http;
+package cn.vika.core.exception;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.lang.reflect.Type;
 
 /**
- * a client-side HTTP request
- *
  * @author Shawn Deng
- * @date 2020-10-26 19:09:21
+ * @date 2020-11-07 02:40:13
  */
-public interface ClientHttpRequest {
+public class JsonConvertException extends RuntimeException {
 
-    /**
-     * Return the headers of this message.
-     *
-     * @return a corresponding {@link HttpHeader} object (never {@code null})
-     */
-    HttpHeader getHeaders();
+    private Class<?> serializedClass;
 
-    /**
-     * Return the body of the message as an output stream.
-     *
-     * @return the output stream body (never {@code null})
-     * @throws IOException in case of I/O errors
-     */
-    OutputStream getBody() throws IOException;
+    private static final long serialVersionUID = 1693206235566734599L;
 
-    /**
-     * Execute request
-     *
-     * @return the response result of the execution
-     * @throws IOException in case of I/O errors
-     */
-    ClientHttpResponse execute() throws IOException;
+    public JsonConvertException(Throwable cause) {
+        super(cause);
+    }
+
+    public JsonConvertException(Throwable cause, Class<?> serializedClass) {
+        super(serializedClass.getName(), cause);
+        this.serializedClass = serializedClass;
+    }
+
+    public JsonConvertException(Throwable cause, Type serializedType) {
+        super(serializedType.toString(), cause);
+    }
+
+    public Class<?> getSerializedClass() {
+        return serializedClass;
+    }
 }

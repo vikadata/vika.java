@@ -24,27 +24,28 @@
 
 package cn.vika.core.http;
 
-import cn.vika.core.utils.Assert;
+import cn.vika.core.utils.AssertUtil;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 
 /**
  * @author Shawn Deng
  * @date 2020-10-27 12:10:43
  */
-public class OkHttp3ClientHttpResponse implements ClientHttpResponse {
+public class OkHttpClientHttpResponse implements ClientHttpResponse {
 
     private final Response response;
 
     private volatile HttpHeader headers;
 
 
-    public OkHttp3ClientHttpResponse(Response response) {
-        Assert.notNull(response, "Response must not be null");
+    public OkHttpClientHttpResponse(Response response) {
+        AssertUtil.notNull(response, "Response must not be null");
         this.response = response;
     }
 
@@ -65,7 +66,7 @@ public class OkHttp3ClientHttpResponse implements ClientHttpResponse {
             headers = new HttpHeader();
             for (String headerName : this.response.headers().names()) {
                 for (String headerValue : this.response.headers(headerName)) {
-                    headers.put(headerName, headerValue);
+                    headers.put(headerName, Collections.singletonList(headerValue));
                 }
             }
             this.headers = headers;

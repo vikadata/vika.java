@@ -24,37 +24,19 @@
 
 package cn.vika.core.http;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
 /**
- * a client-side HTTP request
- *
  * @author Shawn Deng
- * @date 2020-10-26 19:09:21
+ * @date 2020-11-13 19:29:33
  */
-public interface ClientHttpRequest {
+public class FetchDatasheetResult {
 
-    /**
-     * Return the headers of this message.
-     *
-     * @return a corresponding {@link HttpHeader} object (never {@code null})
-     */
-    HttpHeader getHeaders();
+    private int total;
 
-    /**
-     * Return the body of the message as an output stream.
-     *
-     * @return the output stream body (never {@code null})
-     * @throws IOException in case of I/O errors
-     */
-    OutputStream getBody() throws IOException;
+    public int getTotal() {
+        return total;
+    }
 
-    /**
-     * Execute request
-     *
-     * @return the response result of the execution
-     * @throws IOException in case of I/O errors
-     */
-    ClientHttpResponse execute() throws IOException;
+    public void setTotal(int total) {
+        this.total = total;
+    }
 }

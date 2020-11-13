@@ -22,7 +22,9 @@
  * SOFTWARE.
  */
 
-package cn.vika.core.model;
+package cn.vika.core.utils;
+
+import cn.vika.core.model.HttpResult;
 
 /**
  * Http result utils

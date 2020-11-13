@@ -24,37 +24,26 @@
 
 package cn.vika.core.http;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import cn.vika.core.model.HttpResult;
+
+import java.net.URI;
 
 /**
- * a client-side HTTP request
+ * a basic set of http request method
  *
  * @author Shawn Deng
- * @date 2020-10-26 19:09:21
+ * @date 2020-11-13 15:57:48
  */
-public interface ClientHttpRequest {
+public interface IHttpClient {
 
     /**
-     * Return the headers of this message.
+     * Retrieve a representation by doing a GET on the URL .
+     * The response (if any) is converted and returned.
      *
-     * @return a corresponding {@link HttpHeader} object (never {@code null})
+     * @param uri          the URL Connection
+     * @param header       the request header
+     * @param responseType the type of the return value
+     * @return the converted object
      */
-    HttpHeader getHeaders();
-
-    /**
-     * Return the body of the message as an output stream.
-     *
-     * @return the output stream body (never {@code null})
-     * @throws IOException in case of I/O errors
-     */
-    OutputStream getBody() throws IOException;
-
-    /**
-     * Execute request
-     *
-     * @return the response result of the execution
-     * @throws IOException in case of I/O errors
-     */
-    ClientHttpResponse execute() throws IOException;
+    <T> HttpResult<T> get(URI uri, HttpHeader header, Class<T> responseType);
 }
