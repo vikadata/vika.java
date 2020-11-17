@@ -24,8 +24,6 @@
 
 package cn.vika.core.http;
 
-import cn.vika.core.model.HttpResult;
-
 import java.io.IOException;
 
 /**
@@ -43,5 +41,5 @@ public interface ResponseHandler<T> {
      * @return the extracted data
      * @throws IOException in case of I/O errors
      */
-    HttpResult<T> extractData(ClientHttpResponse response) throws IOException;
+    T extractData(ClientHttpResponse response) throws IOException;
 }

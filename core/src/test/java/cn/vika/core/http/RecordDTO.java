@@ -24,31 +24,21 @@
 
 package cn.vika.core.http;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author Shawn Deng
- * @date 2020-11-13 19:29:33
+ * @date 2020-11-14 01:37:57
  */
-public class FetchDatasheetResult {
+public class RecordDTO {
 
-    private int total;
+    private Map<String, Object> fields;
 
-    private List<RecordVO> records;
-
-    public int getTotal() {
-        return total;
+    public Map<String, Object> getFields() {
+        return fields;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public List<RecordVO> getRecords() {
-        return records;
-    }
-
-    public void setRecords(List<RecordVO> records) {
-        this.records = records;
+    public void setFields(Map<String, Object> fields) {
+        this.fields = fields;
     }
 }

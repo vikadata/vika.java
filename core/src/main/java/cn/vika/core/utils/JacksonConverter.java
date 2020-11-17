@@ -58,6 +58,15 @@ public class JacksonConverter {
         }
     }
 
+    public static <T> T toGenericBean(InputStream inputStream, Type type) {
+        try {
+            JavaType javaType = mapper.constructType(type);
+            return mapper.readValue(inputStream, javaType);
+        } catch (IOException e) {
+            throw new JsonConvertException(e);
+        }
+    }
+
     public static <T> T toGenericBean(InputStream inputStream, Class<?> genericClass, Class<?> contentClass) {
         try {
             JavaType javaType = mapper.getTypeFactory().constructParametricType(genericClass, contentClass);

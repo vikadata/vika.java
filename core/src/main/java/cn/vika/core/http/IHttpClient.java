@@ -24,10 +24,6 @@
 
 package cn.vika.core.http;
 
-import cn.vika.core.model.HttpResult;
-
-import java.net.URI;
-
 /**
  * a basic set of http request method
  *
@@ -45,5 +41,5 @@ public interface IHttpClient {
      * @param responseType the type of the return value
      * @return the converted object
      */
-    <T> HttpResult<T> get(URI uri, HttpHeader header, Class<T> responseType);
+//    <T> HttpResult<T> get(URI uri, HttpHeader header, Class<T> responseType);
 }

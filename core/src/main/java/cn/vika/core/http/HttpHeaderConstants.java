@@ -76,4 +76,9 @@ public interface HttpHeaderConstants {
      * The HTTP {@code Accept-Language} header field name
      */
     String ACCEPT_LANGUAGE = "Accept-Language";
+
+    /**
+     * The HTTP {@code Authorization} header field name.
+     */
+    String AUTHORIZATION = "Authorization";
 }

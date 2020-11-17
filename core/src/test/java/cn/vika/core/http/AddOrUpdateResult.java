@@ -28,27 +28,17 @@ import java.util.List;
 
 /**
  * @author Shawn Deng
- * @date 2020-11-13 19:29:33
+ * @date 2020-11-17 18:56:20
  */
-public class FetchDatasheetResult {
+public class AddOrUpdateResult {
 
-    private int total;
+    private List<AddRecordResult> records;
 
-    private List<RecordVO> records;
-
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public List<RecordVO> getRecords() {
+    public List<AddRecordResult> getRecords() {
         return records;
     }
 
-    public void setRecords(List<RecordVO> records) {
+    public void setRecords(List<AddRecordResult> records) {
         this.records = records;
     }
 }

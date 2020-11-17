@@ -24,31 +24,19 @@
 
 package cn.vika.core.http;
 
-import java.util.List;
-
 /**
  * @author Shawn Deng
- * @date 2020-11-13 19:29:33
+ * @date 2020-11-17 19:16:46
  */
-public class FetchDatasheetResult {
+public class UpdateRecordDTO extends RecordDTO {
 
-    private int total;
+    private String recordId;
 
-    private List<RecordVO> records;
-
-    public int getTotal() {
-        return total;
+    public String getRecordId() {
+        return recordId;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public List<RecordVO> getRecords() {
-        return records;
-    }
-
-    public void setRecords(List<RecordVO> records) {
-        this.records = records;
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
     }
 }

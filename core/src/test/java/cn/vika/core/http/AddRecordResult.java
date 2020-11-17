@@ -24,31 +24,31 @@
 
 package cn.vika.core.http;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author Shawn Deng
- * @date 2020-11-13 19:29:33
+ * @date 2020-11-14 01:25:33
  */
-public class FetchDatasheetResult {
+public class AddRecordResult {
 
-    private int total;
+    private String recordId;
 
-    private List<RecordVO> records;
+    private Map<String, Object> fields;
 
-    public int getTotal() {
-        return total;
+    public String getRecordId() {
+        return recordId;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
     }
 
-    public List<RecordVO> getRecords() {
-        return records;
+    public Map<String, Object> getFields() {
+        return fields;
     }
 
-    public void setRecords(List<RecordVO> records) {
-        this.records = records;
+    public void setFields(Map<String, Object> fields) {
+        this.fields = fields;
     }
 }

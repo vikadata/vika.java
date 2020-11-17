@@ -25,14 +25,16 @@
 package cn.vika.core.http;
 
 import cn.vika.core.model.HttpResult;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import cn.vika.core.utils.JacksonConverter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import static cn.vika.core.http.HttpHeaderConstants.AUTHORIZATION;
 
 /**
  * unit test for {@link DefaultHttpClient}
@@ -42,23 +44,95 @@ import java.util.Map;
  */
 public class DefaultHttpClientTest {
 
-    private final DefaultHttpClient httpClient = new DefaultHttpClient("https://integration.vika.ltd/fusion/v1");
-
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final DefaultHttpClient httpClient = new DefaultHttpClient("https://vika.cn/fusion/v1");
 
     @BeforeEach
     public void setup() {
-        httpClient.addGlobalHeader("Authorization", "Bearer uskM7PcEPftF4wh0Ni1");
+        httpClient.addGlobalHeader(AUTHORIZATION, "Bearer uskvjUUnS5A166i8EUfj1r8");
     }
 
     @Test
-    public void testGet_1() throws JsonProcessingException {
-        Map<String, String> uriVariables = new HashMap<>(2);
-        uriVariables.put("datasheetId", "dstZVB3pUFhwQZ2mJ2");
-        uriVariables.put("viewId", "viwZqVNtxLDKl");
-        uriVariables.put("fieldKey", "name");
-        HttpResult<FetchDatasheetResult> result = httpClient.get("/datasheets/{datasheetId}/records?viewId={viewId}&fieldKey={fieldKey}", HttpHeader.EMPTY, FetchDatasheetResult.class, uriVariables);
-        System.out.println(objectMapper.writeValueAsString(result));
+    public void testGet() {
+        Map<String, String> uriVariables = new HashMap<>(3);
+        uriVariables.put("datasheetId", "dstkbJ434jLJ40q4TQ");
+        GenericTypeReference<HttpResult<FetchDatasheetResult>> reference = new GenericTypeReference<HttpResult<FetchDatasheetResult>>() {
+        };
+        HttpResult<FetchDatasheetResult> result = httpClient.get("/datasheets/{datasheetId}/records", HttpHeader.EMPTY, reference, uriVariables);
+        System.out.println(JacksonConverter.toJson(result));
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    public void testPost() {
+        Map<String, String> uriVariables = new HashMap<>(3);
+        uriVariables.put("datasheetId", "dstkbJ434jLJ40q4TQ");
+
+        HttpHeader header = HttpHeader.EMPTY;
+        header.put(HttpHeaderConstants.CONTENT_TYPE, Collections.singletonList(HttpMediaType.APPLICATION_JSON));
+
+        RecordDTO dto = new RecordDTO();
+        Map<String, Object> row = new HashMap<>();
+        row.put("语言", "RQWEQWE");
+        dto.setFields(row);
+
+        RecordRequestBody body = new RecordRequestBody();
+        body.setRecords(Collections.singletonList(dto));
+
+        GenericTypeReference<HttpResult<AddOrUpdateResult>> reference = new GenericTypeReference<HttpResult<AddOrUpdateResult>>() {
+        };
+        HttpResult<AddOrUpdateResult> result = httpClient.post("/datasheets/{datasheetId}/records",
+            header,
+            body,
+            reference,
+            uriVariables
+        );
+
+        System.out.println(JacksonConverter.toJson(result));
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    public void testPatch() {
+        Map<String, String> uriVariables = new HashMap<>(3);
+        uriVariables.put("datasheetId", "dstkbJ434jLJ40q4TQ");
+
+        HttpHeader header = HttpHeader.EMPTY;
+        header.put(HttpHeaderConstants.CONTENT_TYPE, Collections.singletonList(HttpMediaType.APPLICATION_JSON));
+
+        UpdateRecordDTO dto = new UpdateRecordDTO();
+        dto.setRecordId("recmWssUMbQXz");
+        Map<String, Object> row = new HashMap<>();
+        row.put("语言", "我来修改的");
+        dto.setFields(row);
+
+        RecordUpdateRequestBody body = new RecordUpdateRequestBody();
+        body.setRecords(Collections.singletonList(dto));
+
+        GenericTypeReference<HttpResult<AddOrUpdateResult>> reference = new GenericTypeReference<HttpResult<AddOrUpdateResult>>() {
+        };
+        HttpResult<AddOrUpdateResult> result = httpClient.patch("/datasheets/{datasheetId}/records",
+            header,
+            body,
+            reference,
+            uriVariables
+        );
+
+        System.out.println(JacksonConverter.toJson(result));
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    public void testDelete() {
+        Map<String, String> uriVariables = new HashMap<>(3);
+        uriVariables.put("datasheetId", "dstkbJ434jLJ40q4TQ");
+        uriVariables.put("recordId", "recL2aBCqbmdv");
+
+        HttpHeader header = HttpHeader.EMPTY;
+
+        GenericTypeReference<HttpResult<Void>> reference = new GenericTypeReference<HttpResult<Void>>() {
+        };
+        HttpResult<Void> result = httpClient.delete("/datasheets/{datasheetId}/records?recordIds={recordId}", HttpHeader.EMPTY, reference, uriVariables);
+        System.out.println(JacksonConverter.toJson(result));
         Assertions.assertNotNull(result);
     }
 }

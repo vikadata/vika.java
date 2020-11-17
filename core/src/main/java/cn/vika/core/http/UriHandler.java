@@ -36,7 +36,7 @@ import java.util.Map;
 public interface UriHandler {
 
     /**
-     * Expand the given URI template with a map of URI variables.
+     * Format the given URI template with a map of URI variables.
      *
      * @param uriTemplate  the URI template
      * @param uriVariables variable values
@@ -45,7 +45,7 @@ public interface UriHandler {
     URI format(String uriTemplate, Map<String, ?> uriVariables);
 
     /**
-     * Expand the given URI template with an array of URI variables.
+     * Format the given URI template with an array of URI variables.
      *
      * @param uriTemplate  the URI template
      * @param uriVariables variable values
