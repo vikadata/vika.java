@@ -1,23 +1,394 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cn.vika</groupId>
+	<artifactId>vika-sdk-java-parent</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
+	<name>Vika Sdk Parent</name>
+	<description>This is a project for vikadata, base on java</description>
+	<url>https://github.com/vikadata/vika.java</url>
 
-    <groupId>cn.vika</groupId>
-    <artifactId>vika.java</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
-    <description>This is a project for vikadata, base on java</description>
+	<properties>
+		<revision>0.1.0-SNAPSHOT</revision>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<resource.delimiter>@</resource.delimiter>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <organization>
-        <name>vikadata</name>
-        <url>http://vika.cn</url>
-    </organization>
+		<!--Plugins Version-->
+		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
+		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+		<maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
+		<maven-site-plugin.version>3.8.2</maven-site-plugin.version>
+		<maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
+		<maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
+		<maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>
+		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+		<maven-failsafe-plugin.version>2.22.2</maven-failsafe-plugin.version>
+		<maven-install-plugin.version>2.5.2</maven-install-plugin.version>
+		<maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
+		<maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
+		<maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+		<maven-source-plugin.version>3.1.0</maven-source-plugin.version>
+		<maven-war-plugin.version>3.2.3</maven-war-plugin.version>
+		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+		<exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
+		<flatten-maven-plugin.version>1.1.0</flatten-maven-plugin.version>
+		<maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
 
-    <developers>
-        <developer>
-            <id>Shawn</id>
-            <email>dengguiheng@vikadata.com</email>
-        </developer>
-    </developers>
+		<!--Dependency Version-->
+		<jackson.version>2.11.3</jackson.version>
+		<slf4j-api.version>1.7.30</slf4j-api.version>
+		<logback.version>1.2.3</logback.version>
+		<log4j.version>2.13.3</log4j.version>
+		<httpclient.version>4.5.13</httpclient.version>
+		<okhttp.version>4.9.0</okhttp.version>
+		<junit.version>5.7.0</junit.version>
+	</properties>
+
+	<modules>
+		<module>core</module>
+		<module>api</module>
+		<module>client</module>
+	</modules>
+
+	<organization>
+		<name>Vikadata LTD</name>
+		<url>http://vika.cn</url>
+	</organization>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git://github.com/vikadata/vika.java.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/vikadata/vika.java.git</developerConnection>
+		<url>https://github.com/vikadata/vika.java</url>
+	</scm>
+
+	<developers>
+		<developer>
+			<name>Shawn Deng</name>
+			<email>dengguiheng@vikadata.com</email>
+			<organization>Vikadata LTD</organization>
+		</developer>
+		<developer>
+			<name>Zoe Zheng</name>
+			<email>zhengxu@vikadata.com</email>
+			<organization>Vikadata LTD</organization>
+		</developer>
+	</developers>
+
+	<dependencyManagement>
+		<dependencies>
+			<!--Project Libs-->
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>vika-core</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>vika-api</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>vika-client</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.7.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+			<!--Json Libs-->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+			<!--Logging Libs-->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j-api.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-api</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-slf4j-impl</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+
+			<!--Http Libs-->
+			<dependency>
+				<groupId>com.squareup.okhttp3</groupId>
+				<artifactId>okhttp</artifactId>
+				<version>${okhttp.version}</version>
+			</dependency>
+
+			<!--Testing Libs-->
+			<dependency>
+				<groupId>com.squareup.okhttp3</groupId>
+				<artifactId>mockwebserver</artifactId>
+				<version>${okhttp.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<!--Plugin Dependencies-->
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<inherited>true</inherited>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!--For eclipse get right java version-->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<parameters>true</parameters>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<configuration>
+					<updatePomFile>true</updatePomFile>
+					<flattenMode>oss</flattenMode>
+					<embedBuildProfileDependencies>true</embedBuildProfileDependencies>
+					<pomElements>
+						<distributionManagement>remove</distributionManagement>
+						<repositories>remove</repositories>
+					</pomElements>
+				</configuration>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>flatten-clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>enforce-maven</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>3.6</version>
+								</requireMavenVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<!--Plugin Dependency Management-->
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>${maven-clean-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>${maven-site-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven-source-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${maven-jar-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>${maven-javadoc-plugin.version}</version>
+                    <configuration>
+                        <additionalJOptions>
+                            <additionalJOption>-Xdoclint:none</additionalJOption>
+                        </additionalJOptions>
+                    </configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>${maven-deploy-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>${maven-dependency-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>${maven-enforcer-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>${maven-install-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>flatten-maven-plugin</artifactId>
+					<version>${flatten-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>${maven-failsafe-plugin.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>integration-test</goal>
+								<goal>verify</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin.version}</version>
+					<configuration>
+						<redirectTestOutputToFile>true</redirectTestOutputToFile>
+						<includes>
+							<include>**/*Tests.java</include>
+							<include>**/*Test.java</include>
+						</includes>
+						<excludes>
+							<exclude>**/Abstract*.java</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven-resources-plugin.version}</version>
+					<configuration>
+						<delimiters>
+							<delimiter>${resource.delimiter}</delimiter>
+						</delimiters>
+						<useDefaultDelimiters>false</useDefaultDelimiters>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>${maven-gpg-plugin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>
