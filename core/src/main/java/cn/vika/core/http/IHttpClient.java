@@ -437,7 +437,7 @@ public interface IHttpClient {
      * GenericTypeReference&lt;Void&gt; reference =
      *     new GenericTypeReference&lt;Void&gt;() {};
      *
-     * client.delete(&quot;/get/me&quot;, HttpHeader.EMPTY,
+     * client.delete(&quot;/user&quot;, HttpHeader.EMPTY,
      *     reference, uriVariables);
      *
      * </pre>
@@ -458,7 +458,7 @@ public interface IHttpClient {
      * GenericTypeReference&lt;Void&gt; reference =
      *     new GenericTypeReference&lt;Void&gt;() {};
      *
-     * client.delete(&quot;/get/me&quot;, HttpHeader.EMPTY,
+     * client.delete(&quot;/user&quot;, HttpHeader.EMPTY,
      *     reference, uriVariables);
      *
      * </pre>

@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Http Client based on Vikadata API response schema
+ * Http Client implementation IHttpClient interface
  *
  * @author Shawn Deng
  * @date 2020-10-26 18:57:44
@@ -161,8 +161,6 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType.getType());
         return execute(urlTemplate, HttpMethod.POST, requestWrapper, responseHandler, uriVariables);
     }
-
-    // HEAD Method
 
     // PUT Method
 
@@ -341,6 +339,7 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
 
         private final Type responseType;
 
+        // never close
         private PushbackInputStream pushbackInputStream;
 
         public ResponseBodyExtractHandler(Type responseType) {
