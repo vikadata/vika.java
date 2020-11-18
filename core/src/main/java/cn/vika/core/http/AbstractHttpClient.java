@@ -74,4 +74,33 @@ public abstract class AbstractHttpClient {
         // create request by factory
         return getRequestFactory().createRequest(uri, method);
     }
+
+    protected <T> T doExecute(URI uri, HttpMethod method, RequestWrapper requestWrapper, ResponseHandler<T> responseHandler) {
+        // asset param non null
+        AssertUtil.notNull(uri, "URI is required");
+        AssertUtil.notNull(method, "HttpMethod is required");
+        ClientHttpResponse response = null;
+        try {
+            // create Request instance
+            ClientHttpRequest request = createRequest(uri, method);
+            // wrapper request like header、requestBody
+            if (requestWrapper != null) {
+                requestWrapper.wrapper(request);
+            }
+            // execute request
+            response = request.execute();
+            // in case of response interceptor
+            return (responseHandler != null ? responseHandler.extractData(response) : null);
+        } catch (IOException ex) {
+            String resource = uri.toString();
+            String query = uri.getRawQuery();
+            resource = (query != null ? resource.substring(0, resource.indexOf('?')) : resource);
+            throw new RuntimeException("I/O error on " + method.name() + " request for \"" + resource + "\": " + ex.getMessage(), ex);
+        } finally {
+            // close
+            if (response != null) {
+                response.close();
+            }
+        }
+    }
 }

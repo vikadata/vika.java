@@ -127,8 +127,6 @@ public class DefaultHttpClientTest {
         uriVariables.put("datasheetId", "dstkbJ434jLJ40q4TQ");
         uriVariables.put("recordId", "recL2aBCqbmdv");
 
-        HttpHeader header = HttpHeader.EMPTY;
-
         GenericTypeReference<HttpResult<Void>> reference = new GenericTypeReference<HttpResult<Void>>() {
         };
         HttpResult<Void> result = httpClient.delete("/datasheets/{datasheetId}/records?recordIds={recordId}", HttpHeader.EMPTY, reference, uriVariables);
