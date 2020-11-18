@@ -48,7 +48,7 @@ public class DefaultHttpClientTest {
 
     @BeforeEach
     public void setup() {
-        httpClient.addGlobalHeader(AUTHORIZATION, "Bearer uskvjUUnS5A166i8EUfj1r8");
+        httpClient.addGlobalHeader(AUTHORIZATION, "Bearer usk9Urb7NLr8b42SJCIH42J");
     }
 
     @Test
@@ -68,7 +68,6 @@ public class DefaultHttpClientTest {
         uriVariables.put("datasheetId", "dstkbJ434jLJ40q4TQ");
 
         HttpHeader header = HttpHeader.EMPTY;
-        header.put(HttpHeaderConstants.CONTENT_TYPE, Collections.singletonList(HttpMediaType.APPLICATION_JSON));
 
         RecordDTO dto = new RecordDTO();
         Map<String, Object> row = new HashMap<>();
@@ -97,7 +96,6 @@ public class DefaultHttpClientTest {
         uriVariables.put("datasheetId", "dstkbJ434jLJ40q4TQ");
 
         HttpHeader header = HttpHeader.EMPTY;
-        header.put(HttpHeaderConstants.CONTENT_TYPE, Collections.singletonList(HttpMediaType.APPLICATION_JSON));
 
         UpdateRecordDTO dto = new UpdateRecordDTO();
         dto.setRecordId("recmWssUMbQXz");
@@ -125,7 +123,7 @@ public class DefaultHttpClientTest {
     public void testDelete() {
         Map<String, String> uriVariables = new HashMap<>(3);
         uriVariables.put("datasheetId", "dstkbJ434jLJ40q4TQ");
-        uriVariables.put("recordId", "recL2aBCqbmdv");
+        uriVariables.put("recordId", "recmWssUMbQXz");
 
         GenericTypeReference<HttpResult<Void>> reference = new GenericTypeReference<HttpResult<Void>>() {
         };

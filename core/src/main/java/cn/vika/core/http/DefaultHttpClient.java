@@ -329,6 +329,7 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
         public void wrapper(ClientHttpRequest request) throws IOException {
             super.wrapper(request);
             if (requestBody != null) {
+                request.getHeaders().setContentType(HttpMediaType.APPLICATION_JSON);
                 byte[] content = JacksonConverter.toJsonBytes(requestBody);
                 request.getBody().write(content);
             }
