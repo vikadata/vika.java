@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import static cn.vika.core.http.HttpHeaderConstants.CONTENT_LENGTH;
+import static cn.vika.core.http.HttpHeaderConstants.CONTENT_TYPE;
 
 /**
  * A data structure representing HTTP request or response headers,
@@ -84,5 +85,9 @@ public class HttpHeader extends LinkedHashMap<String, List<String>> implements S
      */
     public void setContentLength(long contentLength) {
         put(CONTENT_LENGTH, Collections.singletonList(Long.toString(contentLength)));
+    }
+
+    public void setContentType(String contentType) {
+        put(CONTENT_TYPE, Collections.singletonList(contentType));
     }
 }
