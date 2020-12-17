@@ -13,6 +13,7 @@ import cn.vika.api.model.AbstractModel;
 public class RecordRequest extends AbstractModel {
 
     private RecordInfo[] records;
+    private String fieldKey;
 
     public RecordInfo[] getRecords() {
         return records;
@@ -20,6 +21,14 @@ public class RecordRequest extends AbstractModel {
 
     public void setRecords(RecordInfo[] records) {
         this.records = records;
+    }
+
+    public String getFieldKey() {
+        return fieldKey;
+    }
+
+    public void setFieldKey(String fieldKey) {
+        this.fieldKey = fieldKey;
     }
 
     /**

@@ -18,7 +18,7 @@ public class QueryRecordRequest extends AbstractModel {
     private String viewId;
     private String filterByFormula;
     private String cellFormat;
-    private String fieldKey;
+    private FieldKey fieldKey;
     private Integer pageNum;
     private Integer pageSize;
     private Integer maxRecords;
@@ -71,11 +71,11 @@ public class QueryRecordRequest extends AbstractModel {
         this.cellFormat = cellFormat;
     }
 
-    public String getFieldKey() {
+    public FieldKey getFieldKey() {
         return fieldKey;
     }
 
-    public void setFieldKey(String fieldKey) {
+    public void setFieldKey(FieldKey fieldKey) {
         this.fieldKey = fieldKey;
     }
 
@@ -111,7 +111,7 @@ public class QueryRecordRequest extends AbstractModel {
         setParamArraySimple(map, prefix + "fields", fields);
         setParamSimple(map, prefix + "filterByFormula", filterByFormula);
         setParamSimple(map, prefix + "cellFormat", cellFormat);
-        setParamSimple(map, prefix + "fieldKey", fieldKey);
+        setParamSimple(map, prefix + "fieldKey", fieldKey.name().toLowerCase());
         setParamSimple(map, prefix + "pageNum", pageNum);
         setParamSimple(map, prefix + "pageSize", pageSize);
         setParamSimple(map, prefix + "maxRecords", maxRecords);

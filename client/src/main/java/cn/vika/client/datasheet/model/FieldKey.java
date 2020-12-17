@@ -1,18 +1,18 @@
 package cn.vika.client.datasheet.model;
 
 /**
- * sort order enum
+ * FieldKey enum
  *
  * @author Zoe Zheng
  * @date 2020-12-16 14:10:31
  */
-public enum Order {
+public enum FieldKey {
     /**
-     * sort records descending
+     * find fields with name
      */
-    DESC,
+    Name,
     /**
-     * sort records ascending
+     * find fields with id
      */
-    ASC
+    ID
 }

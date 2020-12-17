@@ -65,7 +65,7 @@ public class RecordClient {
             }
 
         }
-        return recordsStream.toArray(size -> new RecordInfo[size]);
+        return recordsStream.toArray(RecordInfo[]::new);
     }
 
     public RecordInfo[] createRecords(RecordRequest body) {
