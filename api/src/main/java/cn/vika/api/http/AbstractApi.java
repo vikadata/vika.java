@@ -10,6 +10,12 @@ import cn.vika.core.http.HttpHeaderConstants;
  * @date 2020-12-16 11:27:39
  */
 public abstract class AbstractApi {
+    /**
+     * build path
+     *
+     * @return string
+     */
+    protected abstract String basePath();
 
     /**
      * api credential

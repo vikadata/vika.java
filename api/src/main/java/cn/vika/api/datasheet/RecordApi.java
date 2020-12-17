@@ -1,12 +1,15 @@
 package cn.vika.api.datasheet;
 
+import static cn.vika.api.exception.VikaApiException.DEFAULT_CODE;
+
 import java.util.HashMap;
 
-import cn.vika.api.exception.ApiBaseException;
+import cn.vika.api.exception.VikaApiException;
 import cn.vika.api.http.AbstractApi;
 import cn.vika.api.http.ApiCredential;
 import cn.vika.api.http.ApiHttpClient;
 import cn.vika.api.model.AbstractModel;
+import cn.vika.core.exception.JsonConvertException;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
 import cn.vika.core.model.HttpResult;
@@ -36,24 +39,37 @@ public class RecordApi extends AbstractApi implements IRecordApi {
     }
 
     @Override
-    public <T> T getRecords(AbstractModel model, GenericTypeReference<HttpResult<T>> responseType) {
+    public <T> T getRecords(AbstractModel model, GenericTypeReference<HttpResult<T>> responseType)
+        throws VikaApiException {
+        HttpResult<T> result;
         HashMap<String, String> params = new HashMap<>(10);
-        model.toMap(params, "");
-        HttpResult<T> result = getDefaultHttpClient().get(basePath() + model.toTemplateUri(params), HttpHeader.EMPTY,
-            responseType, params);
-        if (result.isSuccess()) {
-            return result.getData();
+        try {
+            model.toMap(params, "");
+            result = getDefaultHttpClient().get(basePath() + model.toTemplateUri(params), HttpHeader.EMPTY,
+                responseType, params);
+            if (result.isSuccess()) {
+                return result.getData();
+            }
+        } catch (JsonConvertException e) {
+            throw new VikaApiException(DEFAULT_CODE, e.getMessage());
         }
-        throw new ApiBaseException(result.getCode(), result.getMessage());
+        throw new VikaApiException(result.getCode(), result.getMessage());
+
     }
 
     @Override
-    public <T> T addRecords(AbstractModel model, GenericTypeReference<HttpResult<T>> responseType) {
-        HttpResult<T> result = getDefaultHttpClient().post(basePath(), HttpHeader.EMPTY, model, responseType);
-        if (result.isSuccess()) {
-            return result.getData();
+    public <T> T addRecords(AbstractModel model, GenericTypeReference<HttpResult<T>> responseType)
+        throws VikaApiException {
+        HttpResult<T> result;
+        try {
+            result = getDefaultHttpClient().post(basePath(), HttpHeader.EMPTY, model, responseType);
+            if (result.isSuccess()) {
+                return result.getData();
+            }
+        } catch (JsonConvertException e) {
+            throw new VikaApiException(DEFAULT_CODE, e.getMessage());
         }
-        throw new ApiBaseException(result.getCode(), result.getMessage());
+        throw new VikaApiException(result.getCode(), result.getMessage());
     }
 
     /**
@@ -64,12 +80,18 @@ public class RecordApi extends AbstractApi implements IRecordApi {
      * @return responseType
      */
     @Override
-    public <T> T modifyRecords(AbstractModel model, GenericTypeReference<HttpResult<T>> responseType) {
-        HttpResult<T> result = getDefaultHttpClient().patch(basePath(), HttpHeader.EMPTY, model, responseType);
-        if (result.isSuccess()) {
-            return result.getData();
+    public <T> T modifyRecords(AbstractModel model, GenericTypeReference<HttpResult<T>> responseType)
+        throws VikaApiException {
+        HttpResult<T> result;
+        try {
+            result = getDefaultHttpClient().patch(basePath(), HttpHeader.EMPTY, model, responseType);
+            if (result.isSuccess()) {
+                return result.getData();
+            }
+        } catch (JsonConvertException e) {
+            throw new VikaApiException(DEFAULT_CODE, e.getMessage());
         }
-        throw new ApiBaseException(result.getCode(), result.getMessage());
+        throw new VikaApiException(result.getCode(), result.getMessage());
     }
 
     /**
@@ -88,10 +110,11 @@ public class RecordApi extends AbstractApi implements IRecordApi {
         if (result.isSuccess()) {
             return result.isSuccess();
         }
-        throw new ApiBaseException(result.getCode(), result.getMessage());
+        throw new VikaApiException(result.getCode(), result.getMessage());
     }
 
-    private String basePath() {
+    @Override
+    protected String basePath() {
         return StringUtil.format(PATH, datasheetId);
     }
 

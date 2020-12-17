@@ -17,7 +17,7 @@ import cn.vika.client.datasheet.model.*;
 public class RecordTest {
     @Test
     public void testQueryRecords() {
-        ApiCredential credential = new ApiCredential("uskKxOVgOuns3ugs9X2nbBU");
+        ApiCredential credential = new ApiCredential(System.getenv("VIKA_TOKEN"));
         QueryRecordRequest param = new QueryRecordRequest();
         RecordClient recordClient = new RecordClient(credential, "dst7urpLop4QdLAv3j");
         RecordPageInfo pageInfo = recordClient.queryRecords(param);
@@ -27,7 +27,7 @@ public class RecordTest {
 
     @Test
     public void testQueryRecordsWithSort() {
-        ApiCredential credential = new ApiCredential("uskKxOVgOuns3ugs9X2nbBU");
+        ApiCredential credential = new ApiCredential(System.getenv("VIKA_TOKEN"));
         QueryRecordRequest param = new QueryRecordRequest();
         SortRequest[] sorts = new SortRequest[1];
         SortRequest sort = new SortRequest();
@@ -44,7 +44,7 @@ public class RecordTest {
 
     @Test
     public void testQueryAllRecords() {
-        ApiCredential credential = new ApiCredential("uskKxOVgOuns3ugs9X2nbBU");
+        ApiCredential credential = new ApiCredential(System.getenv("VIKA_TOKEN"));
         QueryRecordRequest param = new QueryRecordRequest();
         RecordClient recordClient = new RecordClient(credential, "dstUezl1Yh4wVNzgwl");
         RecordInfo[] records = recordClient.queryAllRecords(param);
@@ -54,7 +54,7 @@ public class RecordTest {
 
     @Test
     public void testCreateRecords() {
-        ApiCredential credential = new ApiCredential("uskKxOVgOuns3ugs9X2nbBU");
+        ApiCredential credential = new ApiCredential(System.getenv("VIKA_TOKEN"));
         RecordRequest param = new RecordRequest();
         RecordInfo[] createRecords = new RecordInfo[2];
         HashMap<String, Object> field1 = new HashMap<>();
@@ -78,7 +78,7 @@ public class RecordTest {
 
     @Test
     public void testModifyRecords() {
-        ApiCredential credential = new ApiCredential("uskKxOVgOuns3ugs9X2nbBU");
+        ApiCredential credential = new ApiCredential(System.getenv("VIKA_TOKEN"));
         RecordRequest param = new RecordRequest();
         RecordInfo[] createRecords = new RecordInfo[2];
         HashMap<String, Object> field1 = new HashMap<>();
@@ -86,13 +86,13 @@ public class RecordTest {
         field1.put("多行文本", "本质上和上面的需求是同一个6666");
         RecordInfo record1 = new RecordInfo();
         record1.setFields(field1);
-        record1.setRecordId("recRVIHGVcIKr");
+        record1.setRecordId("recWfiMuFk60P");
         HashMap<String, Object> field2 = new HashMap<>();
         RecordInfo record2 = new RecordInfo();
         field2.put("数字ID", 88888);
         field2.put("多行文本", "本质上和上面的需求是同一个88888");
         record2.setFields(field2);
-        record2.setRecordId("recJA2713cDM0");
+        record2.setRecordId("recZmiZ5QyrTC");
         createRecords[0] = record1;
         createRecords[1] = record2;
         param.setRecords(createRecords);
@@ -104,10 +104,10 @@ public class RecordTest {
 
     @Test
     public void testDeleteRecords() {
-        ApiCredential credential = new ApiCredential("uskKxOVgOuns3ugs9X2nbBU");
+        ApiCredential credential = new ApiCredential(System.getenv("VIKA_TOKEN"));
         RecordClient recordClient = new RecordClient(credential, "dst7urpLop4QdLAv3j");
         DeleteRecordRequest param = new DeleteRecordRequest();
-        param.setRecordIds(new String[] {"recRVIHGVcIKr", "recJA2713cDM0"});
+        param.setRecordIds(new String[] {"recWfiMuFk60P", "recZmiZ5QyrTC"});
         boolean result = recordClient.deleteRecords(param);
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result);

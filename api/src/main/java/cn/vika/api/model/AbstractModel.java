@@ -13,7 +13,7 @@ public abstract class AbstractModel {
     /**
      * request query param to map
      *
-     * @param map
+     * @param map param
      */
     public abstract void toMap(HashMap<String, String> map, String prefix);
 

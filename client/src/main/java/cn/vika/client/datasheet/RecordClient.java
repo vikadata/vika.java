@@ -11,13 +11,13 @@ import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.model.HttpResult;
 
 /**
- * test
+ * record client for all record api
  *
  * @author Zoe Zheng
  * @date 2020-12-16 14:02:36
  */
 public class RecordClient {
-    private static final Integer maxPageSize = 1000;
+    private static final Integer MAX_PAGE_SIZE = 1000;
 
     RecordApi recordApi;
 
@@ -49,15 +49,15 @@ public class RecordClient {
     }
 
     public RecordInfo[] queryAllRecords(QueryRecordRequest params) {
-        params.setPageSize(maxPageSize);
+        params.setPageSize(MAX_PAGE_SIZE);
         params.setPageNum(1);
         GenericTypeReference<HttpResult<RecordPageInfo>> reference =
             new GenericTypeReference<HttpResult<RecordPageInfo>>() {};
         RecordPageInfo result = recordApi.getRecords(params, reference);
         Stream<RecordInfo> recordsStream = Arrays.stream(result.getRecords());
         int total = result.getTotal();
-        if (total > maxPageSize) {
-            int times = (int)Math.ceil((float)total / maxPageSize);
+        if (total > MAX_PAGE_SIZE) {
+            int times = (int)Math.ceil((float)total / MAX_PAGE_SIZE);
             for (int i = 1; i <= times; i++) {
                 params.setPageNum(i + 1);
                 RecordPageInfo tmp = recordApi.getRecords(params, reference);
@@ -83,8 +83,6 @@ public class RecordClient {
     }
 
     public boolean deleteRecords(DeleteRecordRequest param) {
-        GenericTypeReference<HttpResult<RecordResponse>> reference =
-            new GenericTypeReference<HttpResult<RecordResponse>>() {};
         return recordApi.deleteRecords(param);
     }
 }

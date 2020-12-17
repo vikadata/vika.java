@@ -6,18 +6,18 @@ package cn.vika.api.exception;
  * @author Zoe Zheng
  * @date 2020-12-15 18:24:09
  */
-public class ApiBaseException extends RuntimeException {
-
+public class VikaApiException extends RuntimeException {
+    public static Integer DEFAULT_CODE = 50001;
     private static final long serialVersionUID = -8107100836846410486L;
     /**
      * credential not initial
      */
 
-    private Integer code;
+    private final Integer code;
 
-    private String message;
+    private final String message;
 
-    public ApiBaseException(int code, String message) {
+    public VikaApiException(int code, String message) {
         this.code = code;
         this.message = message;
     }
