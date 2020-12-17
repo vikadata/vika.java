@@ -19,4 +19,30 @@ public interface IRecordApi {
      * @return responseType
      */
     <T> T getRecords(AbstractModel params, GenericTypeReference<HttpResult<T>> responseType);
+
+    /**
+     * add records
+     *
+     * @param model body data for post
+     * @param responseType response type
+     * @return responseType
+     */
+    <T> T addRecords(AbstractModel model, GenericTypeReference<HttpResult<T>> responseType);
+
+    /**
+     * modify record
+     *
+     * @param model body data for post
+     * @param responseType response type
+     * @return responseType
+     */
+    <T> T modifyRecords(AbstractModel model, GenericTypeReference<HttpResult<T>> responseType);
+
+    /**
+     * delete records
+     *
+     * @param model body data for post
+     * @return boolean
+     */
+    boolean deleteRecords(AbstractModel model);
 }

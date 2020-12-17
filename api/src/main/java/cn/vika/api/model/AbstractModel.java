@@ -1,6 +1,5 @@
 package cn.vika.api.model;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,13 +10,12 @@ import java.util.Map;
  * @date 2020-12-16 14:18:39
  */
 public abstract class AbstractModel {
-
     /**
      * request query param to map
      *
      * @param map
      */
-    public abstract void toMap(HashMap<String, String> map);
+    public abstract void toMap(HashMap<String, String> map, String prefix);
 
     /**
      * format the request query uri
@@ -48,13 +46,6 @@ public abstract class AbstractModel {
         return "";
     }
 
-    protected <V> String setUriArrayTemplate(String param, String key, V[] values) {
-        if (values != null) {
-            return setUriTemplate(param, key, Arrays.toString(values));
-        }
-        return "";
-    }
-
     protected <V> void setParamSimple(HashMap<String, String> map, String key, V value) {
         if (value != null) {
             map.put(key, String.valueOf(value));
@@ -64,9 +55,22 @@ public abstract class AbstractModel {
     protected <V> void setParamArraySimple(HashMap<String, String> map, String key, V[] values) {
         if (values != null) {
             for (int i = 0; i < values.length; i++) {
-                setParamSimple(map, key + i, values[i]);
+                setParamSimple(map, key + '.' + i, values[i]);
             }
         }
     }
 
+    protected <V extends AbstractModel> void setParamObj(HashMap<String, String> map, String prefix, V obj) {
+        if (obj != null) {
+            obj.toMap(map, prefix);
+        }
+    }
+
+    protected <V extends AbstractModel> void setParamArrayObj(HashMap<String, String> map, String key, V[] array) {
+        if (array != null) {
+            for (int i = 0; i < array.length; i++) {
+                setParamObj(map, key + '.' + i + '.', array[i]);
+            }
+        }
+    }
 }

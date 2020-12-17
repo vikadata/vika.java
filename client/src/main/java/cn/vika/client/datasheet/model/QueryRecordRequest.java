@@ -5,16 +5,16 @@ import java.util.HashMap;
 import cn.vika.api.model.AbstractModel;
 
 /**
- * test
+ * query record param
  *
  * @author Zoe Zheng
  * @date 2020-12-16 14:14:31
  */
-public class QueryRecordParam extends AbstractModel {
+public class QueryRecordRequest extends AbstractModel {
 
     private String[] recordIds;
     private String[] fields;
-    private String[] sort;
+    private SortRequest[] sort;
     private String viewId;
     private String filterByFormula;
     private String cellFormat;
@@ -39,11 +39,11 @@ public class QueryRecordParam extends AbstractModel {
         this.fields = fields;
     }
 
-    public String[] getSort() {
+    public SortRequest[] getSort() {
         return sort;
     }
 
-    public void setSort(String[] sort) {
+    public void setSort(SortRequest[] sort) {
         this.sort = sort;
     }
 
@@ -104,16 +104,16 @@ public class QueryRecordParam extends AbstractModel {
     }
 
     @Override
-    public void toMap(HashMap<String, String> map) {
-        setParamArraySimple(map, "recordIds", recordIds);
-        setParamSimple(map, "viewId", viewId);
-        setParamArraySimple(map, "fields", fields);
-        setParamSimple(map, "filterByFormula", filterByFormula);
-        setParamSimple(map, "cellFormat", cellFormat);
-        setParamSimple(map, "fieldKey", fieldKey);
-        setParamArraySimple(map, "sort", sort);
-        setParamSimple(map, "pageNum", pageNum);
-        setParamSimple(map, "pageSize", pageSize);
-        setParamSimple(map, "maxRecords", maxRecords);
+    public void toMap(HashMap<String, String> map, String prefix) {
+        setParamArrayObj(map, prefix + "sort", sort);
+        setParamArraySimple(map, prefix + "recordIds", recordIds);
+        setParamSimple(map, prefix + "viewId", viewId);
+        setParamArraySimple(map, prefix + "fields", fields);
+        setParamSimple(map, prefix + "filterByFormula", filterByFormula);
+        setParamSimple(map, prefix + "cellFormat", cellFormat);
+        setParamSimple(map, prefix + "fieldKey", fieldKey);
+        setParamSimple(map, prefix + "pageNum", pageNum);
+        setParamSimple(map, prefix + "pageSize", pageSize);
+        setParamSimple(map, prefix + "maxRecords", maxRecords);
     }
 }

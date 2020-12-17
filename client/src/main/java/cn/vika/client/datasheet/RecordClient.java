@@ -1,16 +1,12 @@
 package cn.vika.client.datasheet;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import cn.vika.api.datasheet.RecordApi;
 import cn.vika.api.http.ApiCredential;
 import cn.vika.api.http.ApiHttpClient;
-import cn.vika.client.datasheet.model.QueryRecordParam;
-import cn.vika.client.datasheet.model.RecordDetail;
-import cn.vika.client.datasheet.model.RecordPageInfo;
+import cn.vika.client.datasheet.model.*;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.model.HttpResult;
 
@@ -46,22 +42,22 @@ public class RecordClient {
         recordApi = new RecordApi(credential, httpClient, datasheetId);
     }
 
-    public RecordPageInfo queryRecords(QueryRecordParam params) {
+    public RecordPageInfo queryRecords(QueryRecordRequest params) {
         GenericTypeReference<HttpResult<RecordPageInfo>> reference =
             new GenericTypeReference<HttpResult<RecordPageInfo>>() {};
         return recordApi.getRecords(params, reference);
     }
 
-    public List<RecordDetail> queryAllRecords(QueryRecordParam params) {
+    public RecordInfo[] queryAllRecords(QueryRecordRequest params) {
         params.setPageSize(maxPageSize);
         params.setPageNum(1);
         GenericTypeReference<HttpResult<RecordPageInfo>> reference =
             new GenericTypeReference<HttpResult<RecordPageInfo>>() {};
         RecordPageInfo result = recordApi.getRecords(params, reference);
-        Stream<RecordDetail> recordsStream = Arrays.stream(result.getRecords());
+        Stream<RecordInfo> recordsStream = Arrays.stream(result.getRecords());
         int total = result.getTotal();
         if (total > maxPageSize) {
-            Integer times = (int)Math.ceil(total / maxPageSize);
+            int times = (int)Math.ceil((float)total / maxPageSize);
             for (int i = 1; i <= times; i++) {
                 params.setPageNum(i + 1);
                 RecordPageInfo tmp = recordApi.getRecords(params, reference);
@@ -69,6 +65,26 @@ public class RecordClient {
             }
 
         }
-        return recordsStream.collect(Collectors.toList());
+        return recordsStream.toArray(size -> new RecordInfo[size]);
+    }
+
+    public RecordInfo[] createRecords(RecordRequest body) {
+        GenericTypeReference<HttpResult<RecordResponse>> reference =
+            new GenericTypeReference<HttpResult<RecordResponse>>() {};
+        RecordResponse response = recordApi.addRecords(body, reference);
+        return response.getRecords();
+    }
+
+    public RecordInfo[] modifyRecords(RecordRequest body) {
+        GenericTypeReference<HttpResult<RecordResponse>> reference =
+            new GenericTypeReference<HttpResult<RecordResponse>>() {};
+        RecordResponse response = recordApi.modifyRecords(body, reference);
+        return response.getRecords();
+    }
+
+    public boolean deleteRecords(DeleteRecordRequest param) {
+        GenericTypeReference<HttpResult<RecordResponse>> reference =
+            new GenericTypeReference<HttpResult<RecordResponse>>() {};
+        return recordApi.deleteRecords(param);
     }
 }

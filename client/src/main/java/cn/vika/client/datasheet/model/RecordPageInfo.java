@@ -1,12 +1,16 @@
 package cn.vika.client.datasheet.model;
 
+import java.util.HashMap;
+
+import cn.vika.api.model.AbstractModel;
+
 /**
- * record detail
+ * record page response info
  *
  * @author Zoe Zheng
  * @date 2020-12-16 14:10:31
  */
-public class RecordPageInfo {
+public class RecordPageInfo extends AbstractModel {
     /**
      * page number
      */
@@ -16,7 +20,7 @@ public class RecordPageInfo {
 
     private Integer total;
 
-    private RecordDetail[] records;
+    private RecordInfo[] records;
 
     public Integer getPageNum() {
         return pageNum;
@@ -42,11 +46,21 @@ public class RecordPageInfo {
         this.total = total;
     }
 
-    public RecordDetail[] getRecords() {
+    public RecordInfo[] getRecords() {
         return records;
     }
 
-    public void setRecords(RecordDetail[] records) {
+    public void setRecords(RecordInfo[] records) {
         this.records = records;
+    }
+
+    /**
+     * request query param to map
+     *
+     * @param map
+     */
+    @Override
+    public void toMap(HashMap<String, String> map, String prefix) {
+
     }
 }
