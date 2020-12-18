@@ -273,6 +273,16 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
         return execute(urlTemplate, HttpMethod.DELETE, requestWrapper, responseHandler, uriVariables);
     }
 
+    // UPLOAD
+
+    @Override
+    public <T> T upload(String urlTemplate, HttpHeader header, byte[] requestBody,
+        GenericTypeReference<T> responseType) {
+        RequestWrapper requestWrapper = new RequestMultipartWrapper(header, requestBody);
+        ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType.getType());
+        return execute(urlTemplate, HttpMethod.POST, requestWrapper, responseHandler);
+    }
+
     // Core Method
 
     protected <T> T execute(URI uri, HttpMethod method, RequestWrapper requestWrapper, ResponseHandler<T> responseHandler) {
@@ -332,6 +342,24 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
                 request.getHeaders().setContentType(HttpMediaType.APPLICATION_JSON);
                 byte[] content = JacksonConverter.toJsonBytes(requestBody);
                 request.getBody().write(content);
+            }
+        }
+    }
+
+    private class RequestMultipartWrapper extends OnlyHeaderWrapper {
+
+        private final byte[] requestBody;
+
+        public RequestMultipartWrapper(HttpHeader header, byte[] requestBody) {
+            super(header);
+            this.requestBody = requestBody;
+        }
+
+        @Override
+        public void wrapper(ClientHttpRequest request) throws IOException {
+            super.wrapper(request);
+            if (requestBody != null) {
+                request.getBody().write(requestBody);
             }
         }
     }

@@ -35,6 +35,33 @@ public abstract class AbstractModel {
         return uri;
     }
 
+    /**
+     * this method is used to mark which parameters are binary type
+     *
+     * @return String[]
+     */
+    public String[] getBinaryParams() {
+        return new String[0];
+    }
+
+    /**
+     * this method is used to mark which parameters are binary type name
+     *
+     * @return String[]
+     */
+    public HashMap<String, byte[]> getBinaryParamNames() {
+        return new HashMap<String, byte[]>(1);
+    }
+
+    /**
+     * Valid only when it's a multipart request object.
+     *
+     * @return HashMap<String, byte[]>
+     */
+    public HashMap<String, byte[]> getMultipartRequestParams() {
+        return new HashMap<String, byte[]>(1);
+    }
+
     protected <V> String setUriTemplate(String param, String key, V value) {
         if (value != null) {
             if (!"".equals(param)) {
