@@ -25,6 +25,7 @@
 package cn.vika.core.http;
 
 import java.net.URI;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Factory for {@link ClientHttpRequest} objects.
@@ -44,4 +45,11 @@ public interface ClientHttpRequestFactory {
      * @return ClientHttpRequest
      */
     ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod);
+
+    /**
+     * set request wait timeout
+     * @param timeout timeout the unis is second
+     */
+    void setWaitTimeout(Integer timeout);
+
 }

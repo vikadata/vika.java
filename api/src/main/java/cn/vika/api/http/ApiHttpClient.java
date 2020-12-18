@@ -3,6 +3,7 @@ package cn.vika.api.http;
 import static cn.vika.core.http.HttpHeaderConstants.USER_AGENT;
 
 import cn.vika.core.http.DefaultHttpClient;
+import cn.vika.core.http.OkHttpClientHttpRequestFactory;
 
 /**
  * api http client
@@ -38,6 +39,7 @@ public class ApiHttpClient extends DefaultHttpClient {
 
     public ApiHttpClient(String host, String version, Integer timeout) {
         defaultHttpClient = new DefaultHttpClient(host + BASE_PAT + version);
+        defaultHttpClient.getRequestFactory().setWaitTimeout(timeout);
         defaultHttpClient.addGlobalHeader(USER_AGENT, "vika-java");
     }
 
