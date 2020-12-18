@@ -470,4 +470,15 @@ public interface IHttpClient {
      * @return the converted object from reference
      */
     <T> T delete(String urlTemplate, HttpHeader header, GenericTypeReference<T> responseType, Map<String, ?> uriVariables);
+    /**
+     * upload a new resource by POSTing the given object to the URL,
+     * and returns the representation found in the response.
+     *
+     * @param urlTemplate the URL Template
+     * @param header the request header
+     * @param requestBody the byte[] to be sent (may be {@code null})
+     * @param responseType the type of the return value
+     * @return the converted object
+     */
+    <T> T upload(String urlTemplate, HttpHeader header, byte[] requestBody, GenericTypeReference<T> responseType);
 }

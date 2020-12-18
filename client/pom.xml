@@ -17,5 +17,9 @@
 			<artifactId>junit-jupiter</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>cn.vika</groupId>
+            <artifactId>vika-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>

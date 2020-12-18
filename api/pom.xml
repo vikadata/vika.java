@@ -11,5 +11,16 @@
 	<artifactId>vika-api</artifactId>
 	<name>Vika Sdk Api</name>
 	<description>Vika Sdk Api</description>
+    <dependencies>
+        <dependency>
+            <groupId>cn.vika</groupId>
+            <artifactId>vika-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jmimemagic</groupId>
+            <artifactId>jmimemagic</artifactId>
+            <version>0.1.5</version>
+        </dependency>
+    </dependencies>
 
 </project>
