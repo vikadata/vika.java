@@ -111,7 +111,9 @@ public class QueryRecordRequest extends AbstractModel {
         setParamArraySimple(map, prefix + "fields", fields);
         setParamSimple(map, prefix + "filterByFormula", filterByFormula);
         setParamSimple(map, prefix + "cellFormat", cellFormat);
-        setParamSimple(map, prefix + "fieldKey", fieldKey.name().toLowerCase());
+        if (fieldKey != null) {
+            setParamSimple(map, prefix + "fieldKey", fieldKey.name().toLowerCase());
+        }
         setParamSimple(map, prefix + "pageNum", pageNum);
         setParamSimple(map, prefix + "pageSize", pageSize);
         setParamSimple(map, prefix + "maxRecords", maxRecords);

@@ -25,7 +25,6 @@
 package cn.vika.core.http;
 
 import java.net.URI;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Factory for {@link ClientHttpRequest} objects.
@@ -38,18 +37,13 @@ public interface ClientHttpRequestFactory {
 
     /**
      * Create a new {@link ClientHttpRequest} for the specified URI and HTTP method.
-     * <p>The returned request can be written to, and then executed by calling
+     * <p>
+     * The returned request can be written to, and then executed by calling
      *
-     * @param uri        the URI to create a request for client
+     * @param uri the URI to create a request for client
      * @param httpMethod the HTTP method to execute
      * @return ClientHttpRequest
      */
     ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod);
-
-    /**
-     * set request wait timeout
-     * @param timeout timeout the unis is second
-     */
-    void setWaitTimeout(Integer timeout);
 
 }

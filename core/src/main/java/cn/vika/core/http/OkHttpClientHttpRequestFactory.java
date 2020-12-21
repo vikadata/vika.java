@@ -33,7 +33,6 @@ import okhttp3.RequestBody;
 
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.util.concurrent.TimeUnit;
 
 /**
  * implementation base Request Factory
@@ -57,16 +56,6 @@ public class OkHttpClientHttpRequestFactory implements ClientHttpRequestFactory 
     @Override
     public ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod) {
         return new OkHttpClientRequest(this.client, uri, httpMethod);
-    }
-
-    /**
-     * set request wait timeout
-     *
-     * @param timeout  timeout
-     */
-    @Override
-    public void setWaitTimeout(Integer timeout) {
-        this.client.newBuilder().callTimeout(timeout, TimeUnit.SECONDS).build();
     }
 
     /**
