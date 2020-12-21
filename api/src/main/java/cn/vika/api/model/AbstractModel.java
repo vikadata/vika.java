@@ -59,7 +59,7 @@ public abstract class AbstractModel {
      * @return HashMap<String, byte[]>
      */
     public HashMap<String, byte[]> getMultipartRequestParams() {
-        return new HashMap<String, byte[]>(1);
+        return new HashMap<>(1);
     }
 
     protected <V> String setUriTemplate(String param, String key, V value) {

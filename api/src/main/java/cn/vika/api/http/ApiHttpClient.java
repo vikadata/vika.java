@@ -19,7 +19,7 @@ public class ApiHttpClient extends DefaultHttpClient {
     /**
      * http client
      */
-    private DefaultHttpClient defaultHttpClient;
+    private final DefaultHttpClient defaultHttpClient;
 
     public ApiHttpClient() {
         defaultHttpClient = new DefaultHttpClient(HOST + BASE_PAT + VERSION);
@@ -32,11 +32,6 @@ public class ApiHttpClient extends DefaultHttpClient {
     }
 
     public ApiHttpClient(String host, String version) {
-        defaultHttpClient = new DefaultHttpClient(host + BASE_PAT + version);
-        defaultHttpClient.addGlobalHeader(USER_AGENT, "vika-java");
-    }
-
-    public ApiHttpClient(String host, String version, Integer timeout) {
         defaultHttpClient = new DefaultHttpClient(host + BASE_PAT + version);
         defaultHttpClient.addGlobalHeader(USER_AGENT, "vika-java");
     }

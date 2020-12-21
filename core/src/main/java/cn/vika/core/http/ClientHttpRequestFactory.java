@@ -37,11 +37,13 @@ public interface ClientHttpRequestFactory {
 
     /**
      * Create a new {@link ClientHttpRequest} for the specified URI and HTTP method.
-     * <p>The returned request can be written to, and then executed by calling
+     * <p>
+     * The returned request can be written to, and then executed by calling
      *
-     * @param uri        the URI to create a request for client
+     * @param uri the URI to create a request for client
      * @param httpMethod the HTTP method to execute
      * @return ClientHttpRequest
      */
     ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod);
+
 }
