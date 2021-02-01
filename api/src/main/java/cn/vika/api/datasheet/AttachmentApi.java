@@ -1,7 +1,5 @@
 package cn.vika.api.datasheet;
 
-import static cn.vika.api.exception.VikaApiException.DEFAULT_CODE;
-
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -21,6 +19,8 @@ import cn.vika.core.utils.StringUtil;
 import net.sf.jmimemagic.Magic;
 import net.sf.jmimemagic.MagicMatch;
 
+import static cn.vika.api.exception.VikaApiException.DEFAULT_CODE;
+
 /**
  * test
  *
@@ -29,6 +29,7 @@ import net.sf.jmimemagic.MagicMatch;
  */
 public class AttachmentApi extends AbstractApi implements IAttachmentApi {
     private static final String PATH = "/datasheets/%s/attachments";
+
     /**
      * datasheetId
      */
@@ -60,7 +61,8 @@ public class AttachmentApi extends AbstractApi implements IAttachmentApi {
         try {
             byte[] binary = getMultipartPayload(params, boundary);
             result = getDefaultHttpClient().upload(basePath(), HttpHeader.EMPTY, binary, responseType);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new VikaApiException(DEFAULT_CODE, e.getMessage());
         }
         if (result.isSuccess()) {
@@ -99,12 +101,14 @@ public class AttachmentApi extends AbstractApi implements IAttachmentApi {
                 MagicMatch match = Magic.getMagicMatch(entry.getValue(), false);
                 if (match != null) {
                     baos.write(match.getMimeType().getBytes(StandardCharsets.UTF_8));
-                } else {
+                }
+                else {
                     baos.write(HttpMediaType.APPLICATION_OCTET_STREAM.getBytes(StandardCharsets.UTF_8));
                 }
                 baos.write(";charset=utf-8".getBytes(StandardCharsets.UTF_8));
                 baos.write("\r\n".getBytes(StandardCharsets.UTF_8));
-            } else {
+            }
+            else {
                 baos.write(entry.getKey().getBytes(StandardCharsets.UTF_8));
                 baos.write("\"\r\n".getBytes(StandardCharsets.UTF_8));
             }
