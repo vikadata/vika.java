@@ -421,28 +421,28 @@ public enum HttpStatus {
      */
     NETWORK_AUTHENTICATION_REQUIRED(511, "Network Authentication Required");
 
-    private final int value;
+    private final int code;
 
-    private final String reasonPhrase;
+    private final String statusText;
 
 
-    HttpStatus(int value, String reasonPhrase) {
-        this.value = value;
-        this.reasonPhrase = reasonPhrase;
+    HttpStatus(int code, String statusText) {
+        this.code = code;
+        this.statusText = statusText;
     }
 
     /**
      * Return the integer value of this status code.
      */
-    public int value() {
-        return this.value;
+    public int code() {
+        return this.code;
     }
 
     /**
      * Return the reason phrase of this status code.
      */
-    public String getReasonPhrase() {
-        return this.reasonPhrase;
+    public String getStatusText() {
+        return this.statusText;
     }
 
     /**
@@ -533,7 +533,7 @@ public enum HttpStatus {
      */
     @Override
     public String toString() {
-        return this.value + " " + name();
+        return this.code + " " + name();
     }
 
 
@@ -561,7 +561,7 @@ public enum HttpStatus {
      */
     public static HttpStatus resolve(int statusCode) {
         for (HttpStatus status : values()) {
-            if (status.value == statusCode) {
+            if (status.code == statusCode) {
                 return status;
             }
         }
@@ -615,7 +615,7 @@ public enum HttpStatus {
          * @throws IllegalArgumentException if this enum has no corresponding constant
          */
         public static Series valueOf(HttpStatus status) {
-            return valueOf(status.value);
+            return valueOf(status.code);
         }
 
         /**
