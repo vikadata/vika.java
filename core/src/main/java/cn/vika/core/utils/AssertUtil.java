@@ -48,6 +48,12 @@ public abstract class AssertUtil {
         }
     }
 
+    public static void hasText(String text, String message) {
+        if (!StringUtil.hasText(text)) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
     /**
      * Assert that an object is not {@code null}.
      * <pre class="code">Assert.notNull(clazz, "The class must not be null");</pre>
