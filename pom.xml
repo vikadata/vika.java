@@ -48,6 +48,7 @@
         <log4j.version>2.13.3</log4j.version>
         <httpclient.version>4.5.13</httpclient.version>
         <okhttp.version>4.9.0</okhttp.version>
+        <assertj.version>3.19.0</assertj.version>
         <junit.version>5.7.0</junit.version>
     </properties>
 
@@ -184,6 +185,13 @@
             </dependency>
 
             <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
                 <version>${junit.version}</version>
@@ -212,6 +220,13 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <source>${java.version}</source>
+                    <tags>
+                        <tag>
+                            <name>date</name>
+                            <placement>a</placement>
+                            <head>create date:</head>
+                        </tag>
+                    </tags>
                 </configuration>
                 <executions>
                     <execution>

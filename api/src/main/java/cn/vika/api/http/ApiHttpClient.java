@@ -1,8 +1,9 @@
 package cn.vika.api.http;
 
-import static cn.vika.core.http.HttpHeaderConstants.USER_AGENT;
 
 import cn.vika.core.http.DefaultHttpClient;
+
+import static cn.vika.core.http.HttpHeader.USER_AGENT;
 
 /**
  * api http client

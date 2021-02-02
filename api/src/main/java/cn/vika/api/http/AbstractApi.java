@@ -1,7 +1,7 @@
 package cn.vika.api.http;
 
 import cn.vika.core.http.DefaultHttpClient;
-import cn.vika.core.http.HttpHeaderConstants;
+import cn.vika.core.http.HttpHeader;
 
 /**
  * public api client
@@ -38,7 +38,7 @@ public abstract class AbstractApi {
 
     protected DefaultHttpClient getDefaultHttpClient() {
         DefaultHttpClient defaultHttpClient = httpClient.getDefaultHttpClient();
-        defaultHttpClient.addGlobalHeader(HttpHeaderConstants.AUTHORIZATION, "Bearer " + credential.getToken());
+        defaultHttpClient.addGlobalHeader(HttpHeader.AUTHORIZATION, "Bearer " + credential.getToken());
         return defaultHttpClient;
     }
 }
