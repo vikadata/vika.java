@@ -1,7 +1,5 @@
 package cn.vika.api.datasheet;
 
-import static cn.vika.api.exception.VikaApiException.DEFAULT_CODE;
-
 import java.util.HashMap;
 
 import cn.vika.api.exception.VikaApiException;
@@ -13,7 +11,8 @@ import cn.vika.core.exception.JsonConvertException;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
 import cn.vika.core.model.HttpResult;
-import cn.vika.core.utils.StringUtil;
+
+import static cn.vika.api.exception.VikaApiException.DEFAULT_CODE;
 
 /**
  * the api for operate records
@@ -115,7 +114,7 @@ public class RecordApi extends AbstractApi implements IRecordApi {
 
     @Override
     protected String basePath() {
-        return StringUtil.format(PATH, datasheetId);
+        return String.format(PATH, datasheetId);
     }
 
 }

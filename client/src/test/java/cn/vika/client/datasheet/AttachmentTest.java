@@ -4,12 +4,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import cn.vika.api.http.ApiCredential;
 import cn.vika.client.datasheet.model.AttachmentInfo;
 import cn.vika.client.datasheet.model.AttachmentRequest;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * attachment test
@@ -18,7 +16,7 @@ import cn.vika.client.datasheet.model.AttachmentRequest;
  * @date 2020-12-17 18:49:24
  */
 public class AttachmentTest {
-    @Test
+
     public void testUploadAttachment() throws IOException {
         ApiCredential credential = new ApiCredential(System.getenv("VIKA_TOKEN"));
         AttachmentRequest param = new AttachmentRequest();

@@ -61,7 +61,7 @@ public class ResponseMessage<T> {
      */
     public int getStatusCodeValue() {
         if (this.status instanceof HttpStatus) {
-            return ((HttpStatus) this.status).value();
+            return ((HttpStatus) this.status).code();
         } else {
             return (Integer) this.status;
         }
@@ -101,7 +101,7 @@ public class ResponseMessage<T> {
         builder.append(this.status.toString());
         if (this.status instanceof HttpStatus) {
             builder.append(' ');
-            builder.append(((HttpStatus) this.status).getReasonPhrase());
+            builder.append(((HttpStatus) this.status).getStatusText());
         }
         builder.append(',');
         T body = getBody();

@@ -18,15 +18,15 @@
 
 package cn.vika.core.http;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+
 import cn.vika.core.utils.AssertUtil;
 import cn.vika.core.utils.StringUtil;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-
-import java.net.MalformedURLException;
-import java.net.URI;
 
 /**
  * implementation base Request Factory
@@ -81,7 +81,7 @@ public class OkHttpClientHttpRequestFactory implements ClientHttpRequestFactory 
     }
 
     private static MediaType getContentType(HttpHeader header) {
-        String rawContentType = header.getFirstValue(HttpHeaderConstants.CONTENT_TYPE);
+        String rawContentType = header.getFirstValue(HttpHeader.CONTENT_TYPE);
         return StringUtil.hasText(rawContentType) ? okhttp3.MediaType.parse(rawContentType) : null;
     }
 }

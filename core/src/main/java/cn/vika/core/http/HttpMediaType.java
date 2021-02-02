@@ -19,7 +19,7 @@
 package cn.vika.core.http;
 
 /**
- * Http Media type
+ * Http Media type.
  *
  * @author Shawn Deng
  * @date 2020-11-07 00:32:45

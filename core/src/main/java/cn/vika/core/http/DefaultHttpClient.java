@@ -270,8 +270,7 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
     // UPLOAD
 
     @Override
-    public <T> T upload(String urlTemplate, HttpHeader header, byte[] requestBody,
-        GenericTypeReference<T> responseType) {
+    public <T> T upload(String urlTemplate, HttpHeader header, byte[] requestBody, GenericTypeReference<T> responseType) {
         RequestWrapper requestWrapper = new RequestMultipartWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType.getType());
         return execute(urlTemplate, HttpMethod.POST, requestWrapper, responseHandler);

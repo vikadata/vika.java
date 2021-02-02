@@ -15,7 +15,6 @@ import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
 import cn.vika.core.http.HttpMediaType;
 import cn.vika.core.model.HttpResult;
-import cn.vika.core.utils.StringUtil;
 import net.sf.jmimemagic.Magic;
 import net.sf.jmimemagic.MagicMatch;
 
@@ -73,7 +72,7 @@ public class AttachmentApi extends AbstractApi implements IAttachmentApi {
 
     @Override
     protected String basePath() {
-        return StringUtil.format(PATH, datasheetId);
+        return String.format(PATH, datasheetId);
     }
 
     /**
