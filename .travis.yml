@@ -1,0 +1,23 @@
+language: java
+
+notifications:
+  email:
+    recipients:
+      - dev@vikadata.com
+      - dengguiheng@vikadata.com
+    on_success: always
+    on_failure: always
+
+jdk:
+  - oraclejdk8
+
+before_install:
+  - echo 'MAVEN_OPTS="$MAVEN_OPTS -Xmx1024m -XX:MaxPermSize=512m -XX:+BytecodeVerificationLocal"' >> ~/.mavenrc
+  - cat ~/.mavenrc
+
+script:
+  - mvn -v
+  - mvn test -B
+
+
+

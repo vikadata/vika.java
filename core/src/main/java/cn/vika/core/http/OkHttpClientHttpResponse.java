@@ -18,16 +18,16 @@
 
 package cn.vika.core.http;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import cn.vika.core.utils.AssertUtil;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collections;
-
 /**
+ * Okhttp Response
  * @author Shawn Deng
  * @date 2020-10-27 12:10:43
  */
@@ -36,7 +36,6 @@ public class OkHttpClientHttpResponse implements ClientHttpResponse {
     private final Response response;
 
     private volatile HttpHeader headers;
-
 
     public OkHttpClientHttpResponse(Response response) {
         AssertUtil.notNull(response, "Response must not be null");
@@ -60,7 +59,7 @@ public class OkHttpClientHttpResponse implements ClientHttpResponse {
             headers = new HttpHeader();
             for (String headerName : this.response.headers().names()) {
                 for (String headerValue : this.response.headers(headerName)) {
-                    headers.put(headerName, Collections.singletonList(headerValue));
+                    headers.add(headerName, headerValue);
                 }
             }
             this.headers = headers;
