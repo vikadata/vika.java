@@ -11,10 +11,10 @@ import cn.vika.api.http.AbstractApi;
 import cn.vika.api.http.ApiCredential;
 import cn.vika.api.http.ApiHttpClient;
 import cn.vika.api.model.AbstractModel;
+import cn.vika.api.model.HttpResult;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
 import cn.vika.core.http.HttpMediaType;
-import cn.vika.core.model.HttpResult;
 import net.sf.jmimemagic.Magic;
 import net.sf.jmimemagic.MagicMatch;
 
@@ -80,7 +80,7 @@ public class AttachmentApi extends AbstractApi implements IAttachmentApi {
      * @param params attachment data
      * @param boundary unique key
      * @return byte[]
-     * @throws Exception
+     * @throws Exception IO exception maybe
      */
     private byte[] getMultipartPayload(AbstractModel params, String boundary) throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -18,10 +18,12 @@
 
 package cn.vika.core.http;
 
-import cn.vika.core.utils.AssertUtil;
-
 import java.io.IOException;
 import java.net.URI;
+
+import cn.vika.core.utils.AssertUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * abstract http client class
@@ -30,6 +32,8 @@ import java.net.URI;
  * @date 2020-10-27 17:59:37
  */
 public abstract class AbstractHttpClient {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractHttpClient.class);
 
     /**
      * Default implementation OkhttpClient
@@ -73,6 +77,9 @@ public abstract class AbstractHttpClient {
         // asset param non null
         AssertUtil.notNull(uri, "URI is required");
         AssertUtil.notNull(method, "HttpMethod is required");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Http Request: {}", uri.toString());
+        }
         ClientHttpResponse response = null;
         try {
             // create Request instance
@@ -85,12 +92,14 @@ public abstract class AbstractHttpClient {
             response = request.execute();
             // in case of response interceptor
             return (responseHandler != null ? responseHandler.extractData(response) : null);
-        } catch (IOException ex) {
+        }
+        catch (IOException ex) {
             String resource = uri.toString();
             String query = uri.getRawQuery();
             resource = (query != null ? resource.substring(0, resource.indexOf('?')) : resource);
             throw new RuntimeException("I/O error on " + method.name() + " request for \"" + resource + "\": " + ex.getMessage(), ex);
-        } finally {
+        }
+        finally {
             // close
             if (response != null) {
                 response.close();

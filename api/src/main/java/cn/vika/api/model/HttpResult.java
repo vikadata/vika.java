@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.core.model;
+package cn.vika.api.model;
 
 import java.io.Serializable;
 

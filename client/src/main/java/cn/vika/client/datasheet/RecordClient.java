@@ -6,9 +6,14 @@ import java.util.stream.Stream;
 import cn.vika.api.datasheet.RecordApi;
 import cn.vika.api.http.ApiCredential;
 import cn.vika.api.http.ApiHttpClient;
-import cn.vika.client.datasheet.model.*;
+import cn.vika.api.model.HttpResult;
+import cn.vika.client.datasheet.model.DeleteRecordRequest;
+import cn.vika.client.datasheet.model.QueryRecordRequest;
+import cn.vika.client.datasheet.model.RecordInfo;
+import cn.vika.client.datasheet.model.RecordPageInfo;
+import cn.vika.client.datasheet.model.RecordRequest;
+import cn.vika.client.datasheet.model.RecordResponse;
 import cn.vika.core.http.GenericTypeReference;
-import cn.vika.core.model.HttpResult;
 
 /**
  * record client for all record api
@@ -44,7 +49,7 @@ public class RecordClient {
 
     public RecordPageInfo queryRecords(QueryRecordRequest params) {
         GenericTypeReference<HttpResult<RecordPageInfo>> reference =
-            new GenericTypeReference<HttpResult<RecordPageInfo>>() {};
+                new GenericTypeReference<HttpResult<RecordPageInfo>>() {};
         return recordApi.getRecords(params, reference);
     }
 
@@ -52,12 +57,12 @@ public class RecordClient {
         params.setPageSize(MAX_PAGE_SIZE);
         params.setPageNum(1);
         GenericTypeReference<HttpResult<RecordPageInfo>> reference =
-            new GenericTypeReference<HttpResult<RecordPageInfo>>() {};
+                new GenericTypeReference<HttpResult<RecordPageInfo>>() {};
         RecordPageInfo result = recordApi.getRecords(params, reference);
         Stream<RecordInfo> recordsStream = Arrays.stream(result.getRecords());
         int total = result.getTotal();
         if (total > MAX_PAGE_SIZE) {
-            int times = (int)Math.ceil((float)total / MAX_PAGE_SIZE);
+            int times = (int) Math.ceil((float) total / MAX_PAGE_SIZE);
             for (int i = 1; i <= times; i++) {
                 params.setPageNum(i + 1);
                 RecordPageInfo tmp = recordApi.getRecords(params, reference);
@@ -70,14 +75,14 @@ public class RecordClient {
 
     public RecordInfo[] createRecords(RecordRequest body) {
         GenericTypeReference<HttpResult<RecordResponse>> reference =
-            new GenericTypeReference<HttpResult<RecordResponse>>() {};
+                new GenericTypeReference<HttpResult<RecordResponse>>() {};
         RecordResponse response = recordApi.addRecords(body, reference);
         return response.getRecords();
     }
 
     public RecordInfo[] modifyRecords(RecordRequest body) {
         GenericTypeReference<HttpResult<RecordResponse>> reference =
-            new GenericTypeReference<HttpResult<RecordResponse>>() {};
+                new GenericTypeReference<HttpResult<RecordResponse>>() {};
         RecordResponse response = recordApi.modifyRecords(body, reference);
         return response.getRecords();
     }

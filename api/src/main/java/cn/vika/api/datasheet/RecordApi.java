@@ -7,10 +7,10 @@ import cn.vika.api.http.AbstractApi;
 import cn.vika.api.http.ApiCredential;
 import cn.vika.api.http.ApiHttpClient;
 import cn.vika.api.model.AbstractModel;
+import cn.vika.api.model.HttpResult;
 import cn.vika.core.exception.JsonConvertException;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
-import cn.vika.core.model.HttpResult;
 
 import static cn.vika.api.exception.VikaApiException.DEFAULT_CODE;
 

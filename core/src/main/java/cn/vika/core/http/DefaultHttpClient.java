@@ -23,12 +23,13 @@ import java.io.InputStream;
 import java.io.PushbackInputStream;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import cn.vika.core.utils.JacksonConverter;
 import cn.vika.core.utils.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Http Client implementation IHttpClient interface
@@ -37,6 +38,8 @@ import cn.vika.core.utils.StringUtil;
  * @date 2020-10-26 18:57:44
  */
 public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultHttpClient.class);
 
     private final UriHandler uriHandler;
 
@@ -314,7 +317,7 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
 
             if (!defaultHeaders.isEmpty()) {
                 HttpHeader httpHeader = request.getHeaders();
-                defaultHeaders.forEach((key, value) -> httpHeader.put(key, Collections.singletonList(value)));
+                defaultHeaders.forEach(httpHeader::add);
             }
         }
     }

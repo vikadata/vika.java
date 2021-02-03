@@ -2,11 +2,15 @@ package cn.vika.client.datasheet;
 
 import java.util.HashMap;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import cn.vika.api.http.ApiCredential;
-import cn.vika.client.datasheet.model.*;
+import cn.vika.client.datasheet.model.DeleteRecordRequest;
+import cn.vika.client.datasheet.model.Order;
+import cn.vika.client.datasheet.model.QueryRecordRequest;
+import cn.vika.client.datasheet.model.RecordInfo;
+import cn.vika.client.datasheet.model.RecordPageInfo;
+import cn.vika.client.datasheet.model.RecordRequest;
+import cn.vika.client.datasheet.model.SortRequest;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * test
@@ -15,7 +19,7 @@ import cn.vika.client.datasheet.model.*;
  * @date 2020-12-16 16:40:39
  */
 public class RecordTest {
-    @Test
+//    @Test
     public void testQueryRecords() {
         ApiCredential credential = new ApiCredential(System.getenv("VIKA_TOKEN"));
         QueryRecordRequest param = new QueryRecordRequest();
@@ -25,7 +29,7 @@ public class RecordTest {
         Assertions.assertEquals(pageInfo.getTotal(), pageInfo.getRecords().length);
     }
 
-    @Test
+//    @Test
     public void testQueryRecordsWithSort() {
         ApiCredential credential = new ApiCredential(System.getenv("VIKA_TOKEN"));
         QueryRecordRequest param = new QueryRecordRequest();
@@ -42,7 +46,7 @@ public class RecordTest {
             .getFields().get("数字ID"));
     }
 
-    @Test
+//    @Test
     public void testQueryAllRecords() {
         ApiCredential credential = new ApiCredential(System.getenv("VIKA_TOKEN"));
         QueryRecordRequest param = new QueryRecordRequest();
@@ -52,7 +56,7 @@ public class RecordTest {
         Assertions.assertTrue(records.length > 1000);
     }
 
-    @Test
+//    @Test
     public void testCreateRecords() {
         ApiCredential credential = new ApiCredential(System.getenv("VIKA_TOKEN"));
         RecordRequest param = new RecordRequest();
@@ -76,7 +80,7 @@ public class RecordTest {
         Assertions.assertEquals(records.length, 2);
     }
 
-    @Test
+//    @Test
     public void testModifyRecords() {
         ApiCredential credential = new ApiCredential(System.getenv("VIKA_TOKEN"));
         RecordRequest param = new RecordRequest();
@@ -102,7 +106,7 @@ public class RecordTest {
         Assertions.assertEquals(records.length, 2);
     }
 
-    @Test
+//    @Test
     public void testDeleteRecords() {
         ApiCredential credential = new ApiCredential(System.getenv("VIKA_TOKEN"));
         RecordClient recordClient = new RecordClient(credential, "dst7urpLop4QdLAv3j");

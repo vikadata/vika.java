@@ -1,8 +1,8 @@
 package cn.vika.api.datasheet;
 
 import cn.vika.api.model.AbstractModel;
+import cn.vika.api.model.HttpResult;
 import cn.vika.core.http.GenericTypeReference;
-import cn.vika.core.model.HttpResult;
 
 /**
  * attachment api

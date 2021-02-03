@@ -6,7 +6,7 @@ import cn.vika.api.http.ApiHttpClient;
 import cn.vika.client.datasheet.model.AttachmentInfo;
 import cn.vika.client.datasheet.model.AttachmentRequest;
 import cn.vika.core.http.GenericTypeReference;
-import cn.vika.core.model.HttpResult;
+import cn.vika.api.model.HttpResult;
 
 /**
  * attachment client for attachment api
