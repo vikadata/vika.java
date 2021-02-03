@@ -3,7 +3,6 @@ language: java
 notifications:
   email:
     recipients:
-      - dev@vikadata.com
       - dengguiheng@vikadata.com
     on_success: change
     on_failure: always
@@ -11,22 +10,16 @@ notifications:
 jdk:
   - openjdk8
 
-stages:
-  - unit tests
-
 before_install:
   - echo 'MAVEN_OPTS="$MAVEN_OPTS -Xmx1024m -XX:MaxPermSize=512m -XX:+BytecodeVerificationLocal"' >> ~/.mavenrc
   - cat ~/.mavenrc
+
+before_deploy:
   - openssl aes-256-cbc -K $encrypted_171b1c559d7b_key -iv $encrypted_171b1c559d7b_iv -in signingkey.asc.enc -out signingkey.asc -d
 
 before_script:
   - mvn -v
-
-jobs:
-  include:
-    - stage: unit tests
-      script:
-        - mvn test -B
+  - mvn test -B
 
 env:
   global:
@@ -37,6 +30,6 @@ env:
 deploy:
   - skip_cleanup: true
     provider: script
-    script: snapshot.sh
+    script: ./snapshot_deploy
     on:
       branch: dev
