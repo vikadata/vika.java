@@ -1,33 +1,29 @@
 /*
- * MIT License
+ * Copyright (C) 2021 vikadata
  *
- * Copyright (c) 2020 vika
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
 package cn.vika.core.http;
 
-import cn.vika.core.utils.AssertUtil;
-
 import java.io.IOException;
 import java.net.URI;
+
+import cn.vika.core.utils.AssertUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * abstract http client class
@@ -36,6 +32,8 @@ import java.net.URI;
  * @date 2020-10-27 17:59:37
  */
 public abstract class AbstractHttpClient {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractHttpClient.class);
 
     /**
      * Default implementation OkhttpClient
@@ -79,6 +77,9 @@ public abstract class AbstractHttpClient {
         // asset param non null
         AssertUtil.notNull(uri, "URI is required");
         AssertUtil.notNull(method, "HttpMethod is required");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Http Request: {}", uri.toString());
+        }
         ClientHttpResponse response = null;
         try {
             // create Request instance
@@ -91,12 +92,14 @@ public abstract class AbstractHttpClient {
             response = request.execute();
             // in case of response interceptor
             return (responseHandler != null ? responseHandler.extractData(response) : null);
-        } catch (IOException ex) {
+        }
+        catch (IOException ex) {
             String resource = uri.toString();
             String query = uri.getRawQuery();
             resource = (query != null ? resource.substring(0, resource.indexOf('?')) : resource);
             throw new RuntimeException("I/O error on " + method.name() + " request for \"" + resource + "\": " + ex.getMessage(), ex);
-        } finally {
+        }
+        finally {
             // close
             if (response != null) {
                 response.close();

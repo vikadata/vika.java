@@ -1,0 +1,43 @@
+language: java
+
+notifications:
+  email:
+    recipients:
+      - dev@vikadata.com
+      - dengguiheng@vikadata.com
+    on_success: change
+    on_failure: always
+
+jdk:
+  - openjdk8
+
+stages:
+  - unit tests
+  - name: snapshot deploy
+    if: branch = master
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_171b1c559d7b_key -iv $encrypted_171b1c559d7b_iv -in signingkey.asc.enc -out signingkey.asc -d
+  - echo 'MAVEN_OPTS="$MAVEN_OPTS -Xmx1024m -XX:MaxPermSize=512m -XX:+BytecodeVerificationLocal"' >> ~/.mavenrc
+  - cat ~/.mavenrc
+
+before_script:
+  - mvn -v
+
+jobs:
+  include:
+    - stage: unit tests
+      script:
+        - mvn test -B
+    - stage: snapshot deploy
+      script:
+        - gpg2 --keyring=$TRAVIS_BUILD_DIR/pubring.gpg --no-default-keyring --import signingkey.asc
+        - gpg2 --allow-secret-key-import --keyring=$TRAVIS_BUILD_DIR/secring.gpg --no-default-keyring --import signingkey.asc
+        - mvn clean deploy sonatype-snapshot --settings .mvn/settings.xml -Dgpg.executable=gpg2 -Dgpg.keyname=AE63A47A134B9CB61F0121D6E5A7C0A9C50BC9F3
+            -Dgpg.passphrase=$GPG_PASSPHRASE -Dgpg.publicKeyring=$TRAVIS_BUILD_DIR/pubring.gpg -Dgpg.secretKeyring=$TRAVIS_BUILD_DIR/secring.gpg
+
+env:
+  global:
+    - secure: jr1qB3I+hhI8Mz6fsrLYHPSbWWMqtCBs5JqEAV3uLvHprOeX+6kwSrshzWragsvOA8Ufa4Vpq7iXzyHCvxg3df6phiFF9YKPmFfymmulE4gQS7su/+2qI0NXZwNP23xXnNIMwh9RzVjQ8vR9upL9Dw1UOO9oL7XA/pcRMXHMhjNz5OrPTVF2h/IY7bCfuEnyYkc4MYaKUzdYUBv/629ZdHQx6p/+zKFzwRvXIXGmULYen+uJhTJxG6BC4N303/5XaPgVC3tBx5Ij4vQPjf8HVsczVg/5b0c9GLjo9SYS7P45Thbe/0FbBKr82nB3j4XC5gGYhHv7nhKKrcLu0YZxfM2cxYZj1K+Zc+2a/wUkdqfrrrsTEHiOtkEJ1QCSpHiL4Ehu0ONSt6woGARhh7GWEAFXP1ivJRM4iHLABizQCvGkmPTN9R1vpxlthJuLwsFW1b/Ugh4icn2uoOfeHUI2kvbpEg2szCo1Vts/essFtILJQR0HNVxmGcT0ghYNI1H8GHc1cYa/M9IcNNFjLdUrtVIOBtbeRwa/ABYLT4ajZkZdysfygA+tsqXgZ3sSkUJTn98Ynqtlw1ikAa2EuSeZtQNB1Qbps9WIzuVvdaihIHSGuwr49xbYJr1sm1PHQKZ+RYPy4mCJTdWulSwIYIlJXIovMqQMohn4HPcnZTdy7O0=
+    - secure: id1UPZpaHY79JMJx/3wvZ2eKiVEDc8z8hLtgZ84kVa16gnh3YTGWfEyZV0Qkbgyck3WNivyuFRiOUZGAz2zXYD3xWGZyGrgXLGxAju8WM4xeUeeqwCkGrZnYszK/hWYEV94Icp3NTtfiECzVTrbPDjWmj37bSPQ8uUl2eg7i0gcnHvjDUC3SF+pvjMUdzpZz1/ULmxriNtbw7gpu0V2AolwTxrRrwdlI9pUfLd0BJB8JHB1kJVeKvgmSaRcQoIo/3CBi/iJXgMLRxBKg3KxLte1fCC8Nca+/jxeDfRSwChzkwtXB2cJ4Wp3I8Kq/VZhpK8t99EhGC9LOfahGf/sWmimeEBL0EM/A/XmAsJeb4WeQkMiH6muk2Sl7aoVNYSJr2WqVh5GwZZ6+5yF5KlKW8kW92vfkR8bi7daAFZagiocOVbllawFqF2hrtT3JTTF/0byGjYh1TkR0XgkcEP7VaBZmjJCZyg0a4t4cmS+4k1u/1SFKgfeZMaYJ7n+WGJiFDtw6E/essbUAlg+21uJMkDP/IbNRqfLj90+V+6qJY37F8l1zjTBoBMHsvDDuK9ycfW4KNp1EsCfyZHm+VvCCeEsw1V83QI3qUWHxEYE+unu1Nb+l85/qZ3BXplfAsbETIDDFmjTScYUZRTOQwFggbQ2SnHVsSujOp6jCZe9qG0Y=
+    - secure: DcyoG8jVCMSKtOtZ5ICpB4ONAraJ0vLhglthaX/F9+F6dzqUt6kaDF4uN4g0H0fXUoLwoHTEAzyJjv+WU+5lkry5wY+fAfFao1uP3zdcpmEjwOVfAPnBjibzfLcP7D/KjDHGVyhukjvm+s+FCr4h82Viq20A8XOJnuW26X+bDRHEOi407mM9sK1ukoUykR0xrBngrC6agCWcTNyGIaX/qJMkRRJ3nNy0Zb1vTzWa9OJyp9N1MxUE9uCn3KMi6D6eILdqcWOu3zLei4CPd23EEGuSqVcA+YyLCouK7HM0NnoFzV5QTUsMEjl7by/F7AuYBH2QZpoA3PrMXiGw6C4NJu3NoLlbdNXuX4Ocw3XM25RHUDhQgt1y+9vbHLbf4iUooiHeLqdrJVCkDEYFmWmJcLRfK+eWJjS80/s/P6aFY5Lx6Skxq7bpcNmVDM5TF9hcTTBNjLstzbEF5SmcocDRcVEFr4AbzI04bU2B2MZmTHhY3U09nDfnGNdsFAiySu6Kf7AUkbwjsEVkpqUQIko/SZZCWAPHpEUFStOQoR2UZS3wkzGQ60Kjg/on/G9xxWisfcMDli8ms0KAMH0QWERamiQnXE4XhxWxRQTqh7p/Z1NOyXP78wAbuSMCLGUGi7Kmg5JAlRdAEHBTTxzKXZyzLF1Rdtfx8NoWnE8bF55/PfE=

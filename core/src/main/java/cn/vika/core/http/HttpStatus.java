@@ -1,25 +1,19 @@
 /*
- * MIT License
+ * Copyright (C) 2021 vikadata
  *
- * Copyright (c) 2020 vika
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
 package cn.vika.core.http;
@@ -427,28 +421,28 @@ public enum HttpStatus {
      */
     NETWORK_AUTHENTICATION_REQUIRED(511, "Network Authentication Required");
 
-    private final int value;
+    private final int code;
 
-    private final String reasonPhrase;
+    private final String statusText;
 
 
-    HttpStatus(int value, String reasonPhrase) {
-        this.value = value;
-        this.reasonPhrase = reasonPhrase;
+    HttpStatus(int code, String statusText) {
+        this.code = code;
+        this.statusText = statusText;
     }
 
     /**
      * Return the integer value of this status code.
      */
-    public int value() {
-        return this.value;
+    public int code() {
+        return this.code;
     }
 
     /**
      * Return the reason phrase of this status code.
      */
-    public String getReasonPhrase() {
-        return this.reasonPhrase;
+    public String getStatusText() {
+        return this.statusText;
     }
 
     /**
@@ -539,7 +533,7 @@ public enum HttpStatus {
      */
     @Override
     public String toString() {
-        return this.value + " " + name();
+        return this.code + " " + name();
     }
 
 
@@ -567,7 +561,7 @@ public enum HttpStatus {
      */
     public static HttpStatus resolve(int statusCode) {
         for (HttpStatus status : values()) {
-            if (status.value == statusCode) {
+            if (status.code == statusCode) {
                 return status;
             }
         }
@@ -621,7 +615,7 @@ public enum HttpStatus {
          * @throws IllegalArgumentException if this enum has no corresponding constant
          */
         public static Series valueOf(HttpStatus status) {
-            return valueOf(status.value);
+            return valueOf(status.code);
         }
 
         /**
