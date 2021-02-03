@@ -30,6 +30,6 @@ env:
 deploy:
   - skip_cleanup: true
     provider: script
-    script: ./snapshot_deploy
+    script: bash snapshot_deploy.sh
     on:
       branch: dev
