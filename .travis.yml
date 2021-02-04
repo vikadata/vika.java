@@ -21,19 +21,25 @@ env:
     - secure: dguHjXv4nm7LQW7TFYWvRYa3f4491+e6yPBnO8KEoY+rho3xk7SDAX85ccspYWCNWUxEe1ED+zcS3o6yxs6Zut8sEBOQYEP605NK7plSUatSL3gEAKntMpD5I4/BQsXlxVvabil39M/qks82JtbPVjJRfryLQVcBiwqSGdTsSehpiZuChNhXsN2FRZZV+n/70TKpee68VRJx5VhEa5xQScfihSxGDUHwbY6ice5oiwB+x3OC3AkPpNIkVtcC1d0bCQl3lA6+W1DvpvT7cNEvmthw6hiq4Ve3eUu8+kdA5K1Odty2Udu2cwNCEqN2kdz6r2FFehmE8tgBCenWWYR8j7hy6ooVYLZNuTNe9wGeMeeC+NyTlUtP9tY266CVpk6lau+L38uXjXkt5VRxXBtTsQnQuUNO319WPkaMbAZoCTgY2nzI7XRmSyfhTX2i9d/HtBKI6/uy2H8WUh33WmV2vmWRydaLvdQ6VHs6r+xSGebv2Mwx4/FIJ3CBn+cj+tcHyCseHdnmI9p/+siiNsdEoNPZTXCsbJ6vl5Hf6xJH1OpuPuyz3Zqcuv3Ea481myW1vc923gX+rvISXrEfiC/Ch6oOXEg9c0aA6SUcmwO6ccAJr5qZraGnjDirF6fINlD1P7E27x+KQ1j2eBJijsUhdLiiG9Wk5FAcG5eTGSXez+M=
     - secure: dM7xMNaqK5Bpkadl1fsjSxNmjmmrT8abNhou63o2yqyZS4T59Z0h6gtbIX+mZxAcIJYcaDCre0w6zGS3x9UPsLpnuGZjMODxqwnKBoQGQhfaJ8N7URLaIJkr0TlYlAng9o+bWRewoDhdWQ43WZeDsBZogGnzgKSWzh0oJYZk9174ePnpSz2flRBni9YMV4slBdoNSz8Zz4+rk6gXeyQX0vAskRx8Ov3EPxKolZxykVeN9qDTwwSrAKir+FY+sZq2c795RpSDISq/p6ZEaKJYinnAfATRuZVvAucaMQ1H+jUZIUWLNe6z8bhBPhiDKem9zcL4YwNDuU3Rpn/EKvnlt29F+iY6cTpBE2af1CNbe1KClBANw9MQGnBx3UhOZGY29Fb812z8Wx1apYoiif2HYoha4y0XIprWXbO7BhL1WW9LQ0FoBwyH21LVunv98GHthUya+VKRBrtcMSdL64yvkEpjXRN1j2pm1h9OUFus01cIZEDzWf7DC/ZokBEEoAEFZEdNvZF83WLDQD1S0ShLJi6mir7t0EXuvbVYENTzqhNJ8FYbog2bB1JaaGWvm2sufInxYozApaY/U6egybJgJ2jqV084WcDQPTCEyJsciRLGQsXkWUAK/fZgan3N6NCzlRzMrL9g/b3Z4p8I6QGm72Ges2FXNVeg3b9yQFYKaiM=
 
+stages:
+  - name: test
+    if: branch = dev
+
 before_install:
   - echo 'MAVEN_OPTS="$MAVEN_OPTS -Xmx1024m -XX:MaxPermSize=512m -XX:+BytecodeVerificationLocal"' >> ~/.mavenrc
   - cat ~/.mavenrc
   # attention: only repo member can build, contribute user has no permission
   - openssl aes-256-cbc -K $encrypted_171b1c559d7b_key -iv $encrypted_171b1c559d7b_iv -in signingkey.asc.enc -out signingkey.asc -d
 
-before_script:
-  - ls -a
-  - mvn test -B
+jobs:
+  include:
+    - stage: test
+      script:
+        - mvn test -B
 
 deploy:
   - skip_cleanup: true
     provider: script
-    script: sh .ci/deploy.sh
+    script: sh .ci/deploy.sh snapshot
     on:
       branch: dev
