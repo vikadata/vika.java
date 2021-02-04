@@ -23,4 +23,9 @@ if [ -z "$GPG_PASSPHRASE" ]; then
   exit 1
 fi
 
-mvn clean deploy -P"$0" --settings "${TRAVIS_BUILD_DIR}"/.mvn/settings.xml -Dgpg.executable=gpg2 -Dgpg.keyname="$GPG_KEY_NAME"-Dgpg.passphrase="$GPG_PASSPHRASE"
+if [ -z "$1" ]; then
+  echo "missing environment value: Maven BUILD PROFILE" >&2
+  exit 1
+fi
+
+mvn clean deploy -P"$1" --settings "${TRAVIS_BUILD_DIR}"/.mvn/settings.xml -Dgpg.executable=gpg2 -Dgpg.keyname="$GPG_KEY_NAME"-Dgpg.passphrase="$GPG_PASSPHRASE"
