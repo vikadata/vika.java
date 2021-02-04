@@ -35,4 +35,10 @@ deploy:
     provider: script
     script: bash .ci/deploy.sh snapshot
     on:
-      branch: dev
+      branch: master
+  - skip_cleanup: true
+    provider: script
+    script: bash .ci/deploy.sh release
+    on:
+      tags: true
+
