@@ -33,6 +33,6 @@ script:
 deploy:
   - skip_cleanup: true
     provider: script
-    script: sh .ci/deploy.sh snapshot
+    script: bash .ci/deploy.sh snapshot
     on:
       branch: dev
