@@ -74,9 +74,9 @@
 
     <scm>
         <url>https://github.com/vikadata/vika.java</url>
-        <connection>scm:git@github.com:vikadata/vika.java.git</connection>
+        <connection>scm:git:git@github.com:vikadata/vika.java.git</connection>
         <developerConnection>
-            scm:git@github.com:vikadata/vika.java.git
+            scm:git:git@github.com:vikadata/vika.java.git
         </developerConnection>
     </scm>
 
@@ -416,6 +416,11 @@
                 <gpg.keyname>${env.GPG_KEY_NAME}</gpg.keyname>
                 <!--suppress UnresolvedMavenProperty -->
                 <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+                <gpg.defaultKeyring>false</gpg.defaultKeyring>
+                <!--suppress UnresolvedMavenProperty -->
+                <gpg.publicKeyring>${env.TRAVIS_BUILD_DIR}/pubring.gpg</gpg.publicKeyring>
+                <!--suppress UnresolvedMavenProperty -->
+                <gpg.secretKeyring>${env.TRAVIS_BUILD_DIR}/secring.gpg</gpg.secretKeyring>
             </properties>
             <build>
                 <plugins>
