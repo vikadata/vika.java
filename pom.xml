@@ -409,8 +409,34 @@
 
     <profiles>
         <profile>
+            <id>no-test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven-javadoc-plugin.version}</version>
+                        <configuration>
+                            <additionalJOptions>
+                                <additionalJOption>-Xdoclint:none</additionalJOption>
+                            </additionalJOptions>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </reporting>
+        </profile>
+        <profile>
             <id>snapshot</id>
             <properties>
+                <maven.test.skip>true</maven.test.skip>
                 <gpg.executable>gpg</gpg.executable>
                 <!--suppress UnresolvedMavenProperty -->
                 <gpg.keyname>${env.GPG_KEY_NAME}</gpg.keyname>

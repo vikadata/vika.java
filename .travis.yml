@@ -26,16 +26,19 @@ env:
 before_install:
   - echo 'MAVEN_OPTS="$MAVEN_OPTS -Xmx1024m -XX:MaxPermSize=512m -XX:+BytecodeVerificationLocal"' >> ~/.mavenrc
   - cat ~/.mavenrc
+  # attention: only repo member can build, contribute user has no permission
   - openssl aes-256-cbc -K $encrypted_171b1c559d7b_key -iv $encrypted_171b1c559d7b_iv -in signingkey.asc.enc -out signingkey.asc -d
-  - cat signingkey.asc
 
 before_script:
   - ls -a
   - mvn test -B
 
-deploy:
-  - skip_cleanup: true
-    provider: script
-    script: sh script/snapshot_deploy.sh
-    on:
-      branch: dev
+script:
+  - mvn clean deploy -Psnapshot -DskipTests=true --settings "${TRAVIS_BUILD_DIR}/.mvn/settings.xml"
+
+#deploy:
+#  - skip_cleanup: true
+#    provider: script
+#    script: sh .ci/deploy.sh
+#    on:
+#      branch: dev
