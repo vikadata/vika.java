@@ -34,7 +34,7 @@ before_script:
   - mvn test -B
 
 script:
-  - mvn clean deploy -Psnapshot -DskipTests=true --settings "${TRAVIS_BUILD_DIR}/.mvn/settings.xml"
+  - mvn clean deploy -Psnapshot -DskipTests=true --settings ${TRAVIS_BUILD_DIR}/.mvn/settings.xml
 
 #deploy:
 #  - skip_cleanup: true
