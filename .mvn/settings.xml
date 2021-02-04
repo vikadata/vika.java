@@ -31,18 +31,4 @@
             <password>${env.SONATYPE_PASSWORD}</password>
         </server>
     </servers>
-
-    <profiles>
-        <profile>
-            <id>sonatype-snapshot</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <gpg.executable>gpg</gpg.executable>
-                <gpg.keyname>AE63A47A134B9CB61F0121D6E5A7C0A9C50BC9F3</gpg.keyname>
-                <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
-            </properties>
-        </profile>
-    </profiles>
 </settings>
