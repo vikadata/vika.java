@@ -1,5 +1,3 @@
-dist: bionic
-
 language: java
 
 notifications:
@@ -22,6 +20,10 @@ before_install:
 
 before_deploy:
   - openssl aes-256-cbc -K $encrypted_171b1c559d7b_key -iv $encrypted_171b1c559d7b_iv -in signingkey.asc.enc -out signingkey.asc -d
+  - echo $GPG_KEY_NAME
+  - echo $GPG_PASSPHRASE
+  - echo $SONATYPE_USERNAME
+  - echo $SONATYPE_PASSWORD
 
 before_script:
   - mvn test -B
