@@ -397,15 +397,6 @@
 
     <profiles>
         <profile>
-            <id>no-test</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-        </profile>
-        <profile>
             <id>test</id>
             <reporting>
                 <plugins>
