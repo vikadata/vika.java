@@ -1,5 +1,3 @@
-dist: bionic
-
 language: java
 
 notifications:
@@ -33,12 +31,9 @@ before_script:
   - ls -a
   - mvn test -B
 
-script:
-  - mvn clean deploy -Psnapshot --settings ${TRAVIS_BUILD_DIR}/.mvn/settings.xml -Dgpg.executable=gpg2 -Dgpg.keyname=$GPG_KEY_NAME -Dgpg.passphrase=$GPG_PASSPHRASE
-
-#deploy:
-#  - skip_cleanup: true
-#    provider: script
-#    script: sh .ci/deploy.sh
-#    on:
-#      branch: dev
+deploy:
+  - skip_cleanup: true
+    provider: script
+    script: sh .ci/deploy.sh
+    on:
+      branch: dev

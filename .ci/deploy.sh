@@ -23,4 +23,4 @@ if [ -z "$GPG_PASSPHRASE" ]; then
   exit 1
 fi
 
-mvn clean deploy -Psnapshot -DskipTests=true --settings "${TRAVIS_BUILD_DIR}/.mvn/settings.xml"
+mvn clean deploy -Psnapshot --settings "${TRAVIS_BUILD_DIR}"/.mvn/settings.xml -Dgpg.executable=gpg2 -Dgpg.keyname="$GPG_KEY_NAME"-Dgpg.passphrase="$GPG_PASSPHRASE"
