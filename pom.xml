@@ -416,11 +416,6 @@
                 <gpg.keyname>${env.GPG_KEY_NAME}</gpg.keyname>
                 <!--suppress UnresolvedMavenProperty -->
                 <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
-                <gpg.defaultKeyring>false</gpg.defaultKeyring>
-                <!--suppress UnresolvedMavenProperty -->
-                <gpg.publicKeyring>${env.TRAVIS_BUILD_DIR}/pubring.gpg</gpg.publicKeyring>
-                <!--suppress UnresolvedMavenProperty -->
-                <gpg.secretKeyring>${env.TRAVIS_BUILD_DIR}/secring.gpg</gpg.secretKeyring>
             </properties>
             <build>
                 <plugins>
