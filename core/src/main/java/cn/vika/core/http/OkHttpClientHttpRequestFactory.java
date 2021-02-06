@@ -20,6 +20,7 @@ package cn.vika.core.http;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.concurrent.TimeUnit;
 
 import cn.vika.core.utils.AssertUtil;
 import cn.vika.core.utils.StringUtil;
@@ -36,7 +37,7 @@ import okhttp3.RequestBody;
  */
 public class OkHttpClientHttpRequestFactory implements ClientHttpRequestFactory {
 
-    private final OkHttpClient client;
+    private OkHttpClient client;
 
     public OkHttpClientHttpRequestFactory() {
         this.client = new OkHttpClient();
@@ -45,6 +46,26 @@ public class OkHttpClientHttpRequestFactory implements ClientHttpRequestFactory 
     public OkHttpClientHttpRequestFactory(OkHttpClient client) {
         AssertUtil.notNull(client, "OkHttpClient must not be null");
         this.client = client;
+    }
+
+    /**
+     * Set read timeout in milliseconds.
+     * @param readTimeout read timeout
+     */
+    public void setReadTimeout(int readTimeout) {
+        this.client = this.client.newBuilder()
+                .readTimeout(readTimeout, TimeUnit.MILLISECONDS)
+                .build();
+    }
+
+    /**
+     * Set connect timeout in milliseconds.
+     * @param connectTimeout connect timeout
+     */
+    public void setConnectTimeout(int connectTimeout) {
+        this.client = this.client.newBuilder()
+                .connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
+                .build();
     }
 
     @Override

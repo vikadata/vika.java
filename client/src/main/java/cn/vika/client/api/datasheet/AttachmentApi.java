@@ -1,4 +1,4 @@
-package cn.vika.api.datasheet;
+package cn.vika.client.api.datasheet;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
@@ -6,19 +6,16 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
 
-import cn.vika.api.exception.VikaApiException;
-import cn.vika.api.http.AbstractApi;
-import cn.vika.api.http.ApiCredential;
-import cn.vika.api.http.ApiHttpClient;
-import cn.vika.api.model.AbstractModel;
-import cn.vika.api.model.HttpResult;
+import cn.vika.client.api.exception.ApiException;
+import cn.vika.client.api.http.AbstractApi;
+import cn.vika.client.api.http.ApiHttpClient;
+import cn.vika.client.api.model.AbstractModel;
+import cn.vika.client.api.model.HttpResult;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
 import cn.vika.core.http.HttpMediaType;
 import net.sf.jmimemagic.Magic;
 import net.sf.jmimemagic.MagicMatch;
-
-import static cn.vika.api.exception.VikaApiException.DEFAULT_CODE;
 
 /**
  * test
@@ -32,16 +29,9 @@ public class AttachmentApi extends AbstractApi implements IAttachmentApi {
     /**
      * datasheetId
      */
-    private final String datasheetId;
 
-    public AttachmentApi(ApiCredential credential, String datasheetId) {
-        super(credential);
-        this.datasheetId = datasheetId;
-    }
-
-    public AttachmentApi(ApiCredential credential, ApiHttpClient httpClient, String datasheetId) {
-        super(credential, httpClient);
-        this.datasheetId = datasheetId;
+    public AttachmentApi(ApiHttpClient apiHttpClient) {
+        super(apiHttpClient);
     }
 
     /**
@@ -52,26 +42,26 @@ public class AttachmentApi extends AbstractApi implements IAttachmentApi {
      * @return responseType
      */
     @Override
-    public <T> T uploadAttachment(AbstractModel params, GenericTypeReference<HttpResult<T>> responseType) {
+    public <T> T uploadAttachment(String datasheetId, AbstractModel params, GenericTypeReference<HttpResult<T>> responseType) throws ApiException {
         HttpHeader header = HttpHeader.EMPTY;
         String boundary = UUID.randomUUID().toString();
         header.setContentType("multipart/form-data; charset=utf-8" + "; boundary=" + boundary);
         HttpResult<T> result;
         try {
             byte[] binary = getMultipartPayload(params, boundary);
-            result = getDefaultHttpClient().upload(basePath(), HttpHeader.EMPTY, binary, responseType);
+            result = getDefaultHttpClient().upload(basePath(datasheetId), HttpHeader.EMPTY, binary, responseType);
         }
         catch (Exception e) {
-            throw new VikaApiException(DEFAULT_CODE, e.getMessage());
+            throw new ApiException(e);
         }
         if (result.isSuccess()) {
             return result.getData();
         }
-        throw new VikaApiException(result.getCode(), result.getMessage());
+        throw new ApiException(result.getCode(), result.getMessage());
     }
 
     @Override
-    protected String basePath() {
+    protected String basePath(String datasheetId) {
         return String.format(PATH, datasheetId);
     }
 

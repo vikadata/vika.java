@@ -18,20 +18,26 @@
 
 package cn.vika.core.exception;
 
+import cn.vika.core.http.HttpHeader;
+import cn.vika.core.http.HttpStatus;
+
 /**
- * Base Http Client Exception
+ * if http status can parse right, can throw this exception
  * @author Shawn Deng
- * @date 2020-11-11 23:55:45
+ * @date 2021-02-06 15:43:39
  */
-public class HttpClientException extends RuntimeException {
+public class StatusCodeException extends HttpResponseException {
 
-    private static final long serialVersionUID = 8823763329544096996L;
+    private static final long serialVersionUID = 2801822777459790711L;
 
-    public HttpClientException(String message) {
-        super(message);
+    private final HttpStatus statusCode;
+
+    public StatusCodeException(String message, HttpStatus statusCode, String statusText, HttpHeader responseHeaders, byte[] responseBody) {
+        super(message, statusCode.code(), statusText, responseHeaders, responseBody);
+        this.statusCode = statusCode;
     }
 
-    public HttpClientException(String message, Throwable cause) {
-        super(message, cause);
+    public HttpStatus getStatusCode() {
+        return statusCode;
     }
 }

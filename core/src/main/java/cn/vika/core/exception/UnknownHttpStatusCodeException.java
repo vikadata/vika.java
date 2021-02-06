@@ -18,20 +18,19 @@
 
 package cn.vika.core.exception;
 
+import cn.vika.core.http.HttpHeader;
+
 /**
- * Base Http Client Exception
+ * indicate unknown http error exception
  * @author Shawn Deng
- * @date 2020-11-11 23:55:45
+ * @date 2021-02-06 15:16:40
  */
-public class HttpClientException extends RuntimeException {
+public class UnknownHttpStatusCodeException extends HttpResponseException {
 
-    private static final long serialVersionUID = 8823763329544096996L;
+    private static final long serialVersionUID = 7796923155656742818L;
 
-    public HttpClientException(String message) {
-        super(message);
-    }
-
-    public HttpClientException(String message, Throwable cause) {
-        super(message, cause);
+    public UnknownHttpStatusCodeException(String message, int rawStatusCode, String statusText,
+            HttpHeader responseHeaders, byte[] responseBody) {
+        super(message, rawStatusCode, statusText, responseHeaders, responseBody);
     }
 }

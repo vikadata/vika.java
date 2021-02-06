@@ -101,6 +101,11 @@ public class HttpHeader implements Map<String, List<String>>, Serializable {
         return (values != null && !values.isEmpty() ? values.get(0) : null);
     }
 
+    public void setUserAgent(String userAgent) {
+        AssertUtil.hasText(userAgent, "userAgent is null");
+        set(USER_AGENT, userAgent);
+    }
+
     public void setBearerAuth(String token) {
         AssertUtil.hasText(token, "token is null");
         set(AUTHORIZATION, "Bearer " + token);
@@ -127,6 +132,10 @@ public class HttpHeader implements Map<String, List<String>>, Serializable {
 
     public void setContentType(String contentType) {
         put(CONTENT_TYPE, Collections.singletonList(contentType));
+    }
+
+    public String getContentType() {
+        return getFirstValue(CONTENT_TYPE);
     }
 
     public void add(String headerName, String headerValue) {

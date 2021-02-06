@@ -18,20 +18,19 @@
 
 package cn.vika.core.exception;
 
+import cn.vika.core.http.HttpHeader;
+import cn.vika.core.http.HttpStatus;
+
 /**
- * Base Http Client Exception
+ *
  * @author Shawn Deng
- * @date 2020-11-11 23:55:45
+ * @date 2021-02-06 15:13:50
  */
-public class HttpClientException extends RuntimeException {
+public class ClientErrorException extends StatusCodeException {
 
-    private static final long serialVersionUID = 8823763329544096996L;
+    private static final long serialVersionUID = 8373468532484444419L;
 
-    public HttpClientException(String message) {
-        super(message);
-    }
-
-    public HttpClientException(String message, Throwable cause) {
-        super(message, cause);
+    public ClientErrorException(String message, HttpStatus statusCode, String statusText, HttpHeader responseHeaders, byte[] responseBody) {
+        super(message, statusCode, statusText, responseHeaders, responseBody);
     }
 }

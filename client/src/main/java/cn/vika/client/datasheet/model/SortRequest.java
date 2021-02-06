@@ -2,7 +2,7 @@ package cn.vika.client.datasheet.model;
 
 import java.util.HashMap;
 
-import cn.vika.api.model.AbstractModel;
+import cn.vika.client.api.model.AbstractModel;
 
 /**
  * query record with sort param

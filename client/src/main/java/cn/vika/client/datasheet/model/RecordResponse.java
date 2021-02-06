@@ -2,7 +2,7 @@ package cn.vika.client.datasheet.model;
 
 import java.util.HashMap;
 
-import cn.vika.api.model.AbstractModel;
+import cn.vika.client.api.model.AbstractModel;
 
 /**
  * create record response
@@ -12,13 +12,13 @@ import cn.vika.api.model.AbstractModel;
  */
 public class RecordResponse extends AbstractModel {
 
-    private RecordInfo[] records;
+    private RecordDetail[] records;
 
-    public RecordInfo[] getRecords() {
+    public RecordDetail[] getRecords() {
         return records;
     }
 
-    public void setRecords(RecordInfo[] records) {
+    public void setRecords(RecordDetail[] records) {
         this.records = records;
     }
 

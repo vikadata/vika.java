@@ -3,7 +3,7 @@ package cn.vika.client.datasheet.model;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
-import cn.vika.api.model.AbstractModel;
+import cn.vika.client.api.model.AbstractModel;
 
 /**
  * Attachment Request

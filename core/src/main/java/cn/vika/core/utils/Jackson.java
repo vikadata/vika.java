@@ -16,22 +16,29 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.core.exception;
+package cn.vika.core.utils;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Base Http Client Exception
+ *
  * @author Shawn Deng
- * @date 2020-11-11 23:55:45
+ * @date 2021-02-05 18:31:36
  */
-public class HttpClientException extends RuntimeException {
+public class Jackson {
 
-    private static final long serialVersionUID = 8823763329544096996L;
+    private final ObjectMapper mapper;
 
-    public HttpClientException(String message) {
-        super(message);
+    public Jackson() {
+        mapper = new ObjectMapper();
+
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    public HttpClientException(String message, Throwable cause) {
-        super(message, cause);
+    public ObjectMapper getObjectMapper() {
+        return mapper;
     }
 }

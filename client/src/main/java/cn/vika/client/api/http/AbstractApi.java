@@ -16,22 +16,39 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.core.exception;
+package cn.vika.client.api.http;
+
+import cn.vika.core.http.DefaultHttpClient;
 
 /**
- * Base Http Client Exception
- * @author Shawn Deng
- * @date 2020-11-11 23:55:45
+ * public api client
+ *
+ * @author Zoe Zheng
+ * @date 2020-12-16 11:27:39
  */
-public class HttpClientException extends RuntimeException {
+public abstract class AbstractApi {
 
-    private static final long serialVersionUID = 8823763329544096996L;
+    /**
+     * build path
+     *
+     * @return string
+     */
+    protected abstract String basePath(String datasheetId);
 
-    public HttpClientException(String message) {
-        super(message);
+    /**
+     * http client
+     */
+    protected final ApiHttpClient apiHttpClient;
+
+    public AbstractApi(ApiHttpClient apiHttpClient) {
+        this.apiHttpClient = apiHttpClient;
     }
 
-    public HttpClientException(String message, Throwable cause) {
-        super(message, cause);
+    public DefaultHttpClient getDefaultHttpClient() {
+        return this.apiHttpClient.getDefaultHttpClient();
+    }
+
+    public int getDefaultPerPage() {
+        return this.apiHttpClient.getDefaultPerPage();
     }
 }

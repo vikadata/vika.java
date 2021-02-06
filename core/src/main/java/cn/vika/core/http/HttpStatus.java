@@ -253,7 +253,6 @@ public enum HttpStatus {
      *
      * @see <a href="https://tools.ietf.org/html/rfc7231#section-6.5.11">
      * HTTP/1.1: Semantics and Content, section 6.5.11</a>
-     * @since 4.1
      */
     PAYLOAD_TOO_LARGE(413, "Payload Too Large"),
     /**
@@ -261,7 +260,6 @@ public enum HttpStatus {
      *
      * @see <a href="https://tools.ietf.org/html/rfc7231#section-6.5.12">
      * HTTP/1.1: Semantics and Content, section 6.5.12</a>
-     * @since 4.1
      */
     URI_TOO_LONG(414, "URI Too Long"),
     /**
@@ -312,7 +310,6 @@ public enum HttpStatus {
      * {@code 425 Too Early}.
      *
      * @see <a href="https://tools.ietf.org/html/rfc8470">RFC 8470</a>
-     * @since 5.2
      */
     TOO_EARLY(425, "Too Early"),
     /**
@@ -344,7 +341,6 @@ public enum HttpStatus {
      *
      * @see <a href="https://tools.ietf.org/html/draft-ietf-httpbis-legally-restricted-status-04">
      * An HTTP Status Code to Report Legal Obstacles</a>
-     * @since 4.3
      */
     UNAVAILABLE_FOR_LEGAL_REASONS(451, "Unavailable For Legal Reasons"),
 
@@ -460,7 +456,6 @@ public enum HttpStatus {
      * This is a shortcut for checking the value of {@link #series()}.
      *
      * @see #series()
-     * @since 4.0
      */
     public boolean is1xxInformational() {
         return (series() == Series.INFORMATIONAL);
@@ -472,7 +467,6 @@ public enum HttpStatus {
      * This is a shortcut for checking the value of {@link #series()}.
      *
      * @see #series()
-     * @since 4.0
      */
     public boolean is2xxSuccessful() {
         return (series() == Series.SUCCESSFUL);
@@ -484,7 +478,6 @@ public enum HttpStatus {
      * This is a shortcut for checking the value of {@link #series()}.
      *
      * @see #series()
-     * @since 4.0
      */
     public boolean is3xxRedirection() {
         return (series() == Series.REDIRECTION);
@@ -496,7 +489,6 @@ public enum HttpStatus {
      * This is a shortcut for checking the value of {@link #series()}.
      *
      * @see #series()
-     * @since 4.0
      */
     public boolean is4xxClientError() {
         return (series() == Series.CLIENT_ERROR);
@@ -508,7 +500,6 @@ public enum HttpStatus {
      * This is a shortcut for checking the value of {@link #series()}.
      *
      * @see #series()
-     * @since 4.0
      */
     public boolean is5xxServerError() {
         return (series() == Series.SERVER_ERROR);
@@ -522,7 +513,6 @@ public enum HttpStatus {
      *
      * @see #is4xxClientError()
      * @see #is5xxServerError()
-     * @since 5.0
      */
     public boolean isError() {
         return (is4xxClientError() || is5xxServerError());
@@ -557,7 +547,6 @@ public enum HttpStatus {
      *
      * @param statusCode the HTTP status code (potentially non-standard)
      * @return the corresponding {@code HttpStatus}, or {@code null} if not found
-     * @since 5.0
      */
     public static HttpStatus resolve(int statusCode) {
         for (HttpStatus status : values()) {
@@ -638,7 +627,6 @@ public enum HttpStatus {
          *
          * @param statusCode the HTTP status code (potentially non-standard)
          * @return the corresponding {@code Series}, or {@code null} if not found
-         * @since 5.1.3
          */
         public static Series resolve(int statusCode) {
             int seriesCode = statusCode / 100;

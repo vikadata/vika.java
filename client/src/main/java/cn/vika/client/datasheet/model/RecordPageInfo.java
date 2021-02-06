@@ -1,8 +1,9 @@
 package cn.vika.client.datasheet.model;
 
 import java.util.HashMap;
+import java.util.List;
 
-import cn.vika.api.model.AbstractModel;
+import cn.vika.client.api.model.AbstractModel;
 
 /**
  * record page response info
@@ -11,6 +12,7 @@ import cn.vika.api.model.AbstractModel;
  * @date 2020-12-16 14:10:31
  */
 public class RecordPageInfo extends AbstractModel {
+
     /**
      * page number
      */
@@ -20,7 +22,7 @@ public class RecordPageInfo extends AbstractModel {
 
     private Integer total;
 
-    private RecordInfo[] records;
+    private List<RecordDetail> records;
 
     public Integer getPageNum() {
         return pageNum;
@@ -46,11 +48,11 @@ public class RecordPageInfo extends AbstractModel {
         this.total = total;
     }
 
-    public RecordInfo[] getRecords() {
+    public List<RecordDetail> getRecords() {
         return records;
     }
 
-    public void setRecords(RecordInfo[] records) {
+    public void setRecords(List<RecordDetail> records) {
         this.records = records;
     }
 

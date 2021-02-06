@@ -23,13 +23,11 @@ import java.io.InputStream;
 import java.io.PushbackInputStream;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.util.HashMap;
 import java.util.Map;
 
+import cn.vika.core.exception.HttpClientException;
 import cn.vika.core.utils.JacksonConverter;
 import cn.vika.core.utils.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Http Client implementation IHttpClient interface
@@ -39,11 +37,9 @@ import org.slf4j.LoggerFactory;
  */
 public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultHttpClient.class);
-
     private final UriHandler uriHandler;
 
-    private final Map<String, String> defaultHeaders = new HashMap<>();
+    private final HttpHeader defaultHeaders = HttpHeader.EMPTY;
 
     public DefaultHttpClient() {
         // init default uri handler
@@ -70,7 +66,11 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
     }
 
     public void addGlobalHeader(String headerName, String headerValue) {
-        defaultHeaders.put(headerName, headerValue);
+        defaultHeaders.add(headerName, headerValue);
+    }
+
+    public void addGlobalHeader(HttpHeader headers) {
+        defaultHeaders.putAll(headers);
     }
 
     public void setDefaultUriVariables(Map<String, ?> uriVars) {
@@ -85,38 +85,42 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
         return this.uriHandler;
     }
 
+    public void setErrorHandler(HttpResponseErrorHandler errorHandler) {
+        this.errorHandler = errorHandler;
+    }
+
     // GET Request
 
     @Override
-    public <T> T get(URI uri, HttpHeader header, Class<T> responseType) {
+    public <T> T get(URI uri, HttpHeader header, Class<T> responseType) throws HttpClientException {
         RequestWrapper requestWrapper = new OnlyHeaderWrapper(header);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType);
         return execute(uri, HttpMethod.GET, requestWrapper, responseHandler);
     }
 
     @Override
-    public <T> T get(String urlTemplate, HttpHeader header, Class<T> responseType, Object... uriVariables) {
+    public <T> T get(String urlTemplate, HttpHeader header, Class<T> responseType, Object... uriVariables) throws HttpClientException {
         RequestWrapper requestWrapper = new OnlyHeaderWrapper(header);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType);
         return execute(urlTemplate, HttpMethod.GET, requestWrapper, responseHandler, uriVariables);
     }
 
     @Override
-    public <T> T get(String urlTemplate, HttpHeader header, Class<T> responseType, Map<String, ?> uriVariables) {
+    public <T> T get(String urlTemplate, HttpHeader header, Class<T> responseType, Map<String, ?> uriVariables) throws HttpClientException{
         RequestWrapper requestWrapper = new OnlyHeaderWrapper(header);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType);
         return execute(urlTemplate, HttpMethod.GET, requestWrapper, responseHandler, uriVariables);
     }
 
     @Override
-    public <T> T get(String urlTemplate, HttpHeader header, GenericTypeReference<T> responseType, Map<String, ?> uriVariables) {
+    public <T> T get(String urlTemplate, HttpHeader header, GenericTypeReference<T> responseType, Map<String, ?> uriVariables) throws HttpClientException{
         RequestWrapper requestWrapper = new OnlyHeaderWrapper(header);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType.getType());
         return execute(urlTemplate, HttpMethod.GET, requestWrapper, responseHandler, uriVariables);
     }
 
     @Override
-    public <T> T get(String urlTemplate, HttpHeader header, GenericTypeReference<T> responseType, Object... uriVariables) {
+    public <T> T get(String urlTemplate, HttpHeader header, GenericTypeReference<T> responseType, Object... uriVariables)throws HttpClientException  {
         RequestWrapper requestWrapper = new OnlyHeaderWrapper(header);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType.getType());
         return execute(urlTemplate, HttpMethod.GET, requestWrapper, responseHandler, uriVariables);
@@ -125,35 +129,35 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
     // POST Request
 
     @Override
-    public <T> T post(URI uri, HttpHeader header, Object requestBody, Class<T> responseType) {
+    public <T> T post(URI uri, HttpHeader header, Object requestBody, Class<T> responseType) throws HttpClientException{
         RequestWrapper requestWrapper = new RequestBodyWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType);
         return execute(uri, HttpMethod.POST, requestWrapper, responseHandler);
     }
 
     @Override
-    public <T> T post(String urlTemplate, HttpHeader header, Object requestBody, Class<T> responseType, Object... uriVariables) {
+    public <T> T post(String urlTemplate, HttpHeader header, Object requestBody, Class<T> responseType, Object... uriVariables)throws HttpClientException {
         RequestWrapper requestWrapper = new RequestBodyWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType);
         return execute(urlTemplate, HttpMethod.POST, requestWrapper, responseHandler, uriVariables);
     }
 
     @Override
-    public <T> T post(String urlTemplate, HttpHeader header, Object requestBody, Class<T> responseType, Map<String, ?> uriVariables) {
+    public <T> T post(String urlTemplate, HttpHeader header, Object requestBody, Class<T> responseType, Map<String, ?> uriVariables) throws HttpClientException{
         RequestWrapper requestWrapper = new RequestBodyWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType);
         return execute(urlTemplate, HttpMethod.POST, requestWrapper, responseHandler, uriVariables);
     }
 
     @Override
-    public <T> T post(String urlTemplate, HttpHeader header, Object requestBody, GenericTypeReference<T> responseType, Map<String, ?> uriVariables) {
+    public <T> T post(String urlTemplate, HttpHeader header, Object requestBody, GenericTypeReference<T> responseType, Map<String, ?> uriVariables)throws HttpClientException {
         RequestWrapper requestWrapper = new RequestBodyWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType.getType());
         return execute(urlTemplate, HttpMethod.POST, requestWrapper, responseHandler, uriVariables);
     }
 
     @Override
-    public <T> T post(String urlTemplate, HttpHeader header, Object requestBody, GenericTypeReference<T> responseType, Object... uriVariables) {
+    public <T> T post(String urlTemplate, HttpHeader header, Object requestBody, GenericTypeReference<T> responseType, Object... uriVariables) throws HttpClientException{
         RequestWrapper requestWrapper = new RequestBodyWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType.getType());
         return execute(urlTemplate, HttpMethod.POST, requestWrapper, responseHandler, uriVariables);
@@ -162,35 +166,35 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
     // PUT Method
 
     @Override
-    public <T> T put(URI uri, HttpHeader header, Object requestBody, Class<T> responseType) {
+    public <T> T put(URI uri, HttpHeader header, Object requestBody, Class<T> responseType) throws HttpClientException{
         RequestWrapper requestWrapper = new RequestBodyWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType);
         return execute(uri, HttpMethod.PUT, requestWrapper, responseHandler);
     }
 
     @Override
-    public <T> T put(String urlTemplate, HttpHeader header, Object requestBody, Class<T> responseType, Object... uriVariables) {
+    public <T> T put(String urlTemplate, HttpHeader header, Object requestBody, Class<T> responseType, Object... uriVariables)throws HttpClientException {
         RequestWrapper requestWrapper = new RequestBodyWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType);
         return execute(urlTemplate, HttpMethod.PUT, requestWrapper, responseHandler, uriVariables);
     }
 
     @Override
-    public <T> T put(String urlTemplate, HttpHeader header, Object requestBody, Class<T> responseType, Map<String, ?> uriVariables) {
+    public <T> T put(String urlTemplate, HttpHeader header, Object requestBody, Class<T> responseType, Map<String, ?> uriVariables) throws HttpClientException{
         RequestWrapper requestWrapper = new RequestBodyWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType);
         return execute(urlTemplate, HttpMethod.PUT, requestWrapper, responseHandler, uriVariables);
     }
 
     @Override
-    public <T> T put(String urlTemplate, HttpHeader header, Object requestBody, GenericTypeReference<T> responseType, Map<String, ?> uriVariables) {
+    public <T> T put(String urlTemplate, HttpHeader header, Object requestBody, GenericTypeReference<T> responseType, Map<String, ?> uriVariables) throws HttpClientException{
         RequestWrapper requestWrapper = new RequestBodyWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType.getType());
         return execute(urlTemplate, HttpMethod.PUT, requestWrapper, responseHandler, uriVariables);
     }
 
     @Override
-    public <T> T put(String urlTemplate, HttpHeader header, Object requestBody, GenericTypeReference<T> responseType, Object... uriVariables) {
+    public <T> T put(String urlTemplate, HttpHeader header, Object requestBody, GenericTypeReference<T> responseType, Object... uriVariables)throws HttpClientException {
         RequestWrapper requestWrapper = new RequestBodyWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType.getType());
         return execute(urlTemplate, HttpMethod.PUT, requestWrapper, responseHandler, uriVariables);
@@ -199,35 +203,35 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
     // PATCH Method
 
     @Override
-    public <T> T patch(URI uri, HttpHeader header, Object requestBody, Class<T> responseType) {
+    public <T> T patch(URI uri, HttpHeader header, Object requestBody, Class<T> responseType) throws HttpClientException{
         RequestWrapper requestWrapper = new RequestBodyWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType);
         return execute(uri, HttpMethod.PATCH, requestWrapper, responseHandler);
     }
 
     @Override
-    public <T> T patch(String urlTemplate, HttpHeader header, Object requestBody, Class<T> responseType, Object... uriVariables) {
+    public <T> T patch(String urlTemplate, HttpHeader header, Object requestBody, Class<T> responseType, Object... uriVariables) throws HttpClientException{
         RequestWrapper requestWrapper = new RequestBodyWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType);
         return execute(urlTemplate, HttpMethod.PATCH, requestWrapper, responseHandler, uriVariables);
     }
 
     @Override
-    public <T> T patch(String urlTemplate, HttpHeader header, Object requestBody, Class<T> responseType, Map<String, ?> uriVariables) {
+    public <T> T patch(String urlTemplate, HttpHeader header, Object requestBody, Class<T> responseType, Map<String, ?> uriVariables) throws HttpClientException{
         RequestWrapper requestWrapper = new RequestBodyWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType);
         return execute(urlTemplate, HttpMethod.PATCH, requestWrapper, responseHandler, uriVariables);
     }
 
     @Override
-    public <T> T patch(String urlTemplate, HttpHeader header, Object requestBody, GenericTypeReference<T> responseType, Map<String, ?> uriVariables) {
+    public <T> T patch(String urlTemplate, HttpHeader header, Object requestBody, GenericTypeReference<T> responseType, Map<String, ?> uriVariables) throws HttpClientException{
         RequestWrapper requestWrapper = new RequestBodyWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType.getType());
         return execute(urlTemplate, HttpMethod.PATCH, requestWrapper, responseHandler, uriVariables);
     }
 
     @Override
-    public <T> T patch(String urlTemplate, HttpHeader header, Object requestBody, GenericTypeReference<T> responseType, Object... uriVariables) {
+    public <T> T patch(String urlTemplate, HttpHeader header, Object requestBody, GenericTypeReference<T> responseType, Object... uriVariables) throws HttpClientException{
         RequestWrapper requestWrapper = new RequestBodyWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType.getType());
         return execute(urlTemplate, HttpMethod.PATCH, requestWrapper, responseHandler, uriVariables);
@@ -236,35 +240,35 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
     // DELETE Method
 
     @Override
-    public <T> T delete(URI uri, HttpHeader header, Class<T> responseType) {
+    public <T> T delete(URI uri, HttpHeader header, Class<T> responseType) throws HttpClientException{
         RequestWrapper requestWrapper = new OnlyHeaderWrapper(header);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType);
         return execute(uri, HttpMethod.GET, requestWrapper, responseHandler);
     }
 
     @Override
-    public <T> T delete(String urlTemplate, HttpHeader header, Class<T> responseType, Object... uriVariables) {
+    public <T> T delete(String urlTemplate, HttpHeader header, Class<T> responseType, Object... uriVariables) throws HttpClientException{
         RequestWrapper requestWrapper = new OnlyHeaderWrapper(header);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType);
         return execute(urlTemplate, HttpMethod.DELETE, requestWrapper, responseHandler, uriVariables);
     }
 
     @Override
-    public <T> T delete(String urlTemplate, HttpHeader header, Class<T> responseType, Map<String, ?> uriVariables) {
+    public <T> T delete(String urlTemplate, HttpHeader header, Class<T> responseType, Map<String, ?> uriVariables) throws HttpClientException{
         RequestWrapper requestWrapper = new OnlyHeaderWrapper(header);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType);
         return execute(urlTemplate, HttpMethod.DELETE, requestWrapper, responseHandler, uriVariables);
     }
 
     @Override
-    public <T> T delete(String urlTemplate, HttpHeader header, GenericTypeReference<T> responseType, Object... uriVariables) {
+    public <T> T delete(String urlTemplate, HttpHeader header, GenericTypeReference<T> responseType, Object... uriVariables) throws HttpClientException{
         RequestWrapper requestWrapper = new OnlyHeaderWrapper(header);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType.getType());
         return execute(urlTemplate, HttpMethod.DELETE, requestWrapper, responseHandler, uriVariables);
     }
 
     @Override
-    public <T> T delete(String urlTemplate, HttpHeader header, GenericTypeReference<T> responseType, Map<String, ?> uriVariables) {
+    public <T> T delete(String urlTemplate, HttpHeader header, GenericTypeReference<T> responseType, Map<String, ?> uriVariables)throws HttpClientException {
         RequestWrapper requestWrapper = new OnlyHeaderWrapper(header);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType.getType());
         return execute(urlTemplate, HttpMethod.DELETE, requestWrapper, responseHandler, uriVariables);
@@ -273,7 +277,7 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
     // UPLOAD
 
     @Override
-    public <T> T upload(String urlTemplate, HttpHeader header, byte[] requestBody, GenericTypeReference<T> responseType) {
+    public <T> T upload(String urlTemplate, HttpHeader header, byte[] requestBody, GenericTypeReference<T> responseType) throws HttpClientException{
         RequestWrapper requestWrapper = new RequestMultipartWrapper(header, requestBody);
         ResponseHandler<T> responseHandler = new ResponseBodyExtractHandler<>(responseType.getType());
         return execute(urlTemplate, HttpMethod.POST, requestWrapper, responseHandler);
@@ -281,19 +285,19 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
 
     // Core Method
 
-    protected <T> T execute(URI uri, HttpMethod method, RequestWrapper requestWrapper, ResponseHandler<T> responseHandler) {
+    protected <T> T execute(URI uri, HttpMethod method, RequestWrapper requestWrapper, ResponseHandler<T> responseHandler) throws HttpClientException{
         // do execute
         return doExecute(uri, method, requestWrapper, responseHandler);
     }
 
-    protected <T> T execute(String urlTemplate, HttpMethod method, RequestWrapper requestWrapper, ResponseHandler<T> responseHandler, Object... uriVariables) {
+    protected <T> T execute(String urlTemplate, HttpMethod method, RequestWrapper requestWrapper, ResponseHandler<T> responseHandler, Object... uriVariables) throws HttpClientException{
         // encode uri with object type variables
         URI expandedUri = getUriHandler().format(urlTemplate, uriVariables);
         // do execute
         return doExecute(expandedUri, method, requestWrapper, responseHandler);
     }
 
-    protected <T> T execute(String urlTemplate, HttpMethod method, RequestWrapper requestWrapper, ResponseHandler<T> responseHandler, Map<String, ?> uriVariables) {
+    protected <T> T execute(String urlTemplate, HttpMethod method, RequestWrapper requestWrapper, ResponseHandler<T> responseHandler, Map<String, ?> uriVariables) throws HttpClientException{
         // encode uri with map type variables
         URI expandedUri = getUriHandler().format(urlTemplate, uriVariables);
         // do execute
@@ -317,7 +321,7 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
 
             if (!defaultHeaders.isEmpty()) {
                 HttpHeader httpHeader = request.getHeaders();
-                defaultHeaders.forEach(httpHeader::add);
+                defaultHeaders.forEach(httpHeader::put);
             }
         }
     }
@@ -377,6 +381,7 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
                 return null;
             }
             InputStream body = getBody(response);
+
             return JacksonConverter.toGenericBean(body, responseType);
         }
 

@@ -16,22 +16,33 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.core.exception;
+package cn.vika.client.api;
 
 /**
- * Base Http Client Exception
+ *
  * @author Shawn Deng
- * @date 2020-11-11 23:55:45
+ * @date 2021-02-05 18:22:10
  */
-public class HttpClientException extends RuntimeException {
+public interface Constants {
 
-    private static final long serialVersionUID = 8823763329544096996L;
+    String PAGE_NUM = "pageNum";
 
-    public HttpClientException(String message) {
-        super(message);
-    }
+    String PAGE_SIZE = "pageSize";
 
-    public HttpClientException(String message, Throwable cause) {
-        super(message, cause);
-    }
+    String SORT = "sort";
+
+    String VIEW_ID = "viewId";
+
+    String RECORD_IDS = "recordIds";
+
+    String FIELDS = "fields";
+
+    String FILTER_BY_FORMULA = "filterByFormula";
+
+    String MAX_RECORDS = "maxRecords";
+
+    String CELL_FORMAT = "cellFormat";
+
+    String FIELD_KEY = "fieldKey";
+
 }

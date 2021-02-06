@@ -1,7 +1,7 @@
-package cn.vika.api.datasheet;
+package cn.vika.client.api.datasheet;
 
-import cn.vika.api.model.AbstractModel;
-import cn.vika.api.model.HttpResult;
+import cn.vika.client.api.model.AbstractModel;
+import cn.vika.client.api.model.HttpResult;
 import cn.vika.core.http.GenericTypeReference;
 
 /**
@@ -18,7 +18,7 @@ public interface IRecordApi {
      * @param responseType response type
      * @return responseType
      */
-    <T> T getRecords(AbstractModel params, GenericTypeReference<HttpResult<T>> responseType);
+    <T> T getRecords(String datasheetId, AbstractModel params, GenericTypeReference<HttpResult<T>> responseType);
 
     /**
      * add records
@@ -27,7 +27,7 @@ public interface IRecordApi {
      * @param responseType response type
      * @return responseType
      */
-    <T> T addRecords(AbstractModel model, GenericTypeReference<HttpResult<T>> responseType);
+    <T> T addRecords(String datasheetId, AbstractModel model, GenericTypeReference<HttpResult<T>> responseType);
 
     /**
      * modify record
@@ -36,7 +36,7 @@ public interface IRecordApi {
      * @param responseType response type
      * @return responseType
      */
-    <T> T modifyRecords(AbstractModel model, GenericTypeReference<HttpResult<T>> responseType);
+    <T> T modifyRecords(String datasheetId, AbstractModel model, GenericTypeReference<HttpResult<T>> responseType);
 
     /**
      * delete records
@@ -44,5 +44,5 @@ public interface IRecordApi {
      * @param model body data for post
      * @return boolean
      */
-    boolean deleteRecords(AbstractModel model);
+    boolean deleteRecords(String datasheetId, AbstractModel model);
 }

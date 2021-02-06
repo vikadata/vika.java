@@ -1,7 +1,7 @@
-package cn.vika.api.datasheet;
+package cn.vika.client.api.datasheet;
 
-import cn.vika.api.model.AbstractModel;
-import cn.vika.api.model.HttpResult;
+import cn.vika.client.api.model.AbstractModel;
+import cn.vika.client.api.model.HttpResult;
 import cn.vika.core.http.GenericTypeReference;
 
 /**
@@ -19,5 +19,5 @@ public interface IAttachmentApi {
      * @param responseType response type
      * @return responseType
      */
-    <T> T uploadAttachment(AbstractModel params, GenericTypeReference<HttpResult<T>> responseType) throws Exception;
+    <T> T uploadAttachment(String datasheetId, AbstractModel params, GenericTypeReference<HttpResult<T>> responseType) throws Exception;
 }

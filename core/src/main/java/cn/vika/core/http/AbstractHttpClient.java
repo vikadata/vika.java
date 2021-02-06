@@ -21,9 +21,8 @@ package cn.vika.core.http;
 import java.io.IOException;
 import java.net.URI;
 
+import cn.vika.core.exception.HttpClientException;
 import cn.vika.core.utils.AssertUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * abstract http client class
@@ -33,12 +32,15 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractHttpClient {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractHttpClient.class);
-
     /**
      * Default implementation OkhttpClient
      */
     private ClientHttpRequestFactory requestFactory = new OkHttpClientHttpRequestFactory();
+
+    /**
+     * default response error handler, you can override this handler if deal with self
+     */
+    protected HttpResponseErrorHandler errorHandler = new DefaultHttpResponseErrorHandler();
 
     /**
      * Set the request factory that this accessor uses for obtaining client request handles.
@@ -73,13 +75,10 @@ public abstract class AbstractHttpClient {
         return getRequestFactory().createRequest(uri, method);
     }
 
-    protected <T> T doExecute(URI uri, HttpMethod method, RequestWrapper requestWrapper, ResponseHandler<T> responseHandler) {
+    protected <T> T doExecute(URI uri, HttpMethod method, RequestWrapper requestWrapper, ResponseHandler<T> responseHandler) throws HttpClientException {
         // asset param non null
         AssertUtil.notNull(uri, "URI is required");
         AssertUtil.notNull(method, "HttpMethod is required");
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Http Request: {}", uri.toString());
-        }
         ClientHttpResponse response = null;
         try {
             // create Request instance
@@ -90,6 +89,8 @@ public abstract class AbstractHttpClient {
             }
             // execute request
             response = request.execute();
+            // handler error if hasError
+            handlerResponse(response);
             // in case of response interceptor
             return (responseHandler != null ? responseHandler.extractData(response) : null);
         }
@@ -104,6 +105,24 @@ public abstract class AbstractHttpClient {
             if (response != null) {
                 response.close();
             }
+        }
+    }
+
+    public HttpResponseErrorHandler getErrorHandler() {
+        return this.errorHandler;
+    }
+
+    private void handlerResponse(ClientHttpResponse response) throws IOException {
+        HttpResponseErrorHandler errorHandler = getErrorHandler();
+        boolean hasError = errorHandler.hasError(response);
+        if (hasError) {
+            errorHandler.handlerError(response);
+        }
+        try {
+            errorHandler.handleCustomError(response);
+        }
+        catch (Exception e) {
+            throw new HttpClientException(e.getMessage(), e);
         }
     }
 }

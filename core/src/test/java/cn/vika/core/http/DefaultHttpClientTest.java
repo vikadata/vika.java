@@ -22,8 +22,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static cn.vika.core.http.HttpHeader.AUTHORIZATION;
-
 /**
  * unit test for {@link DefaultHttpClient}
  *
@@ -36,7 +34,7 @@ public class DefaultHttpClientTest {
 
 //    @BeforeEach
     public void setup() {
-        httpClient.addGlobalHeader(AUTHORIZATION, "Bearer usk9Urb7NLr8b42SJCIH42J");
+//        httpClient.addGlobalHeader(AUTHORIZATION, "Bearer usk9Urb7NLr8b42SJCIH42J");
     }
 
 //    @Test
