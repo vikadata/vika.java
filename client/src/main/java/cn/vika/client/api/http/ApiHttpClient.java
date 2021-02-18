@@ -22,7 +22,6 @@ import cn.vika.core.http.ClientHttpRequestFactory;
 import cn.vika.core.http.DefaultHttpClient;
 import cn.vika.core.http.HttpHeader;
 import cn.vika.core.http.OkHttpClientHttpRequestFactory;
-import cn.vika.core.utils.AssertUtil;
 
 /**
  * api http client
@@ -41,29 +40,23 @@ public class ApiHttpClient {
         }
     }
 
-    private static final String DEFAULT_HOST = "https://vika.cn";
-
     public static final int DEFAULT_PER_PAGE = 100;
+
+    public static final int DEFAULT_CONNECT_TIMEOUT = 60000;
+
+    public static final int DEFAULT_READ_TIMEOUT = 60000;
 
     private DefaultHttpClient defaultHttpClient;
 
     private int defaultPerPage = DEFAULT_PER_PAGE;
 
-    private String baseUrl;
+    private Integer connectTimeout = DEFAULT_CONNECT_TIMEOUT;
 
-    private Integer connectTimeout;
-
-    private Integer readTimeout;
-
-    public ApiHttpClient(ApiVersion apiVersion, ApiCredential apiCredential) {
-        this(apiVersion, DEFAULT_HOST, apiCredential);
-    }
+    private Integer readTimeout = DEFAULT_READ_TIMEOUT;
 
     public ApiHttpClient(ApiVersion apiVersion, String baseUrl, ApiCredential apiCredential) {
-        AssertUtil.isTrue(baseUrl.equals(DEFAULT_HOST), "Illegal baseUrl, only development");
-        this.baseUrl = baseUrl;
-        this.baseUrl += apiVersion.getApiNamespace();
-        this.defaultHttpClient = new DefaultHttpClient(this.baseUrl);
+        baseUrl += apiVersion.getApiNamespace();
+        this.defaultHttpClient = new DefaultHttpClient(baseUrl);
         HttpHeader header = setDefaultHeader(apiCredential);
         this.defaultHttpClient.addGlobalHeader(header);
     }
