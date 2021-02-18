@@ -41,12 +41,6 @@ public class RecordApi extends AbstractApi {
         super(apiHttpClient);
     }
 
-    /**
-     * Warning:
-     * @param datasheetId
-     * @return
-     * @throws ApiException
-     */
     public List<RecordDetail> getRecords(String datasheetId) throws ApiException {
         return getRecords(datasheetId, getDefaultPerPage()).all();
     }
