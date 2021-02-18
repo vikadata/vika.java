@@ -25,7 +25,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- *
+ * I/O util class
  * @author Shawn Deng
  * @date 2021-02-06 14:43:00
  */
