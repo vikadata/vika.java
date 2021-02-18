@@ -135,12 +135,12 @@ public class Pager<T> implements Iterator<List<T>> {
         throw new UnsupportedOperationException();
     }
 
-    public List<T> first() throws ApiException {
-        return (page(1));
+    public List<T> first() {
+        return page(1);
     }
 
-    public List<T> last() throws ApiException {
-        return (page(totalPages));
+    public List<T> last() {
+        return page(totalPages);
     }
 
     public List<T> page(int pageNumber) {
@@ -163,6 +163,12 @@ public class Pager<T> implements Iterator<List<T>> {
         queryParam.withParam(PAGE_NUM, Integer.toString(pageNumber));
         Map<String, String> uriVariables = queryParam.toMap();
         GenericTypeReference<HttpResult<PageDetail<T>>> reference = new GenericTypeReference<HttpResult<PageDetail<T>>>() {};
+        try {
+            Thread.sleep(100);
+        }
+        catch (InterruptedException e) {
+            // do Nothing
+        }
         HttpResult<PageDetail<T>> result = api.getDefaultHttpClient().get(url + MapUtil.extractKeyToVariables(uriVariables), HttpHeader.EMPTY, reference, uriVariables);
         this.currentItems = JacksonConverter.toGenericBean(result.getData().getRecords(), javaType);
         this.currentPage = pageNumber;
@@ -170,9 +176,9 @@ public class Pager<T> implements Iterator<List<T>> {
     }
 
     /**
-     *
-     * @return item List
-     * @throws ApiException
+     * Gets all the items from each page
+     * @return all the items
+     * @throws ApiException if any error occurs
      */
     public List<T> all() throws ApiException {
 
@@ -189,7 +195,7 @@ public class Pager<T> implements Iterator<List<T>> {
         return allItems;
     }
 
-    public Stream<T> stream() throws ApiException, IllegalStateException {
+    public Stream<T> stream() throws IllegalStateException {
         if (pagerStream == null) {
             synchronized (this) {
                 if (pagerStream == null) {
