@@ -32,6 +32,8 @@ import cn.vika.client.api.http.ApiHttpClient.ApiVersion;
  */
 public class VikaApiClient {
 
+    private static final String DEFAULT_HOST = "https://api.vika.cn";
+
     private final ApiVersion apiVersion;
 
     private final ApiCredential credential;
@@ -47,13 +49,17 @@ public class VikaApiClient {
     private AttachmentApiClient attachmentApiClient;
 
     public VikaApiClient(ApiCredential credential) {
-        this(ApiVersion.V1, credential);
+        this(ApiVersion.V1, DEFAULT_HOST, credential);
     }
 
-    public VikaApiClient(ApiVersion apiVersion, ApiCredential credential) {
+    public VikaApiClient(String hostUrl, ApiCredential credential) {
+        this(ApiVersion.V1, hostUrl, credential);
+    }
+
+    public VikaApiClient(ApiVersion apiVersion, String hostUrl, ApiCredential credential) {
         this.apiVersion = apiVersion;
         this.credential = credential;
-        this.apiHttpClient = new ApiHttpClient(apiVersion, credential);
+        this.apiHttpClient = new ApiHttpClient(apiVersion, hostUrl, credential);
     }
 
     /**
