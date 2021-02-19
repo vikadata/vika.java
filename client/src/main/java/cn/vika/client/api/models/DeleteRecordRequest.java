@@ -16,26 +16,32 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.datasheet;
+package cn.vika.client.api.models;
+
+import java.util.HashMap;
 
 import cn.vika.client.api.model.AbstractModel;
-import cn.vika.client.api.model.HttpResult;
-import cn.vika.core.http.GenericTypeReference;
 
 /**
- * attachment api
+ * create record request params
  *
  * @author Zoe Zheng
- * @date 2020-12-17 16:15:54
+ * @date 2020-12-17 11:22:01
  */
-public interface IAttachmentApi {
+public class DeleteRecordRequest extends AbstractModel {
 
-    /**
-     * upload datasheet attachment
-     *
-     * @param params add attachment data
-     * @param responseType response type
-     * @return responseType
-     */
-    <T> T uploadAttachment(String datasheetId, AbstractModel params, GenericTypeReference<HttpResult<T>> responseType) throws Exception;
+    private String[] recordIds;
+
+    public String[] getRecordIds() {
+        return recordIds;
+    }
+
+    public void setRecordIds(String[] recordIds) {
+        this.recordIds = recordIds;
+    }
+
+    @Override
+    public void toMap(HashMap<String, String> map, String prefix) {
+        setParamArraySimple(map, prefix + "recordIds", recordIds);
+    }
 }

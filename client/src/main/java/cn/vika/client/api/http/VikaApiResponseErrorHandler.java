@@ -30,9 +30,6 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static cn.vika.client.api.exception.ApiException.DEFAULT_CODE;
-import static cn.vika.client.api.exception.ApiException.DEFAULT_ERROR_MESSAGE;
-
 /**
  * vika rest api error handler
  * @author Shawn Deng
@@ -48,8 +45,8 @@ public class VikaApiResponseErrorHandler extends DefaultHttpResponseErrorHandler
             JsonNode jsonNode = mapper.readValue(responseBody, JsonNode.class);
             boolean success = jsonNode.has("success") && jsonNode.get("success").asBoolean(false);
             if (!success) {
-                int code = jsonNode.has("code") ? jsonNode.get("code").intValue() : DEFAULT_CODE;
-                String message = jsonNode.has("message") ? jsonNode.get("message").asText() : DEFAULT_ERROR_MESSAGE;
+                int code = jsonNode.has("code") ? jsonNode.get("code").intValue() : ApiException.DEFAULT_CODE;
+                String message = jsonNode.has("message") ? jsonNode.get("message").asText() : ApiException.DEFAULT_ERROR_MESSAGE;
 
                 throw new ApiException(code, message);
             }

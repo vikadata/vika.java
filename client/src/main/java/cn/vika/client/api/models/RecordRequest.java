@@ -16,14 +16,39 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.datasheet.model;
+package cn.vika.client.api.models;
+
+import java.util.HashMap;
+
+import cn.vika.client.api.model.AbstractModel;
 
 /**
+ * create record request params
  *
- * @author Shawn Deng
- * @date 2021-02-05 20:46:50
+ * @author Zoe Zheng
+ * @date 2020-12-17 11:22:01
  */
-public enum CellFormat {
+public class RecordRequest extends AbstractModel {
 
-    JSON, STRING
+    private RecordDetail[] records;
+    private String fieldKey;
+
+    public RecordDetail[] getRecords() {
+        return records;
+    }
+
+    public void setRecords(RecordDetail[] records) {
+        this.records = records;
+    }
+
+    public String getFieldKey() {
+        return fieldKey;
+    }
+
+    public void setFieldKey(String fieldKey) {
+        this.fieldKey = fieldKey;
+    }
+
+    @Override
+    public void toMap(HashMap<String, String> map, String prefix) {}
 }

@@ -16,26 +16,45 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.datasheet;
+package cn.vika.client.api.models;
 
-import cn.vika.client.api.model.AbstractModel;
-import cn.vika.client.api.model.HttpResult;
-import cn.vika.core.http.GenericTypeReference;
+import java.util.List;
 
 /**
- * attachment api
+ * create record request params
  *
  * @author Zoe Zheng
- * @date 2020-12-17 16:15:54
+ * @date 2020-12-17 11:22:01
  */
-public interface IAttachmentApi {
+public class Record {
 
-    /**
-     * upload datasheet attachment
-     *
-     * @param params add attachment data
-     * @param responseType response type
-     * @return responseType
-     */
-    <T> T uploadAttachment(String datasheetId, AbstractModel params, GenericTypeReference<HttpResult<T>> responseType) throws Exception;
+    private String fieldKey;
+
+    private List<RecordDetail> records;
+
+    public String getFieldKey() {
+        return fieldKey;
+    }
+
+    public void setFieldKey(String fieldKey) {
+        this.fieldKey = fieldKey;
+    }
+
+    public Record withFieldKey(String fieldKey) {
+        this.fieldKey = fieldKey;
+        return this;
+    }
+
+    public List<RecordDetail> getRecords() {
+        return records;
+    }
+
+    public void setRecords(List<RecordDetail> records) {
+        this.records = records;
+    }
+
+    public Record withRecords(List<RecordDetail> records) {
+        this.records = records;
+        return this;
+    }
 }

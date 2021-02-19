@@ -24,10 +24,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.vika.client.api.models.CellFormat;
+import cn.vika.client.api.models.FieldKey;
+import cn.vika.client.api.models.Order;
 import cn.vika.client.api.util.UrlEncoder;
-import cn.vika.client.datasheet.model.CellFormat;
-import cn.vika.client.datasheet.model.FieldKey;
-import cn.vika.client.datasheet.model.Order;
 
 import static cn.vika.client.api.Constants.CELL_FORMAT;
 import static cn.vika.client.api.Constants.FIELDS;

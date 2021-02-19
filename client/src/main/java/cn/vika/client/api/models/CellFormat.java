@@ -16,26 +16,14 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.datasheet;
-
-import cn.vika.client.api.model.AbstractModel;
-import cn.vika.client.api.model.HttpResult;
-import cn.vika.core.http.GenericTypeReference;
+package cn.vika.client.api.models;
 
 /**
- * attachment api
  *
- * @author Zoe Zheng
- * @date 2020-12-17 16:15:54
+ * @author Shawn Deng
+ * @date 2021-02-05 20:46:50
  */
-public interface IAttachmentApi {
+public enum CellFormat {
 
-    /**
-     * upload datasheet attachment
-     *
-     * @param params add attachment data
-     * @param responseType response type
-     * @return responseType
-     */
-    <T> T uploadAttachment(String datasheetId, AbstractModel params, GenericTypeReference<HttpResult<T>> responseType) throws Exception;
+    JSON, STRING
 }

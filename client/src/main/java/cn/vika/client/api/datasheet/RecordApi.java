@@ -1,5 +1,24 @@
+/*
+ * Copyright (C) 2021 vikadata
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
 package cn.vika.client.api.datasheet;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +32,8 @@ import cn.vika.client.api.model.ApiQueryParam;
 import cn.vika.client.api.model.HttpResult;
 import cn.vika.client.api.model.PageDetail;
 import cn.vika.client.api.model.Pager;
-import cn.vika.client.datasheet.model.Record;
-import cn.vika.client.datasheet.model.RecordDetail;
+import cn.vika.client.api.models.Record;
+import cn.vika.client.api.models.RecordDetail;
 import cn.vika.core.exception.JsonConvertException;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
@@ -66,25 +85,6 @@ public class RecordApi extends AbstractApi {
         return new Pager<>(this, String.format(PATH, datasheetId), queryParam, RecordDetail.class);
     }
 
-    @Deprecated
-    public <T> T getRecords(String datasheetId, AbstractModel model, GenericTypeReference<HttpResult<T>> responseType) throws ApiException {
-        HttpResult<T> result;
-        HashMap<String, String> params = new HashMap<>(10);
-        try {
-            model.toMap(params, "");
-            String uri = basePath(datasheetId) + model.toTemplateUri(params);
-            result = getDefaultHttpClient().get(uri, HttpHeader.EMPTY, responseType, params);
-            if (result.isSuccess()) {
-                return result.getData();
-            }
-        }
-        catch (JsonConvertException e) {
-            throw new ApiException(DEFAULT_CODE, e.getMessage());
-        }
-        throw new ApiException(result.getCode(), result.getMessage());
-
-    }
-
     public RecordDetail addRecords(String datasheetId, Record record) throws ApiException {
         if (!StringUtil.hasText(datasheetId)) {
             throw new ApiException("datasheet id must be not null");
@@ -95,28 +95,31 @@ public class RecordApi extends AbstractApi {
         return getDefaultHttpClient().post(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, RecordDetail.class);
     }
 
-    @Deprecated
-    public <T> T addRecords(String datasheetId, AbstractModel model, GenericTypeReference<HttpResult<T>> responseType) throws ApiException {
-        HttpResult<T> result;
-        try {
-            result = getDefaultHttpClient().post(basePath(datasheetId), HttpHeader.EMPTY, model, responseType);
-            if (result.isSuccess()) {
-                return result.getData();
-            }
+    public RecordDetail updateRecord(String datasheetId, Record record) throws ApiException {
+        if (!StringUtil.hasText(datasheetId)) {
+            throw new ApiException("datasheet id must be not null");
         }
-        catch (JsonConvertException e) {
-            throw new ApiException(DEFAULT_CODE, e.getMessage());
+        if (record == null) {
+            throw new RuntimeException("Record instance cannot be null.");
         }
-        throw new ApiException(result.getCode(), result.getMessage());
+        return getDefaultHttpClient().patch(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, RecordDetail.class);
     }
 
-    /**
-     * modify record
-     *
-     * @param model body data for post
-     * @param responseType response type
-     * @return responseType
-     */
+    public void deleteRecord(String datasheetId, String recordId) throws ApiException {
+        deleteRecords(datasheetId, Collections.singletonList(recordId));
+    }
+
+    public void deleteRecords(String datasheetId, List<String> recordIds) throws ApiException {
+        if (!StringUtil.hasText(datasheetId)) {
+            throw new ApiException("datasheet id must be not null");
+        }
+        if (recordIds != null && !recordIds.isEmpty()) {
+            throw new ApiException("record id array must be not null or empty");
+        }
+        getDefaultHttpClient().delete(String.format(PATH, datasheetId), HttpHeader.EMPTY, Void.class);
+    }
+
+    @Deprecated
     public <T> T modifyRecords(String datasheetId, AbstractModel model, GenericTypeReference<HttpResult<T>> responseType)
             throws ApiException {
         HttpResult<T> result;
@@ -132,12 +135,7 @@ public class RecordApi extends AbstractApi {
         throw new ApiException(result.getCode(), result.getMessage());
     }
 
-    /**
-     * delete records
-     *
-     * @param model body data for post
-     * @return boolean
-     */
+    @Deprecated
     public boolean deleteRecords(String datasheetId, AbstractModel model) throws ApiException {
         GenericTypeReference<HttpResult<Boolean>> responseType = new GenericTypeReference<HttpResult<Boolean>>() {};
         HashMap<String, String> params = new HashMap<>(10);
