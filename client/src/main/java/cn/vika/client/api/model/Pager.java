@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
+import cn.vika.client.api.Constants;
 import cn.vika.client.api.exception.ApiException;
 import cn.vika.client.api.http.AbstractApi;
 import cn.vika.core.http.GenericTypeReference;
@@ -32,8 +33,6 @@ import cn.vika.core.http.HttpHeader;
 import cn.vika.core.utils.JacksonConverter;
 import cn.vika.core.utils.MapUtil;
 import com.fasterxml.jackson.databind.JavaType;
-
-import static cn.vika.client.api.Constants.PAGE_NUM;
 
 /**
  * <p>This class defines an Iterator implementation that is used as a paging iterator for all API methods that
@@ -78,13 +77,15 @@ public class Pager<T> implements Iterator<List<T>> {
         GenericTypeReference<HttpResult<PageDetail<T>>> reference = new GenericTypeReference<HttpResult<PageDetail<T>>>() {};
         String uri = url + MapUtil.extractKeyToVariables(uriVariables);
         HttpResult<PageDetail<T>> result = api.getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
-        this.currentItems = JacksonConverter.toGenericBean(result.getData().getRecords(), javaType);
-        if (this.currentItems == null) {
-            throw new ApiException("Invalid response from server");
+        if (result.getData().getRecords() != null) {
+            this.currentItems = JacksonConverter.toGenericBean(result.getData().getRecords(), javaType);
+            if (this.currentItems == null) {
+                throw new ApiException("Invalid response from server");
+            }
         }
         this.itemsPerPage = result.getData().getPageSize();
         this.totalItems = result.getData().getTotal();
-        this.totalPages = (this.totalItems - 1) / itemsPerPage + 1;
+        this.totalPages = this.totalItems == 0 ? 0 : (this.totalItems - 1) / itemsPerPage + 1;
     }
 
     public Pager(AbstractApi api, String url, ApiQueryParam queryParam, Class<T> type) throws ApiException {
@@ -96,13 +97,15 @@ public class Pager<T> implements Iterator<List<T>> {
         Map<String, String> uriVariables = this.queryParam.toMap();
         String uri = url + MapUtil.extractKeyToVariables(uriVariables);
         HttpResult<PageDetail<T>> result = api.getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
-        this.currentItems = JacksonConverter.toGenericBean(result.getData().getRecords(), javaType);
-        if (this.currentItems == null) {
-            throw new ApiException("Invalid response from server");
+        if (result.getData().getRecords() != null) {
+            this.currentItems = JacksonConverter.toGenericBean(result.getData().getRecords(), javaType);
+            if (this.currentItems == null) {
+                throw new ApiException("Invalid response from server");
+            }
         }
         this.itemsPerPage = result.getData().getPageSize();
         this.totalItems = result.getData().getTotal();
-        this.totalPages = (this.totalItems - 1) / this.itemsPerPage + 1;
+        this.totalPages = this.totalItems == 0 ? 0 : (this.totalItems - 1) / this.itemsPerPage + 1;
     }
 
     public int getCurrentPage() {
@@ -161,7 +164,7 @@ public class Pager<T> implements Iterator<List<T>> {
             return this.currentItems;
         }
 
-        queryParam.withParam(PAGE_NUM, Integer.toString(pageNumber));
+        queryParam.withParam(Constants.PAGE_NUM, Integer.toString(pageNumber));
         Map<String, String> uriVariables = queryParam.toMap();
         GenericTypeReference<HttpResult<PageDetail<T>>> reference = new GenericTypeReference<HttpResult<PageDetail<T>>>() {};
         try {
@@ -172,7 +175,9 @@ public class Pager<T> implements Iterator<List<T>> {
         }
         String uri = url + MapUtil.extractKeyToVariables(uriVariables);
         HttpResult<PageDetail<T>> result = api.getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
-        this.currentItems = JacksonConverter.toGenericBean(result.getData().getRecords(), javaType);
+        if (result.getData().getRecords() != null) {
+            this.currentItems = JacksonConverter.toGenericBean(result.getData().getRecords(), javaType);
+        }
         this.currentPage = pageNumber;
         return this.currentItems;
     }
