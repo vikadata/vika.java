@@ -76,7 +76,8 @@ public class Pager<T> implements Iterator<List<T>> {
         this.queryParam = new ApiQueryParam(1, itemsPerPage);
         Map<String, String> uriVariables = this.queryParam.toMap();
         GenericTypeReference<HttpResult<PageDetail<T>>> reference = new GenericTypeReference<HttpResult<PageDetail<T>>>() {};
-        HttpResult<PageDetail<T>> result = api.getDefaultHttpClient().get(url + MapUtil.extractKeyToVariables(uriVariables), HttpHeader.EMPTY, reference, uriVariables);
+        String uri = url + MapUtil.extractKeyToVariables(uriVariables);
+        HttpResult<PageDetail<T>> result = api.getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
         this.currentItems = JacksonConverter.toGenericBean(result.getData().getRecords(), javaType);
         if (this.currentItems == null) {
             throw new ApiException("Invalid response from server");
@@ -93,8 +94,8 @@ public class Pager<T> implements Iterator<List<T>> {
         javaType = JacksonConverter.getCollectionJavaType(type);
         GenericTypeReference<HttpResult<PageDetail<T>>> reference = new GenericTypeReference<HttpResult<PageDetail<T>>>() {};
         Map<String, String> uriVariables = this.queryParam.toMap();
-        HttpResult<PageDetail<T>> result = api.getDefaultHttpClient().get(url + MapUtil.extractKeyToVariables(uriVariables),
-                HttpHeader.EMPTY, reference, uriVariables);
+        String uri = url + MapUtil.extractKeyToVariables(uriVariables);
+        HttpResult<PageDetail<T>> result = api.getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
         this.currentItems = JacksonConverter.toGenericBean(result.getData().getRecords(), javaType);
         if (this.currentItems == null) {
             throw new ApiException("Invalid response from server");
@@ -169,7 +170,8 @@ public class Pager<T> implements Iterator<List<T>> {
         catch (InterruptedException e) {
             // do Nothing
         }
-        HttpResult<PageDetail<T>> result = api.getDefaultHttpClient().get(url + MapUtil.extractKeyToVariables(uriVariables), HttpHeader.EMPTY, reference, uriVariables);
+        String uri = url + MapUtil.extractKeyToVariables(uriVariables);
+        HttpResult<PageDetail<T>> result = api.getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
         this.currentItems = JacksonConverter.toGenericBean(result.getData().getRecords(), javaType);
         this.currentPage = pageNumber;
         return this.currentItems;
@@ -178,9 +180,8 @@ public class Pager<T> implements Iterator<List<T>> {
     /**
      * Gets all the items from each page
      * @return all the items
-     * @throws ApiException if any error occurs
      */
-    public List<T> all() throws ApiException {
+    public List<T> all() {
 
         // Make sure that current page is 0, this will ensure the whole list is fetched
         // regardless of what page the instance is currently on.
