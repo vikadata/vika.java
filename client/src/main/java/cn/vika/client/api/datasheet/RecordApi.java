@@ -32,9 +32,10 @@ import cn.vika.client.api.model.ApiQueryParam;
 import cn.vika.client.api.model.HttpResult;
 import cn.vika.client.api.model.PageDetail;
 import cn.vika.client.api.model.Pager;
-import cn.vika.client.api.models.CreateRecord;
+import cn.vika.client.api.models.CreateRecordRequest;
 import cn.vika.client.api.models.RecordResult;
 import cn.vika.client.api.models.RecordResultList;
+import cn.vika.client.api.models.UpdateRecordRequest;
 import cn.vika.core.exception.JsonConvertException;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
@@ -86,25 +87,35 @@ public class RecordApi extends AbstractApi {
         return new Pager<>(this, String.format(PATH, datasheetId), queryParam, RecordResult.class);
     }
 
-    public List<RecordResult> addRecords(String datasheetId, CreateRecord record) throws ApiException {
+    public List<RecordResult> addRecords(String datasheetId, CreateRecordRequest record) throws ApiException {
         if (!StringUtil.hasText(datasheetId)) {
             throw new ApiException("datasheet id must be not null");
         }
         if (record == null) {
             return null;
         }
+        if (record.getRecords() == null) {
+            return null;
+        }
+        if (record.getRecords().isEmpty()) {
+            return null;
+        }
+        if (record.getRecords().size() > 10) {
+            // TODO warning client request max add num is 10
+        }
         HttpResult<RecordResultList> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, new GenericTypeReference<HttpResult<RecordResultList>>() {});
         return result.getData().getRecords();
     }
 
-    public RecordResult updateRecords(String datasheetId, RecordResultList record) throws ApiException {
+    public List<RecordResult> updateRecords(String datasheetId, UpdateRecordRequest record) throws ApiException {
         if (!StringUtil.hasText(datasheetId)) {
             throw new ApiException("datasheet id must be not null");
         }
         if (record == null) {
             throw new RuntimeException("Record instance cannot be null.");
         }
-        return getDefaultHttpClient().patch(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, RecordResult.class);
+        HttpResult<RecordResultList> result = getDefaultHttpClient().patch(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, new GenericTypeReference<HttpResult<RecordResultList>>() {});
+        return result.getData().getRecords();
     }
 
     public void deleteRecord(String datasheetId, String recordId) throws ApiException {
@@ -115,10 +126,15 @@ public class RecordApi extends AbstractApi {
         if (!StringUtil.hasText(datasheetId)) {
             throw new ApiException("datasheet id must be not null");
         }
-        if (recordIds != null && !recordIds.isEmpty()) {
-            throw new ApiException("record id array must be not null or empty");
+        if (recordIds == null) {
+            throw new ApiException("record id array must be not null");
         }
-        getDefaultHttpClient().delete(String.format(PATH, datasheetId), HttpHeader.EMPTY, Void.class);
+        if (recordIds.isEmpty()) {
+            throw new ApiException("record id array must be not empty");
+        }
+        Map<String, String> uriVariables = MapUtil.listToUriVariableMap("recordIds", recordIds);
+        String uri = String.format(PATH, datasheetId) + MapUtil.extractKeyToVariables(uriVariables);
+        getDefaultHttpClient().delete(uri, HttpHeader.EMPTY, Void.class, uriVariables);
     }
 
     @Deprecated

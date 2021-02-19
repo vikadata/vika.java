@@ -1,8 +1,8 @@
 [
     {
         "fields": {
-            "ShortText": "This is from unit Test 1",
-            "LongText": "This is from unit Test 1",
+            "ShortText": "This is from unit Test create record 1",
+            "LongText": "This is from unit Test create record 1",
             "Options": [
                 "A"
             ],
@@ -13,8 +13,8 @@
     },
     {
         "fields": {
-            "ShortText": "This is from unit Test 2",
-            "LongText": "This is from unit Test 2",
+            "ShortText": "This is from unit Test create record 2",
+            "LongText": "This is from unit Test create record 2",
             "Options": [
                 "B"
             ],

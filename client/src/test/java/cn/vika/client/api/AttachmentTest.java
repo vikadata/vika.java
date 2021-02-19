@@ -16,38 +16,25 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.models;
+package cn.vika.client.api;
 
-import java.util.Map;
-
-import cn.vika.core.utils.JacksonConverter;
+import java.io.IOException;
 
 /**
+ * attachment test
  *
- * @author Shawn Deng
- * @date 2021-02-19 15:36:51
+ * @author Zoe Zheng
+ * @date 2020-12-17 18:49:24
  */
-public class RecordMap {
+public class AttachmentTest {
 
-    /**
-     * record fields
-     */
-    protected Map<String, Object> fields;
-
-    public Map<String, Object> getFields() {
-        return fields;
-    }
-
-    public void setFields(Map<String, Object> fields) {
-        this.fields = fields;
-    }
-
-    public RecordMap withFields(Map<String, Object> fields) {
-        this.fields = fields;
-        return this;
-    }
-
-    public static <T> Map<String, Object> parseFieldsFromBean(T bean) {
-        return JacksonConverter.toMap(bean);
+    public void testUploadAttachment() throws IOException {
+//        ApiCredential credential = new ApiCredential(System.getenv("VIKA_TOKEN"));
+//        AttachmentRequest param = new AttachmentRequest();
+//        param.setFileName("维格数表通讯录导入模板.xlsx");
+//        param.setFile(Files.readAllBytes(Paths.get("/**/**/维格数表通讯录导入模板.xlsx")));
+//        AttachmentClient attachmentClient = new AttachmentClient(credential, "dst0Yj5aNeoHldqvf6");
+//        AttachmentInfo attachmentInfo = attachmentClient.uploadAttachment(param);
+//        Assertions.assertNotNull(attachmentInfo);
     }
 }

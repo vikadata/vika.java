@@ -1,0 +1,38 @@
+[
+    {
+        "fields": {
+            "ShortText": "This is from unit Test delete one record 1",
+            "LongText": "This is from unit Test delete one record 1",
+            "Options": [
+                "A"
+            ],
+            "MultiSelect": [
+                "JD"
+            ]
+        }
+    },
+    {
+        "fields": {
+            "ShortText": "This is from unit Test delete one record 2",
+            "LongText": "This is from unit Test delete one record 2",
+            "Options": [
+                "A"
+            ],
+            "MultiSelect": [
+                "JD"
+            ]
+        }
+    },
+    {
+        "fields": {
+            "ShortText": "This is from unit Test delete one record 3",
+            "LongText": "This is from unit Test delete one record 3",
+            "Options": [
+                "A"
+            ],
+            "MultiSelect": [
+                "JD"
+            ]
+        }
+    }
+]

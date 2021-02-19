@@ -341,6 +341,7 @@ public class DefaultHttpClient extends AbstractHttpClient implements IHttpClient
             if (requestBody != null) {
                 request.getHeaders().setContentType(HttpMediaType.APPLICATION_JSON);
                 byte[] content = JacksonConverter.toJsonBytes(requestBody);
+                // System.out.println(new String(content, StandardCharsets.UTF_8));
                 request.getBody().write(content);
             }
         }

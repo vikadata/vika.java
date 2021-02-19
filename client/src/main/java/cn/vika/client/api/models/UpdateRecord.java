@@ -18,27 +18,40 @@
 
 package cn.vika.client.api.models;
 
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
- * Create Record Model
+ *
  * @author Shawn Deng
- * @date 2021-02-19 15:41:12
+ * @date 2021-02-19 16:17:16
  */
-public class CreateRecord {
+public class UpdateRecord extends RecordMap {
 
-    private List<RecordMap> records;
+    private String recordId;
 
-    public List<RecordMap> getRecords() {
-        return records;
+    public String getRecordId() {
+        return recordId;
     }
 
-    public void setRecords(List<RecordMap> records) {
-        this.records = records;
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
     }
 
-    public CreateRecord withRecords(List<RecordMap> records) {
-        this.records = records;
+    public UpdateRecord withRecordId(String recordId) {
+        this.recordId = recordId;
         return this;
+    }
+
+    public UpdateRecord withField(String key, Object value) {
+        nullSafeSetFields().put(key, value);
+        return this;
+    }
+
+    private Map<String, Object> nullSafeSetFields() {
+        if (getFields() == null) {
+            setFields(new LinkedHashMap<>());
+        }
+        return getFields();
     }
 }

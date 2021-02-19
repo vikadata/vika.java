@@ -26,7 +26,9 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import org.junit.jupiter.api.Assertions;
 
@@ -56,5 +58,11 @@ public class JacksonJsonUtil {
         Assertions.assertNotNull(in);
         InputStreamReader reader = new InputStreamReader(in);
         return unmarshalList(returnType, reader);
+    }
+
+    static <T> List<T> unmarshalJsonNodeToList(Class<T> returnType, JsonNode root) throws IOException {
+        CollectionType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, returnType);
+        ObjectReader reader = objectMapper.readerFor(javaType);
+        return reader.readValue(root);
     }
 }

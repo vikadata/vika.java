@@ -18,6 +18,8 @@
 
 package cn.vika.core.utils;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,6 +50,22 @@ public class MapUtil {
             }
         }
         return uri;
+    }
+
+    public static Map<String, String> listToUriVariableMap(String keyName, List<String> list) {
+        if (list == null) {
+            return null;
+        }
+
+        if (list.isEmpty()) {
+            return null;
+        }
+
+        Map<String, String> variables = new HashMap<>(list.size());
+        for (int i = 0; i < list.size(); i++) {
+            variables.put(keyName + "." + i, list.get(i));
+        }
+        return variables;
     }
 
     public static String setUriTemplate(String param, String key, String value) {

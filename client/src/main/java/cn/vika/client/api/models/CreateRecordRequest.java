@@ -18,36 +18,27 @@
 
 package cn.vika.client.api.models;
 
-import java.util.Map;
-
-import cn.vika.core.utils.JacksonConverter;
+import java.util.List;
 
 /**
- *
+ * Create Record Model
  * @author Shawn Deng
- * @date 2021-02-19 15:36:51
+ * @date 2021-02-19 15:41:12
  */
-public class RecordMap {
+public class CreateRecordRequest {
 
-    /**
-     * record fields
-     */
-    protected Map<String, Object> fields;
+    private List<RecordMap> records;
 
-    public Map<String, Object> getFields() {
-        return fields;
+    public List<RecordMap> getRecords() {
+        return records;
     }
 
-    public void setFields(Map<String, Object> fields) {
-        this.fields = fields;
+    public void setRecords(List<RecordMap> records) {
+        this.records = records;
     }
 
-    public RecordMap withFields(Map<String, Object> fields) {
-        this.fields = fields;
+    public CreateRecordRequest withRecords(List<RecordMap> records) {
+        this.records = records;
         return this;
-    }
-
-    public static <T> Map<String, Object> parseFieldsFromBean(T bean) {
-        return JacksonConverter.toMap(bean);
     }
 }

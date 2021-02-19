@@ -24,10 +24,11 @@ import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 
 import cn.vika.core.exception.JsonConvertException;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,7 +43,6 @@ public class JacksonConverter {
 
     static {
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
     public static ObjectMapper instance() {
@@ -51,6 +51,10 @@ public class JacksonConverter {
 
     public static JavaType getCollectionJavaType(Class<?> type) {
         return mapper.getTypeFactory().constructCollectionType(List.class, type);
+    }
+
+    public static <T> Map<String, Object> toMap(T bean) {
+        return mapper.convertValue(bean, new TypeReference<Map<String, Object>>() {});
     }
 
     public static <T> T toBean(InputStream inputStream, Type type) {
@@ -81,16 +85,6 @@ public class JacksonConverter {
         }
     }
 
-    public static <T> T toGenericBean(InputStream inputStream, Class<?> genericClass, Class<?> contentClass) {
-        try {
-            JavaType javaType = mapper.getTypeFactory().constructParametricType(genericClass, contentClass);
-            return mapper.readValue(inputStream, javaType);
-        }
-        catch (IOException e) {
-            throw new JsonConvertException(e);
-        }
-    }
-
     /**
      * Object to json string.
      *
@@ -115,7 +109,7 @@ public class JacksonConverter {
      * @throws JsonConvertException if transfer failed
      */
     public static byte[] toJsonBytes(Object obj) {
-        return toJsonBytes(obj, StandardCharsets.UTF_8.name());
+        return toJsonBytes(obj, StandardCharsets.UTF_8);
     }
 
 
@@ -126,13 +120,13 @@ public class JacksonConverter {
      * @return json string byte array
      * @throws JsonConvertException if transfer failed
      */
-    public static byte[] toJsonBytes(Object obj, String charset) {
+    public static byte[] toJsonBytes(Object obj, Charset charset) {
         try {
             String jsonStr = mapper.writeValueAsString(obj);
             if (jsonStr == null) {
                 return new byte[0];
             }
-            return jsonStr.getBytes(Charset.forName(charset));
+            return jsonStr.getBytes(charset);
         }
         catch (JsonProcessingException e) {
             throw new JsonConvertException(e, obj.getClass());

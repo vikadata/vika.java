@@ -83,6 +83,9 @@ public class Pager<T> implements Iterator<List<T>> {
                 throw new ApiException("Invalid response from server");
             }
         }
+        else {
+            this.currentItems.clear();
+        }
         this.itemsPerPage = result.getData().getPageSize();
         this.totalItems = result.getData().getTotal();
         this.totalPages = this.totalItems == 0 ? 0 : (this.totalItems - 1) / itemsPerPage + 1;
@@ -103,6 +106,9 @@ public class Pager<T> implements Iterator<List<T>> {
                 throw new ApiException("Invalid response from server");
             }
         }
+        else {
+            this.currentItems.clear();
+        }
         this.itemsPerPage = result.getData().getPageSize();
         this.totalItems = result.getData().getTotal();
         this.totalPages = this.totalItems == 0 ? 0 : (this.totalItems - 1) / this.itemsPerPage + 1;
@@ -117,11 +123,11 @@ public class Pager<T> implements Iterator<List<T>> {
     }
 
     public int getItemsPerPage() {
-        return (itemsPerPage);
+        return itemsPerPage;
     }
 
     public int getTotalItems() {
-        return (totalItems);
+        return totalItems;
     }
 
     @Override
@@ -177,6 +183,9 @@ public class Pager<T> implements Iterator<List<T>> {
         HttpResult<PageDetail<T>> result = api.getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
         if (result.getData().getRecords() != null) {
             this.currentItems = JacksonConverter.toGenericBean(result.getData().getRecords(), javaType);
+        }
+        else {
+            this.currentItems.clear();
         }
         this.currentPage = pageNumber;
         return this.currentItems;

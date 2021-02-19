@@ -64,7 +64,7 @@ public class RecordPagerTest extends BaseTest {
 
     @Test
     @Order(1)
-    public void testGetDefaultPage() throws ApiException, InterruptedException {
+    public void testPageWithPageSize() throws ApiException, InterruptedException {
         int itemPerPage = Integer.parseInt(ConstantKey.PAGE_SIZE.get());
         Pager<RecordResult> pager = vikaApiClient.getRecordApi().getRecords(ConstantKey.TEST_DATASHEET_ID.get(), itemPerPage);
         assertThat(pager).isNotNull();
