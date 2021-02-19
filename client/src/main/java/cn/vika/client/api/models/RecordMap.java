@@ -18,30 +18,25 @@
 
 package cn.vika.client.api.models;
 
-import java.util.HashMap;
-
-import cn.vika.client.api.model.AbstractModel;
+import java.util.Map;
 
 /**
- * create record request params
  *
- * @author Zoe Zheng
- * @date 2020-12-17 11:22:01
+ * @author Shawn Deng
+ * @date 2021-02-19 15:36:51
  */
-public class DeleteRecordRequest extends AbstractModel {
+public class RecordMap {
 
-    private String[] recordIds;
+    /**
+     * record fields
+     */
+    private Map<String, Object> fields;
 
-    public String[] getRecordIds() {
-        return recordIds;
+    public Map<String, Object> getFields() {
+        return fields;
     }
 
-    public void setRecordIds(String[] recordIds) {
-        this.recordIds = recordIds;
-    }
-
-    @Override
-    public void toMap(HashMap<String, String> map, String prefix) {
-        setParamArraySimple(map, prefix + "recordIds", recordIds);
+    public void setFields(Map<String, Object> fields) {
+        this.fields = fields;
     }
 }

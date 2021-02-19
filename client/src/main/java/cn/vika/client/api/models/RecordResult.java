@@ -18,47 +18,24 @@
 
 package cn.vika.client.api.models;
 
-import java.util.HashMap;
-
-import cn.vika.client.api.model.AbstractModel;
-
 /**
- * query record with sort param
+ * Record Result In Row Like Map structure
  *
  * @author Zoe Zheng
- * @date 2020-12-17 11:22:01
+ * @date 2020-12-16 14:10:31
  */
-public class SortRequest extends AbstractModel {
-
-    private Order order;
-
-    public String field;
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
+public class RecordResult extends RecordMap {
 
     /**
-     * request query param to map
-     *
-     * @param map param
-     * @param prefix used for object
+     * record id
      */
-    @Override
-    public void toMap(HashMap<String, String> map, String prefix) {
-        setParamSimple(map, prefix + "order", order.name().toLowerCase());
-        setParamSimple(map, prefix + "field", field);
+    private String recordId;
+
+    public String getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
     }
 }

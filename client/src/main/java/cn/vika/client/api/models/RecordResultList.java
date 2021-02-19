@@ -21,39 +21,24 @@ package cn.vika.client.api.models;
 import java.util.List;
 
 /**
- * create record request params
+ * record result List
  *
  * @author Zoe Zheng
  * @date 2020-12-17 11:22:01
  */
-public class Record {
+public class RecordResultList {
 
-    private String fieldKey;
+    private List<RecordResult> records;
 
-    private List<RecordDetail> records;
-
-    public String getFieldKey() {
-        return fieldKey;
-    }
-
-    public void setFieldKey(String fieldKey) {
-        this.fieldKey = fieldKey;
-    }
-
-    public Record withFieldKey(String fieldKey) {
-        this.fieldKey = fieldKey;
-        return this;
-    }
-
-    public List<RecordDetail> getRecords() {
+    public List<RecordResult> getRecords() {
         return records;
     }
 
-    public void setRecords(List<RecordDetail> records) {
+    public void setRecords(List<RecordResult> records) {
         this.records = records;
     }
 
-    public Record withRecords(List<RecordDetail> records) {
+    public RecordResultList withRecords(List<RecordResult> records) {
         this.records = records;
         return this;
     }

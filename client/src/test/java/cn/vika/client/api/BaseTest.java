@@ -16,39 +16,19 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.models;
+package cn.vika.client.api;
 
-import java.util.HashMap;
-
-import cn.vika.client.api.model.AbstractModel;
+import cn.vika.client.api.http.ApiCredential;
 
 /**
- * create record request params
  *
- * @author Zoe Zheng
- * @date 2020-12-17 11:22:01
+ * @author Shawn Deng
+ * @date 2021-02-18 14:37:15
  */
-public class RecordRequest extends AbstractModel {
+public abstract class BaseTest {
 
-    private RecordDetail[] records;
-    private String fieldKey;
-
-    public RecordDetail[] getRecords() {
-        return records;
+    protected static VikaApiClient testInitApiClient() {
+        ApiCredential apiCredential = new ApiCredential(ConstantKey.TEST_API_KEY.get());
+        return new VikaApiClient(ConstantKey.TEST_HOST_URL.get(), apiCredential);
     }
-
-    public void setRecords(RecordDetail[] records) {
-        this.records = records;
-    }
-
-    public String getFieldKey() {
-        return fieldKey;
-    }
-
-    public void setFieldKey(String fieldKey) {
-        this.fieldKey = fieldKey;
-    }
-
-    @Override
-    public void toMap(HashMap<String, String> map, String prefix) {}
 }

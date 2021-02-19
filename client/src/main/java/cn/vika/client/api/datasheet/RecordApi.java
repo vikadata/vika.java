@@ -32,8 +32,9 @@ import cn.vika.client.api.model.ApiQueryParam;
 import cn.vika.client.api.model.HttpResult;
 import cn.vika.client.api.model.PageDetail;
 import cn.vika.client.api.model.Pager;
-import cn.vika.client.api.models.Record;
-import cn.vika.client.api.models.RecordDetail;
+import cn.vika.client.api.models.CreateRecord;
+import cn.vika.client.api.models.RecordResult;
+import cn.vika.client.api.models.RecordResultList;
 import cn.vika.core.exception.JsonConvertException;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
@@ -60,49 +61,50 @@ public class RecordApi extends AbstractApi {
         super(apiHttpClient);
     }
 
-    public List<RecordDetail> getRecords(String datasheetId) throws ApiException {
+    public List<RecordResult> getRecords(String datasheetId) throws ApiException {
         return getRecords(datasheetId, getDefaultPerPage()).all();
     }
 
-    public Stream<RecordDetail> getRecordsAsStream(String datasheetId) throws ApiException {
+    public Stream<RecordResult> getRecordsAsStream(String datasheetId) throws ApiException {
         return getRecords(datasheetId, getDefaultPerPage()).stream();
     }
 
-    public List<RecordDetail> getRecords(String datasheetId, int page, int itemsPerPage) throws ApiException {
+    public List<RecordResult> getRecords(String datasheetId, int page, int itemsPerPage) throws ApiException {
         ApiQueryParam queryParam = new ApiQueryParam(page, itemsPerPage);
         Map<String, String> uriVariables = queryParam.toMap();
-        GenericTypeReference<HttpResult<PageDetail<RecordDetail>>> reference = new GenericTypeReference<HttpResult<PageDetail<RecordDetail>>>() {};
+        GenericTypeReference<HttpResult<PageDetail<RecordResult>>> reference = new GenericTypeReference<HttpResult<PageDetail<RecordResult>>>() {};
         String uri = String.format(PATH, datasheetId) + MapUtil.extractKeyToVariables(uriVariables);
-        HttpResult<PageDetail<RecordDetail>> result = getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
+        HttpResult<PageDetail<RecordResult>> result = getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
         return result.getData().getRecords();
     }
 
-    public Pager<RecordDetail> getRecords(String datasheetId, int itemsPerPage) throws ApiException {
-        return new Pager<>(this, String.format(PATH, datasheetId), itemsPerPage, RecordDetail.class);
+    public Pager<RecordResult> getRecords(String datasheetId, int itemsPerPage) throws ApiException {
+        return new Pager<>(this, String.format(PATH, datasheetId), itemsPerPage, RecordResult.class);
     }
 
-    public Pager<RecordDetail> getRecords(String datasheetId, ApiQueryParam queryParam) throws ApiException {
-        return new Pager<>(this, String.format(PATH, datasheetId), queryParam, RecordDetail.class);
+    public Pager<RecordResult> getRecords(String datasheetId, ApiQueryParam queryParam) throws ApiException {
+        return new Pager<>(this, String.format(PATH, datasheetId), queryParam, RecordResult.class);
     }
 
-    public RecordDetail addRecords(String datasheetId, Record record) throws ApiException {
+    public List<RecordResult> addRecords(String datasheetId, CreateRecord record) throws ApiException {
         if (!StringUtil.hasText(datasheetId)) {
             throw new ApiException("datasheet id must be not null");
         }
         if (record == null) {
             return null;
         }
-        return getDefaultHttpClient().post(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, RecordDetail.class);
+        HttpResult<RecordResultList> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, new GenericTypeReference<HttpResult<RecordResultList>>() {});
+        return result.getData().getRecords();
     }
 
-    public RecordDetail updateRecord(String datasheetId, Record record) throws ApiException {
+    public RecordResult updateRecords(String datasheetId, RecordResultList record) throws ApiException {
         if (!StringUtil.hasText(datasheetId)) {
             throw new ApiException("datasheet id must be not null");
         }
         if (record == null) {
             throw new RuntimeException("Record instance cannot be null.");
         }
-        return getDefaultHttpClient().patch(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, RecordDetail.class);
+        return getDefaultHttpClient().patch(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, RecordResult.class);
     }
 
     public void deleteRecord(String datasheetId, String recordId) throws ApiException {

@@ -1,0 +1,26 @@
+[
+    {
+        "fields": {
+            "ShortText": "This is from unit Test 1",
+            "LongText": "This is from unit Test 1",
+            "Options": [
+                "A"
+            ],
+            "MultiSelect": [
+                "JD"
+            ]
+        }
+    },
+    {
+        "fields": {
+            "ShortText": "This is from unit Test 2",
+            "LongText": "This is from unit Test 2",
+            "Options": [
+                "B"
+            ],
+            "MultiSelect": [
+                "Tmall"
+            ]
+        }
+    }
+]

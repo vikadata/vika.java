@@ -18,39 +18,27 @@
 
 package cn.vika.client.api.models;
 
-import java.util.Map;
+import java.util.List;
 
 /**
- * Record In Row Like Map structure
- *
- * @author Zoe Zheng
- * @date 2020-12-16 14:10:31
+ * Create Record Model
+ * @author Shawn Deng
+ * @date 2021-02-19 15:41:12
  */
-public class RecordDetail {
+public class CreateRecord {
 
-    /**
-     * record id
-     */
-    private String recordId;
+    private List<RecordMap> records;
 
-    /**
-     * record fields
-     */
-    private Map<String, Object> fields;
-
-    public String getRecordId() {
-        return recordId;
+    public List<RecordMap> getRecords() {
+        return records;
     }
 
-    public void setRecordId(String recordId) {
-        this.recordId = recordId;
+    public void setRecords(List<RecordMap> records) {
+        this.records = records;
     }
 
-    public Map<String, Object> getFields() {
-        return fields;
-    }
-
-    public void setFields(Map<String, Object> fields) {
-        this.fields = fields;
+    public CreateRecord withRecords(List<RecordMap> records) {
+        this.records = records;
+        return this;
     }
 }
