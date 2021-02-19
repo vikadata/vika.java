@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.datasheet;
+package cn.vika.client.api;
 
 import cn.vika.client.api.datasheet.AttachmentApi;
 import cn.vika.client.api.datasheet.RecordApi;
@@ -25,8 +25,11 @@ import cn.vika.client.api.http.ApiHttpClient;
 import cn.vika.client.api.http.ApiHttpClient.ApiVersion;
 
 /**
- * This class is provides a simplified interface to a Vikadata API server, and divides the API up into
- * a separate API class for each concern.
+ * <p>
+ *  This class is provides a simplified interface to a Vikadata API server,
+ *  and divides the API up into a separate API class for each concern.
+ * </p>
+ *
  * @author Shawn Deng
  * @date 2021-02-05 11:10:33
  */
@@ -36,17 +39,11 @@ public class VikaApiClient {
 
     private final ApiVersion apiVersion;
 
-    private final ApiCredential credential;
-
-    private ApiHttpClient apiHttpClient;
+    private final ApiHttpClient apiHttpClient;
 
     private RecordApi recordApi;
 
     private AttachmentApi attachmentApi;
-
-    private RecordApiClient recordApiClient;
-
-    private AttachmentApiClient attachmentApiClient;
 
     public VikaApiClient(ApiCredential credential) {
         this(ApiVersion.V1, DEFAULT_HOST, credential);
@@ -58,7 +55,6 @@ public class VikaApiClient {
 
     public VikaApiClient(ApiVersion apiVersion, String hostUrl, ApiCredential credential) {
         this.apiVersion = apiVersion;
-        this.credential = credential;
         this.apiHttpClient = new ApiHttpClient(apiVersion, hostUrl, credential);
     }
 
@@ -147,29 +143,5 @@ public class VikaApiClient {
             }
         }
         return this.attachmentApi;
-    }
-
-    @Deprecated
-    public RecordApiClient getRecordApiClient() {
-        if (this.recordApiClient == null) {
-            synchronized (this) {
-                if (this.recordApiClient == null) {
-                    this.recordApiClient = new RecordApiClient(this.apiHttpClient);
-                }
-            }
-        }
-        return this.recordApiClient;
-    }
-
-    @Deprecated
-    public AttachmentApiClient getAttachmentApiClient() {
-        if (this.attachmentApiClient == null) {
-            synchronized (this) {
-                if (this.attachmentApiClient == null) {
-                    this.attachmentApiClient = new AttachmentApiClient(this.apiHttpClient);
-                }
-            }
-        }
-        return this.attachmentApiClient;
     }
 }
