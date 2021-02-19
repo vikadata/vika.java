@@ -24,6 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.vika.client.api.util.UrlEncoder;
 import cn.vika.client.datasheet.model.CellFormat;
 import cn.vika.client.datasheet.model.FieldKey;
 import cn.vika.client.datasheet.model.Order;
@@ -85,7 +86,7 @@ public class ApiQueryParam extends HashMap<String, List<String>> {
     }
 
     public ApiQueryParam withFilter(String formula) {
-        return withParam(FILTER_BY_FORMULA, formula);
+        return withParam(FILTER_BY_FORMULA, UrlEncoder.encodeURIComponent(formula));
     }
 
     public ApiQueryParam withMaxRecords(int maxRecords) {
