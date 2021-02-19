@@ -39,7 +39,13 @@ public class MapUtil {
         }
         String uri = "";
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            uri = setUriTemplate(uri, entry.getKey(), entry.getValue());
+            int index = entry.getKey().lastIndexOf('.');
+            if (index == entry.getKey().length() - 2) {
+                uri = setUriTemplate(uri, entry.getKey().substring(0, index), entry.getKey());
+            }
+            else {
+                uri = setUriTemplate(uri, entry.getKey(), entry.getKey());
+            }
         }
         return uri;
     }
@@ -47,10 +53,10 @@ public class MapUtil {
     public static String setUriTemplate(String param, String key, String value) {
         if (value != null) {
             if (!"".equals(param)) {
-                return param + "&" + key + "=" + "{" + key + "}";
+                return param + "&" + key + "=" + "{" + value + "}";
             }
             else {
-                return "?" + key + "=" + "{" + key + "}";
+                return "?" + key + "=" + "{" + value + "}";
             }
         }
         return "";
