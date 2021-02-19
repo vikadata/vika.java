@@ -19,7 +19,6 @@
 package cn.vika.client.api.datasheet;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -27,7 +26,6 @@ import java.util.stream.Stream;
 import cn.vika.client.api.exception.ApiException;
 import cn.vika.client.api.http.AbstractApi;
 import cn.vika.client.api.http.ApiHttpClient;
-import cn.vika.client.api.model.AbstractModel;
 import cn.vika.client.api.model.ApiQueryParam;
 import cn.vika.client.api.model.HttpResult;
 import cn.vika.client.api.model.PageDetail;
@@ -36,13 +34,10 @@ import cn.vika.client.api.models.CreateRecordRequest;
 import cn.vika.client.api.models.RecordResult;
 import cn.vika.client.api.models.RecordResultList;
 import cn.vika.client.api.models.UpdateRecordRequest;
-import cn.vika.core.exception.JsonConvertException;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
 import cn.vika.core.utils.MapUtil;
 import cn.vika.core.utils.StringUtil;
-
-import static cn.vika.client.api.exception.ApiException.DEFAULT_CODE;
 
 
 /**
@@ -55,9 +50,6 @@ public class RecordApi extends AbstractApi {
 
     private static final String PATH = "/datasheets/%s/records";
 
-    /**
-     * datasheetId
-     */
     public RecordApi(ApiHttpClient apiHttpClient) {
         super(apiHttpClient);
     }
@@ -71,6 +63,9 @@ public class RecordApi extends AbstractApi {
     }
 
     public List<RecordResult> getRecords(String datasheetId, int page, int itemsPerPage) throws ApiException {
+        if (page < 0 || itemsPerPage < 0) {
+            throw new ApiException("page or itemsPerPage don't set right");
+        }
         ApiQueryParam queryParam = new ApiQueryParam(page, itemsPerPage);
         Map<String, String> uriVariables = queryParam.toMap();
         GenericTypeReference<HttpResult<PageDetail<RecordResult>>> reference = new GenericTypeReference<HttpResult<PageDetail<RecordResult>>>() {};
@@ -101,7 +96,7 @@ public class RecordApi extends AbstractApi {
             return null;
         }
         if (record.getRecords().size() > 10) {
-            // TODO warning client request max add num is 10
+            throw new ApiException("record only can add 10 every request");
         }
         HttpResult<RecordResultList> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, new GenericTypeReference<HttpResult<RecordResultList>>() {});
         return result.getData().getRecords();
@@ -136,39 +131,4 @@ public class RecordApi extends AbstractApi {
         String uri = String.format(PATH, datasheetId) + MapUtil.extractKeyToVariables(uriVariables);
         getDefaultHttpClient().delete(uri, HttpHeader.EMPTY, Void.class, uriVariables);
     }
-
-    @Deprecated
-    public <T> T modifyRecords(String datasheetId, AbstractModel model, GenericTypeReference<HttpResult<T>> responseType)
-            throws ApiException {
-        HttpResult<T> result;
-        try {
-            result = getDefaultHttpClient().patch(basePath(datasheetId), HttpHeader.EMPTY, model, responseType);
-            if (result.isSuccess()) {
-                return result.getData();
-            }
-        }
-        catch (JsonConvertException e) {
-            throw new ApiException(DEFAULT_CODE, e.getMessage());
-        }
-        throw new ApiException(result.getCode(), result.getMessage());
-    }
-
-    @Deprecated
-    public boolean deleteRecords(String datasheetId, AbstractModel model) throws ApiException {
-        GenericTypeReference<HttpResult<Boolean>> responseType = new GenericTypeReference<HttpResult<Boolean>>() {};
-        HashMap<String, String> params = new HashMap<>(10);
-        model.toMap(params, "");
-        HttpResult<Boolean> result = getDefaultHttpClient().delete(basePath(datasheetId) + model.toTemplateUri(params),
-                HttpHeader.EMPTY, responseType, params);
-        if (result.isSuccess()) {
-            return result.isSuccess();
-        }
-        throw new ApiException(result.getCode(), result.getMessage());
-    }
-
-    @Override
-    protected String basePath(String datasheetId) {
-        return String.format(PATH, datasheetId);
-    }
-
 }

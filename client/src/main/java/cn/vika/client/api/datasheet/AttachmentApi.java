@@ -25,10 +25,10 @@ import java.util.Map;
 import java.util.UUID;
 
 import cn.vika.client.api.exception.ApiException;
+import cn.vika.client.api.http.AbstractApi;
 import cn.vika.client.api.http.ApiHttpClient;
 import cn.vika.client.api.model.AbstractModel;
 import cn.vika.client.api.model.HttpResult;
-import cn.vika.client.api.http.AbstractApi;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
 import cn.vika.core.http.HttpMediaType;
@@ -67,7 +67,7 @@ public class AttachmentApi extends AbstractApi implements IAttachmentApi {
         HttpResult<T> result;
         try {
             byte[] binary = getMultipartPayload(params, boundary);
-            result = getDefaultHttpClient().upload(basePath(datasheetId), HttpHeader.EMPTY, binary, responseType);
+            result = getDefaultHttpClient().upload(datasheetId, HttpHeader.EMPTY, binary, responseType);
         }
         catch (Exception e) {
             throw new ApiException(e);
@@ -76,11 +76,6 @@ public class AttachmentApi extends AbstractApi implements IAttachmentApi {
             return result.getData();
         }
         throw new ApiException(result.getCode(), result.getMessage());
-    }
-
-    @Override
-    protected String basePath(String datasheetId) {
-        return String.format(PATH, datasheetId);
     }
 
     /**

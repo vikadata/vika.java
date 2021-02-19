@@ -39,6 +39,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -64,6 +65,10 @@ public class RecordOperationTest extends BaseTest {
         vikaApiClient = testInitApiClient();
     }
 
+    @AfterAll
+    public static void teardown() throws ApiException {
+    }
+
     @BeforeEach
     public void beforeTestMethod() {
         assertThat(vikaApiClient).isNotNull();
@@ -72,7 +77,7 @@ public class RecordOperationTest extends BaseTest {
     @Test
     @Order(1)
     public void testCreateRecordFromFile() throws IOException, ApiException {
-        List<RecordMap> recordMaps = JacksonJsonUtil.unmarshalResourceToList(RecordMap.class, "record.json");
+        List<RecordMap> recordMaps = JacksonJsonUtil.unmarshalResourceToList(RecordMap.class, "create-record.json");
         CreateRecordRequest recordRequest = new CreateRecordRequest().withRecords(recordMaps);
         List<RecordResult> newRecords = vikaApiClient.getRecordApi().addRecords(TEST_DATASHEET_ID.get(), recordRequest);
         assertThat(newRecords).isNotNull();
@@ -88,6 +93,9 @@ public class RecordOperationTest extends BaseTest {
             }
             i++;
         }
+        List<String> recordIds = newRecords.stream().map(RecordResult::getRecordId).collect(Collectors.toList());
+        assertThat(recordIds).isNotEmpty();
+        deleteTestData(recordIds);
     }
 
     @Test
@@ -97,7 +105,7 @@ public class RecordOperationTest extends BaseTest {
                 .put("ShortText", "Json manual builder")
                 .put("LongText", "Json manual builder");
         fieldMap.set("Options", JsonNodeFactory.instance.arrayNode().add("A"));
-        fieldMap.set("MultiSelect", JsonNodeFactory.instance.arrayNode().add("JD"));
+        fieldMap.set("MultiSelect", JsonNodeFactory.instance.arrayNode().add("GG"));
         ObjectNode fields = JsonNodeFactory.instance.objectNode().set("fields", fieldMap);
         ArrayNode arrayNode = JsonNodeFactory.instance.arrayNode().add(fields);
         List<RecordMap> recordMaps = JacksonJsonUtil.unmarshalJsonNodeToList(RecordMap.class, arrayNode);
@@ -116,6 +124,9 @@ public class RecordOperationTest extends BaseTest {
             }
             i++;
         }
+        List<String> recordIds = newRecords.stream().map(RecordResult::getRecordId).collect(Collectors.toList());
+        assertThat(recordIds).isNotEmpty();
+        deleteTestData(recordIds);
     }
 
     @Test
@@ -124,8 +135,8 @@ public class RecordOperationTest extends BaseTest {
         TestFieldDTO fieldDTO = new TestFieldDTO();
         fieldDTO.setShortText("From Bean");
         fieldDTO.setLongText("From Bean");
-        fieldDTO.setOptions(Arrays.asList("A"));
-        fieldDTO.setMultiSelect(Arrays.asList("JD"));
+        fieldDTO.setOptions(Collections.singletonList("A"));
+        fieldDTO.setMultiSelect(Collections.singletonList(("KK")));
 
         List<RecordMap> recordMaps = Collections.singletonList(new RecordMap().withFields(JacksonConverter.toMap(fieldDTO)));
         CreateRecordRequest recordRequest = new CreateRecordRequest().withRecords(recordMaps);
@@ -143,6 +154,9 @@ public class RecordOperationTest extends BaseTest {
             }
             i++;
         }
+        List<String> recordIds = newRecords.stream().map(RecordResult::getRecordId).collect(Collectors.toList());
+        assertThat(recordIds).isNotEmpty();
+        deleteTestData(recordIds);
     }
 
     @Test
@@ -165,7 +179,7 @@ public class RecordOperationTest extends BaseTest {
                 .withField("ShortText", "Ps: Test Update, content is 'This is from unit Test update record' before")
                 // select can be set null or empty array if you want to clear field value
                 .withField("Options", Collections.emptyList())
-                .withField("MultiSelect", Arrays.asList("JD", "Tmall"));
+                .withField("MultiSelect", Arrays.asList("LL", "NN"));
 
         UpdateRecordRequest updateRecordRequest = new UpdateRecordRequest()
                 .withRecords(Collections.singletonList(record));
@@ -179,6 +193,10 @@ public class RecordOperationTest extends BaseTest {
         assertThat(returnResult).isNotNull();
         assertThat(returnResult.getRecordId()).isEqualTo(recordId);
         assertThat(returnResult.getFields()).isNotNull();
+
+        List<String> recordIds = newRecords.stream().map(RecordResult::getRecordId).collect(Collectors.toList());
+        assertThat(recordIds).isNotEmpty();
+        deleteTestData(recordIds);
     }
 
     @Test
@@ -226,6 +244,11 @@ public class RecordOperationTest extends BaseTest {
         Pager<RecordResult> pager = vikaApiClient.getRecordApi().getRecords(ConstantKey.TEST_DATASHEET_ID.get(), queryParam);
         assertThat(pager).isNotNull();
         assertThat(pager.getTotalItems()).isZero();
+    }
+
+    public static void deleteTestData(List<String> recordIds) throws ApiException {
+        vikaApiClient.getRecordApi().deleteRecords(TEST_DATASHEET_ID.get(), recordIds);
+        System.out.format("delete test data complete......\n");
     }
 
     public static class TestFieldDTO {

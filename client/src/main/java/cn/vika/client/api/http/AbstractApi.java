@@ -29,13 +29,6 @@ import cn.vika.core.http.DefaultHttpClient;
 public abstract class AbstractApi {
 
     /**
-     * build path
-     *
-     * @return string
-     */
-    protected abstract String basePath(String datasheetId);
-
-    /**
      * http client
      */
     protected final ApiHttpClient apiHttpClient;

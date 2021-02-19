@@ -88,7 +88,7 @@ public class Pager<T> implements Iterator<List<T>> {
         }
         this.itemsPerPage = result.getData().getPageSize();
         this.totalItems = result.getData().getTotal();
-        this.totalPages = this.totalItems == 0 ? 0 : (this.totalItems - 1) / itemsPerPage + 1;
+        this.totalPages = this.totalItems == 0 ? 1 : ((this.totalItems - 1) / this.itemsPerPage + 1);
     }
 
     public Pager(AbstractApi api, String url, ApiQueryParam queryParam, Class<T> type) throws ApiException {
@@ -111,7 +111,7 @@ public class Pager<T> implements Iterator<List<T>> {
         }
         this.itemsPerPage = result.getData().getPageSize();
         this.totalItems = result.getData().getTotal();
-        this.totalPages = this.totalItems == 0 ? 0 : (this.totalItems - 1) / this.itemsPerPage + 1;
+        this.totalPages = this.totalItems == 0 ? 1 : ((this.totalItems - 1) / this.itemsPerPage + 1);
     }
 
     public int getCurrentPage() {

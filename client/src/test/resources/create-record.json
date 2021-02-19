@@ -7,7 +7,7 @@
                 "A"
             ],
             "MultiSelect": [
-                "JD"
+                "EE"
             ]
         }
     },
@@ -16,10 +16,10 @@
             "ShortText": "This is from unit Test create record 2",
             "LongText": "This is from unit Test create record 2",
             "Options": [
-                "B"
+                "F"
             ],
             "MultiSelect": [
-                "Tmall"
+                "LL"
             ]
         }
     }

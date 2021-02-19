@@ -25,6 +25,7 @@ import java.io.Reader;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,5 +65,9 @@ public class JacksonJsonUtil {
         CollectionType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, returnType);
         ObjectReader reader = objectMapper.readerFor(javaType);
         return reader.readValue(root);
+    }
+
+    static String toJson(Object obj, boolean prettyPrint) throws JsonProcessingException {
+        return prettyPrint ? objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj) : objectMapper.writeValueAsString(obj);
     }
 }
