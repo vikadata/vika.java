@@ -38,7 +38,7 @@
         <version-maven-plugin.version>2.8.1</version-maven-plugin.version>
 
         <!--Dependency Version-->
-        <jackson.version>2.11.3</jackson.version>
+        <jackson.version>2.12.1</jackson.version>
         <slf4j-api.version>1.7.30</slf4j-api.version>
         <logback.version>1.2.3</logback.version>
         <log4j.version>2.13.3</log4j.version>
