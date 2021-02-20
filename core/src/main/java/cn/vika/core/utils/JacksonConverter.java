@@ -31,7 +31,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.type.CollectionType;
 
 /**
  * @author Shawn Deng
@@ -131,5 +134,11 @@ public class JacksonConverter {
         catch (JsonProcessingException e) {
             throw new JsonConvertException(e, obj.getClass());
         }
+    }
+
+    public static <T> List<T> unmarshalToList(Class<T> returnType, JsonNode root) throws IOException {
+        CollectionType javaType = mapper.getTypeFactory().constructCollectionType(List.class, returnType);
+        ObjectReader reader = mapper.readerFor(javaType);
+        return reader.readValue(root);
     }
 }

@@ -81,9 +81,10 @@ public class RecordPagerTest extends BaseTest {
     @Test
     @Order(1)
     public void testGetAll() throws ApiException, InterruptedException, JsonProcessingException {
-        List<RecordResult> records = vikaApiClient.getRecordApi().getRecords(ConstantKey.TEST_DATASHEET_ID.get());
-        assertThat(records).isNotNull();
-        assertThat(records.size()).isNotZero();
+        Pager<RecordResult> pager = vikaApiClient.getRecordApi().getRecords(ConstantKey.TEST_DATASHEET_ID.get());
+        assertThat(pager).isNotNull();
+        assertThat(pager.getTotalItems()).isNotZero();
+        List<RecordResult> records = pager.all();
         for (RecordResult record : records) {
             System.out.format("record: %s \n", JacksonJsonUtil.toJson(record, true));
         }

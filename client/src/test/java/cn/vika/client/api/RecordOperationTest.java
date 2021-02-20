@@ -39,7 +39,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -63,10 +62,6 @@ public class RecordOperationTest extends BaseTest {
     @BeforeAll
     public static void setup() {
         vikaApiClient = testInitApiClient();
-    }
-
-    @AfterAll
-    public static void teardown() throws ApiException {
     }
 
     @BeforeEach
@@ -103,7 +98,8 @@ public class RecordOperationTest extends BaseTest {
     public void testCreateRecordFromJson() throws IOException, ApiException {
         ObjectNode fieldMap = JsonNodeFactory.instance.objectNode()
                 .put("ShortText", "Json manual builder")
-                .put("LongText", "Json manual builder");
+                .put("LongText", "Json manual builder")
+                .set("Options", JsonNodeFactory.instance.arrayNode().add("A"));
         fieldMap.set("Options", JsonNodeFactory.instance.arrayNode().add("A"));
         fieldMap.set("MultiSelect", JsonNodeFactory.instance.arrayNode().add("GG"));
         ObjectNode fields = JsonNodeFactory.instance.objectNode().set("fields", fieldMap);

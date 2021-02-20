@@ -54,10 +54,6 @@ public class RecordApi extends AbstractApi {
         super(apiHttpClient);
     }
 
-    public List<RecordResult> getRecords(String datasheetId) throws ApiException {
-        return getRecords(datasheetId, getDefaultPerPage()).all();
-    }
-
     public Stream<RecordResult> getRecordsAsStream(String datasheetId) throws ApiException {
         return getRecords(datasheetId, getDefaultPerPage()).stream();
     }
@@ -72,6 +68,10 @@ public class RecordApi extends AbstractApi {
         String uri = String.format(PATH, datasheetId) + MapUtil.extractKeyToVariables(uriVariables);
         HttpResult<PageDetail<RecordResult>> result = getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
         return result.getData().getRecords();
+    }
+
+    public Pager<RecordResult> getRecords(String datasheetId) throws ApiException {
+        return new Pager<>(this, String.format(PATH, datasheetId), getDefaultPerPage(), RecordResult.class);
     }
 
     public Pager<RecordResult> getRecords(String datasheetId, int itemsPerPage) throws ApiException {
