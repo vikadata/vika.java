@@ -69,6 +69,16 @@ public class JacksonConverter {
         }
     }
 
+    public static <T> T toGenericBean(byte[] bytes, Type type) {
+        try {
+            JavaType javaType = mapper.constructType(type);
+            return mapper.readValue(bytes, javaType);
+        }
+        catch (IOException e) {
+            throw new JsonConvertException(e);
+        }
+    }
+
     public static <T> T toGenericBean(InputStream inputStream, Type type) {
         try {
             JavaType javaType = mapper.constructType(type);
@@ -140,5 +150,9 @@ public class JacksonConverter {
         CollectionType javaType = mapper.getTypeFactory().constructCollectionType(List.class, returnType);
         ObjectReader reader = mapper.readerFor(javaType);
         return reader.readValue(root);
+    }
+
+    public static JsonNode unmarshal(byte[] jsonString) throws IOException {
+        return mapper.readTree(jsonString);
     }
 }

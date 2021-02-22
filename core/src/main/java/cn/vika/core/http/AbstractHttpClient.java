@@ -43,6 +43,11 @@ public abstract class AbstractHttpClient {
     protected HttpResponseErrorHandler errorHandler = new DefaultHttpResponseErrorHandler();
 
     /**
+     *
+     */
+    protected ResponseBodyHandler responseBodyHandler;
+
+    /**
      * Set the request factory that this accessor uses for obtaining client request handles.
      * <p>The default is a {@link OkHttpClientHttpRequestFactory} based on the OKHttp libraries.
      *
@@ -92,7 +97,7 @@ public abstract class AbstractHttpClient {
             // handler error if hasError
             handlerResponse(response);
             // in case of response interceptor
-            return (responseHandler != null ? responseHandler.extractData(response) : null);
+            return (responseHandler != null ? responseHandler.extractData(response, this.responseBodyHandler) : null);
         }
         catch (IOException ex) {
             String resource = uri.toString();
@@ -108,21 +113,10 @@ public abstract class AbstractHttpClient {
         }
     }
 
-    public HttpResponseErrorHandler getErrorHandler() {
-        return this.errorHandler;
-    }
-
     private void handlerResponse(ClientHttpResponse response) throws IOException {
-        HttpResponseErrorHandler errorHandler = getErrorHandler();
-        boolean hasError = errorHandler.hasError(response);
+        boolean hasError = this.errorHandler.hasError(response);
         if (hasError) {
-            errorHandler.handlerError(response);
-        }
-        try {
-            errorHandler.handleCustomError(response);
-        }
-        catch (Exception e) {
-            throw new HttpClientException(e.getMessage(), e);
+            this.errorHandler.handlerError(response);
         }
     }
 }

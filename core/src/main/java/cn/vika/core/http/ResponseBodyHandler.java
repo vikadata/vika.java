@@ -21,27 +21,17 @@ package cn.vika.core.http;
 import java.io.IOException;
 
 /**
- * Http Response Status Code Error Handler
+ * Response Body handler
  * @author Shawn Deng
- * @date 2021-02-06 11:14:11
+ * @date 2021-02-20 17:20:09
  */
-public interface HttpResponseErrorHandler {
+public interface ResponseBodyHandler {
 
     /**
-     * Indicate whether the given response has any errors.
-     * use check if error happen,then call handlerError method
-     * @param response the response to inspect
-     * @return {@code true} if the response indicates an error; {@code false} otherwise
+     * Handle the error in the given response body byte array content.
+     * <p>This method is only called when body is not empty</p>
+     * @param content the response body byte
      * @throws IOException in case of I/O errors
      */
-    boolean hasError(ClientHttpResponse response) throws IOException;
-
-    /**
-     * Handle the error in the given response.
-     * <p>This method is only called
-     * when {@link #hasError(ClientHttpResponse)} has returned {@code true}.</p>
-     * @param response the response with the error
-     * @throws IOException in case of I/O errors
-     */
-    void handlerError(ClientHttpResponse response) throws IOException;
+    void handleBody(byte[] content) throws IOException;
 }

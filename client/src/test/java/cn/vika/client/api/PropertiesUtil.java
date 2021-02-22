@@ -40,7 +40,7 @@ public class PropertiesUtil {
         // Get the maven basedir, we use it to locate the default properties for the unit tests
         String basedir = (String) System.getProperties().get("basedir");
 
-        System.out.format("baseDir: %s", basedir);
+        System.out.format("baseDir: %s\n", basedir);
 
         // Loading Properties from "src/test/resources" named test.properties
         File propertiesFile = new File(basedir, "src/test/resources/test.properties");

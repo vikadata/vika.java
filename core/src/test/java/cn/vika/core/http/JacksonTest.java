@@ -19,21 +19,30 @@
 package cn.vika.core.http;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+import cn.vika.core.utils.JacksonConverter;
+import cn.vika.core.utils.StringUtil;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * handling response
  *
  * @author Shawn Deng
- * @date 2020-11-12 01:30:47
+ * @date 2021-02-20 22:01:52
  */
-public interface ResponseHandler<T> {
+public class JacksonTest {
 
-    /**
-     * Extract data from the given {@code ClientHttpResponse} and return it.
-     *
-     * @param response the HTTP response
-     * @return the extracted data
-     * @throws IOException in case of I/O errors
-     */
-    T extractData(ClientHttpResponse response, ResponseBodyHandler handler) throws IOException;
+    @Test
+    public void testStringToJsonNode() throws IOException {
+        String jsonString = "\"code\":200,\"success\":true,\"message\":\"SUCCESS\"}";
+        System.out.println(jsonString);
+        System.out.println(StringUtil.wrap(jsonString, "{"));
+        String json = StringUtil.wrap(jsonString, "{");
+        JsonNode jsonNode = JacksonConverter.unmarshal(json.getBytes(StandardCharsets.UTF_8));
+        JsonNode success = jsonNode.get("success");
+        assertThat(success.asBoolean()).isTrue();
+    }
 }

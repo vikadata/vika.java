@@ -29,6 +29,7 @@ import java.util.Map;
 public class StringUtil {
 
     public static final String SLASH = "/";
+    public static final String EMPTY = "";
 
     /**
      * Check whether the given {@code String} contains actual <em>text</em>.
@@ -125,5 +126,21 @@ public class StringUtil {
 
     public static boolean isEmpty(String str) {
         return str == null || str.length() == 0;
+    }
+
+    public static String wrap(CharSequence str, CharSequence prefix) {
+        return nullToEmpty(prefix).concat(nullToEmpty(str));
+    }
+
+    public static String wrap(CharSequence str, CharSequence prefix, CharSequence suffix) {
+        return nullToEmpty(prefix).concat(nullToEmpty(str)).concat(nullToEmpty(suffix));
+    }
+
+    public static String nullToEmpty(CharSequence str) {
+        return nullToDefault(str, EMPTY);
+    }
+
+    public static String nullToDefault(CharSequence str, String defaultStr) {
+        return (str == null) ? defaultStr : str.toString();
     }
 }

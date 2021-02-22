@@ -46,7 +46,7 @@ public class ApiHttpClient {
 
     public static final int DEFAULT_READ_TIMEOUT = 60000;
 
-    private DefaultHttpClient defaultHttpClient;
+    private final DefaultHttpClient defaultHttpClient;
 
     private int defaultPerPage = DEFAULT_PER_PAGE;
 
@@ -59,6 +59,7 @@ public class ApiHttpClient {
         this.defaultHttpClient = new DefaultHttpClient(baseUrl);
         HttpHeader header = setDefaultHeader(apiCredential);
         this.defaultHttpClient.addGlobalHeader(header);
+        this.defaultHttpClient.setResponseBodyHandler(new ApiResponseErrorHandler());
     }
 
     private HttpHeader setDefaultHeader(ApiCredential apiCredential) {

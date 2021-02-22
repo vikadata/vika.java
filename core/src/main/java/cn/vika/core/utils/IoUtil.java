@@ -18,11 +18,15 @@
 
 package cn.vika.core.utils;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
 /**
  * I/O util class
@@ -32,6 +36,26 @@ import java.io.OutputStream;
 public class IoUtil {
 
     public static final int BUFFER_SIZE = 4096;
+
+    public static String readString(InputStream inputStream) {
+        return new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+                .lines().collect(Collectors.joining("\n"));
+    }
+
+    public static byte[] copyToByteArray(InputStream in) throws IOException {
+        if (in == null) {
+            return new byte[0];
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[BUFFER_SIZE];
+        int len;
+        while ((len = in.read(buffer, 0, buffer.length)) != -1) {
+            baos.write(buffer, 0, len);
+        }
+        baos.flush();
+        return baos.toByteArray();
+    }
 
     public static byte[] readBytes(InputStream in) throws IOException {
         if (in == null) {

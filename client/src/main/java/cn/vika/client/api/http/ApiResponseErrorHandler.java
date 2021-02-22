@@ -16,24 +16,28 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.core.http;
+package cn.vika.client.api.http;
 
 import java.io.IOException;
 
-/**
- * handling response
- *
- * @author Shawn Deng
- * @date 2020-11-12 01:30:47
- */
-public interface ResponseHandler<T> {
+import cn.vika.client.api.exception.ApiException;
+import cn.vika.core.http.ResponseBodyHandler;
+import cn.vika.core.utils.JacksonConverter;
+import com.fasterxml.jackson.databind.JsonNode;
 
-    /**
-     * Extract data from the given {@code ClientHttpResponse} and return it.
-     *
-     * @param response the HTTP response
-     * @return the extracted data
-     * @throws IOException in case of I/O errors
-     */
-    T extractData(ClientHttpResponse response, ResponseBodyHandler handler) throws IOException;
+/**
+ * vika rest api error handler
+ * @author Shawn Deng
+ * @date 2021-02-06 16:07:28
+ */
+public class ApiResponseErrorHandler implements ResponseBodyHandler {
+
+    @Override
+    public void handleBody(byte[] content) throws IOException {
+        JsonNode jsonNode = JacksonConverter.unmarshal(content);
+        boolean success = jsonNode.get("success").asBoolean();
+        if (!success) {
+            throw new ApiException(jsonNode.get("code").asInt(), jsonNode.get("message").toString());
+        }
+    }
 }

@@ -255,7 +255,9 @@ public class RecordPagerTest extends BaseTest {
     }
 
     public static void deleteTestData() throws ApiException {
-        vikaApiClient.getRecordApi().deleteRecords(TEST_DATASHEET_ID.get(), initRecordIds);
-        System.out.format("delete test data complete......\n");
+        if (!initRecordIds.isEmpty()) {
+            vikaApiClient.getRecordApi().deleteRecords(TEST_DATASHEET_ID.get(), initRecordIds);
+            System.out.format("delete test data complete......\n");
+        }
     }
 }

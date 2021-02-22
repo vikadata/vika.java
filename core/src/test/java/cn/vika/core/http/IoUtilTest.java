@@ -18,22 +18,25 @@
 
 package cn.vika.core.http;
 
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
+import cn.vika.core.utils.IoUtil;
+import org.junit.jupiter.api.Test;
 
 /**
- * handling response
  *
  * @author Shawn Deng
- * @date 2020-11-12 01:30:47
+ * @date 2021-02-22 10:53:10
  */
-public interface ResponseHandler<T> {
+public class IoUtilTest {
 
-    /**
-     * Extract data from the given {@code ClientHttpResponse} and return it.
-     *
-     * @param response the HTTP response
-     * @return the extracted data
-     * @throws IOException in case of I/O errors
-     */
-    T extractData(ClientHttpResponse response, ResponseBodyHandler handler) throws IOException;
+    @Test
+    public void testInputStreamToString() {
+        String originalString = "\"code\":200,\"success\":true,\"message\":\"SUCCESS\"}";
+        InputStream inputStream = new ByteArrayInputStream(originalString.getBytes(StandardCharsets.UTF_8));
+        String string = IoUtil.readString(inputStream);
+        System.out.println(string);
+    }
 }
