@@ -5,6 +5,9 @@
 [![Build](https://www.travis-ci.com/vikadata/vika.java.svg?branch=master)](https://www.travis-ci.com/github/vikadata/vika.java)
 [![JavaDoc](https://javadoc.io/badge2/cn.vika/vika.java/javadoc.io.svg)](https://javadoc.io/doc/cn.vika/vika.java)
 
+[github_issues]:https://github.com/vikadata/vika.java/issues
+[github_issues_new]:https://github.com/vikadata/vika.java/issues/new
+
 [简体中文](./README_zh.md) | English
 
 [Vika](https://vika.cn) Official Java SDK
@@ -95,7 +98,7 @@ Below code are a couple of examples on how to use the Pager:
 // Get a Pager instance that will page through the records with 100 record per page
 Pager<RecordResult> pager = vikaApiClient.getRecordApi().getRecords("datasheet_id", 100);
 
-// Iterate through the pages and print out the name and description
+// Iterate through the pages and print out the per record detail
 while (pager.hasNext())) {
     for (RecordResult record : pager.next()) {
         System.out.println(record.getRecordId() + " -: " + record.getFields());
@@ -188,5 +191,16 @@ vikaApiClient.getRecordApi().deleteRecord("datasheet_id", "recXXXXXX");
 vikaApiClient.getRecordApi().deleteRecords("datasheet_id", Arrays.asList("recXXXXXX", "recXXXXXX"));
 ```
 
+## Reporting Issues
+Vika java sdk project uses GitHub's integrated issue tracking system to record bugs and feature requests.
+If you want to raise an issue, please follow the recommendations below:
+
+* Before you log a bug, please search the [issue tracker][github_issues] to see if someone has already reported the problem.
+* If the issue doesn't already exist, [create a new issue][github_issues_new].
+* Please provide as much information as possible with the issue report, we like to know the version of Spring Boot that you are using, as well as your Operating System and JVM version.
+* If you need to paste code, or include a stack trace use Markdown escapes before and after your text.
+
+## License
+Open Source software released under the [LGPL-2.1](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt).
 
 
