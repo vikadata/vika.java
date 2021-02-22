@@ -24,13 +24,11 @@ package cn.vika.client.api.exception;
  * @author Zoe Zheng
  * @date 2020-12-15 18:24:09
  */
-public class ApiException extends Exception {
+public class ApiException extends RuntimeException {
 
     private static final long serialVersionUID = -8107100836846410486L;
 
     public static Integer DEFAULT_CODE = 50001;
-
-    public static String DEFAULT_ERROR_MESSAGE = "SERVER_ERROR";
 
     private Integer code;
 
@@ -62,5 +60,13 @@ public class ApiException extends Exception {
     @Override
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    public String toString() {
+        if (getCode() == null || getCode() == 0) {
+            this.code = DEFAULT_CODE;
+        }
+        return String.format("%s: code=%d, message=%s", getClass().getName(), getCode(), getLocalizedMessage());
     }
 }
