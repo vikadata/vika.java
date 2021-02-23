@@ -16,21 +16,21 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.models;
+package cn.vika.client.api.model;
 
 /**
- * FieldKey enum
+ * sort order enum
  *
  * @author Zoe Zheng
  * @date 2020-12-16 14:10:31
  */
-public enum FieldKey {
+public enum Order {
     /**
-     * find fields with name
+     * sort records descending
      */
-    Name,
+    DESC,
     /**
-     * find fields with id
+     * sort records ascending
      */
-    ID
+    ASC
 }

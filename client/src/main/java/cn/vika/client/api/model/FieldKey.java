@@ -16,26 +16,21 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.models;
+package cn.vika.client.api.model;
 
 /**
- * Record Result In Row Like Map structure
+ * FieldKey enum
  *
  * @author Zoe Zheng
  * @date 2020-12-16 14:10:31
  */
-public class RecordResult extends RecordMap {
-
+public enum FieldKey {
     /**
-     * record id
+     * find fields with name
      */
-    private String recordId;
-
-    public String getRecordId() {
-        return recordId;
-    }
-
-    public void setRecordId(String recordId) {
-        this.recordId = recordId;
-    }
+    Name,
+    /**
+     * find fields with id
+     */
+    ID
 }

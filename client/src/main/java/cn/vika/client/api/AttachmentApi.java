@@ -16,15 +16,15 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.datasheet;
+package cn.vika.client.api;
 
 import java.io.File;
 
 import cn.vika.client.api.exception.ApiException;
 import cn.vika.client.api.http.AbstractApi;
 import cn.vika.client.api.http.ApiHttpClient;
+import cn.vika.client.api.model.AttachmentInfo;
 import cn.vika.client.api.model.HttpResult;
-import cn.vika.client.api.models.AttachmentInfo;
 import cn.vika.core.http.FormDataMap;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;

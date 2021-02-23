@@ -16,29 +16,38 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.models;
+package cn.vika.client.api.model;
 
-import java.util.List;
+import java.util.Map;
+
+import cn.vika.core.utils.JacksonConverter;
 
 /**
- * Create Record Model
+ *
  * @author Shawn Deng
- * @date 2021-02-19 15:41:12
+ * @date 2021-02-19 15:36:51
  */
-public class UpdateRecordRequest {
+public class RecordMap {
 
-    private List<UpdateRecord> records;
+    /**
+     * record fields
+     */
+    protected Map<String, Object> fields;
 
-    public List<UpdateRecord> getRecords() {
-        return records;
+    public Map<String, Object> getFields() {
+        return fields;
     }
 
-    public void setRecords(List<UpdateRecord> records) {
-        this.records = records;
+    public void setFields(Map<String, Object> fields) {
+        this.fields = fields;
     }
 
-    public UpdateRecordRequest withRecords(List<UpdateRecord> records) {
-        this.records = records;
+    public RecordMap withFields(Map<String, Object> fields) {
+        this.fields = fields;
         return this;
+    }
+
+    public static <T> Map<String, Object> parseFieldsFromBean(T bean) {
+        return JacksonConverter.toMap(bean);
     }
 }

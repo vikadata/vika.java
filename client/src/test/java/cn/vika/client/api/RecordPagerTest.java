@@ -28,9 +28,9 @@ import java.util.stream.Stream;
 import cn.vika.client.api.exception.ApiException;
 import cn.vika.client.api.model.ApiQueryParam;
 import cn.vika.client.api.model.Pager;
-import cn.vika.client.api.models.CreateRecordRequest;
-import cn.vika.client.api.models.RecordMap;
-import cn.vika.client.api.models.RecordResult;
+import cn.vika.client.api.model.CreateRecordRequest;
+import cn.vika.client.api.model.RecordMap;
+import cn.vika.client.api.model.RecordResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -41,8 +41,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import static cn.vika.client.api.ConstantKey.TEST_DATASHEET_ID;
-import static cn.vika.client.api.models.Order.ASC;
-import static cn.vika.client.api.models.Order.DESC;
+import static cn.vika.client.api.model.Order.ASC;
+import static cn.vika.client.api.model.Order.DESC;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

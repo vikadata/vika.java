@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.models;
+package cn.vika.client.api.model;
 
 import java.util.List;
 
@@ -25,19 +25,19 @@ import java.util.List;
  * @author Shawn Deng
  * @date 2021-02-19 15:41:12
  */
-public class CreateRecordRequest {
+public class UpdateRecordRequest {
 
-    private List<RecordMap> records;
+    private List<UpdateRecord> records;
 
-    public List<RecordMap> getRecords() {
+    public List<UpdateRecord> getRecords() {
         return records;
     }
 
-    public void setRecords(List<RecordMap> records) {
+    public void setRecords(List<UpdateRecord> records) {
         this.records = records;
     }
 
-    public CreateRecordRequest withRecords(List<RecordMap> records) {
+    public UpdateRecordRequest withRecords(List<UpdateRecord> records) {
         this.records = records;
         return this;
     }

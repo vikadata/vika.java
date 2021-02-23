@@ -20,7 +20,7 @@ package cn.vika.client.api;
 
 import java.io.File;
 
-import cn.vika.client.api.models.AttachmentInfo;
+import cn.vika.client.api.model.AttachmentInfo;
 import cn.vika.core.http.ClassPathResourceLoader;
 import cn.vika.core.http.FileResourceLoader;
 import cn.vika.core.http.UrlResourceLoader;

@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.datasheet;
+package cn.vika.client.api;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,13 +27,13 @@ import cn.vika.client.api.exception.ApiException;
 import cn.vika.client.api.http.AbstractApi;
 import cn.vika.client.api.http.ApiHttpClient;
 import cn.vika.client.api.model.ApiQueryParam;
+import cn.vika.client.api.model.CreateRecordRequest;
 import cn.vika.client.api.model.HttpResult;
 import cn.vika.client.api.model.PageDetail;
 import cn.vika.client.api.model.Pager;
-import cn.vika.client.api.models.CreateRecordRequest;
-import cn.vika.client.api.models.RecordResult;
-import cn.vika.client.api.models.RecordResultList;
-import cn.vika.client.api.models.UpdateRecordRequest;
+import cn.vika.client.api.model.RecordResult;
+import cn.vika.client.api.model.RecordResultList;
+import cn.vika.client.api.model.UpdateRecordRequest;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
 import cn.vika.core.utils.MapUtil;

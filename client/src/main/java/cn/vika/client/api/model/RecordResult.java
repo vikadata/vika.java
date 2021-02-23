@@ -16,30 +16,26 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.models;
-
-import java.util.List;
+package cn.vika.client.api.model;
 
 /**
- * record result List
+ * Record Result In Row Like Map structure
  *
  * @author Zoe Zheng
- * @date 2020-12-17 11:22:01
+ * @date 2020-12-16 14:10:31
  */
-public class RecordResultList {
+public class RecordResult extends RecordMap {
 
-    private List<RecordResult> records;
+    /**
+     * record id
+     */
+    private String recordId;
 
-    public List<RecordResult> getRecords() {
-        return records;
+    public String getRecordId() {
+        return recordId;
     }
 
-    public void setRecords(List<RecordResult> records) {
-        this.records = records;
-    }
-
-    public RecordResultList withRecords(List<RecordResult> records) {
-        this.records = records;
-        return this;
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
     }
 }
