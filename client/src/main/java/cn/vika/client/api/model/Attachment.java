@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.models;
+package cn.vika.client.api.model;
 
 import java.math.BigInteger;
 
@@ -26,7 +26,7 @@ import java.math.BigInteger;
  * @author Zoe Zheng
  * @date 2020-12-17 18:30:44
  */
-public class AttachmentInfo {
+public class Attachment {
 
     private String token;
 

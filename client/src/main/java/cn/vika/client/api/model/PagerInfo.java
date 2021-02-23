@@ -26,7 +26,7 @@ import java.util.List;
  * @author Shawn Deng
  * @date 2021-02-05 20:00:06
  */
-public class PageDetail<T> implements Serializable {
+public class PagerInfo<T> implements Serializable {
 
     private static final long serialVersionUID = -6700061409171016207L;
 

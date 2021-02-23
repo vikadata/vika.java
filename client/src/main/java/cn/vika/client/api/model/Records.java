@@ -16,14 +16,30 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.models;
+package cn.vika.client.api.model;
+
+import java.util.List;
 
 /**
+ * record result List
  *
- * @author Shawn Deng
- * @date 2021-02-05 20:46:50
+ * @author Zoe Zheng
+ * @date 2020-12-17 11:22:01
  */
-public enum CellFormat {
+public class Records {
 
-    JSON, STRING
+    private List<Record> records;
+
+    public List<Record> getRecords() {
+        return records;
+    }
+
+    public void setRecords(List<Record> records) {
+        this.records = records;
+    }
+
+    public Records withRecords(List<Record> records) {
+        this.records = records;
+        return this;
+    }
 }

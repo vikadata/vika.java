@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.datasheet;
+package cn.vika.client.api;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,13 +27,13 @@ import cn.vika.client.api.exception.ApiException;
 import cn.vika.client.api.http.AbstractApi;
 import cn.vika.client.api.http.ApiHttpClient;
 import cn.vika.client.api.model.ApiQueryParam;
+import cn.vika.client.api.model.CreateRecordRequest;
 import cn.vika.client.api.model.HttpResult;
-import cn.vika.client.api.model.PageDetail;
+import cn.vika.client.api.model.PagerInfo;
 import cn.vika.client.api.model.Pager;
-import cn.vika.client.api.models.CreateRecordRequest;
-import cn.vika.client.api.models.RecordResult;
-import cn.vika.client.api.models.RecordResultList;
-import cn.vika.client.api.models.UpdateRecordRequest;
+import cn.vika.client.api.model.Record;
+import cn.vika.client.api.model.Records;
+import cn.vika.client.api.model.UpdateRecordRequest;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
 import cn.vika.core.utils.MapUtil;
@@ -54,35 +54,35 @@ public class RecordApi extends AbstractApi {
         super(apiHttpClient);
     }
 
-    public Stream<RecordResult> getRecordsAsStream(String datasheetId) throws ApiException {
+    public Stream<Record> getRecordsAsStream(String datasheetId) throws ApiException {
         return getRecords(datasheetId, getDefaultPerPage()).stream();
     }
 
-    public List<RecordResult> getRecords(String datasheetId, int page, int itemsPerPage) throws ApiException {
+    public List<Record> getRecords(String datasheetId, int page, int itemsPerPage) throws ApiException {
         if (page < 0 || itemsPerPage < 0) {
             throw new ApiException("page or itemsPerPage don't set right");
         }
         ApiQueryParam queryParam = new ApiQueryParam(page, itemsPerPage);
         Map<String, String> uriVariables = queryParam.toMap();
-        GenericTypeReference<HttpResult<PageDetail<RecordResult>>> reference = new GenericTypeReference<HttpResult<PageDetail<RecordResult>>>() {};
+        GenericTypeReference<HttpResult<PagerInfo<Record>>> reference = new GenericTypeReference<HttpResult<PagerInfo<Record>>>() {};
         String uri = String.format(PATH, datasheetId) + MapUtil.extractKeyToVariables(uriVariables);
-        HttpResult<PageDetail<RecordResult>> result = getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
+        HttpResult<PagerInfo<Record>> result = getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
         return result.getData().getRecords();
     }
 
-    public Pager<RecordResult> getRecords(String datasheetId) throws ApiException {
-        return new Pager<>(this, String.format(PATH, datasheetId), getDefaultPerPage(), RecordResult.class);
+    public Pager<Record> getRecords(String datasheetId) throws ApiException {
+        return new Pager<>(this, String.format(PATH, datasheetId), getDefaultPerPage(), Record.class);
     }
 
-    public Pager<RecordResult> getRecords(String datasheetId, int itemsPerPage) throws ApiException {
-        return new Pager<>(this, String.format(PATH, datasheetId), itemsPerPage, RecordResult.class);
+    public Pager<Record> getRecords(String datasheetId, int itemsPerPage) throws ApiException {
+        return new Pager<>(this, String.format(PATH, datasheetId), itemsPerPage, Record.class);
     }
 
-    public Pager<RecordResult> getRecords(String datasheetId, ApiQueryParam queryParam) throws ApiException {
-        return new Pager<>(this, String.format(PATH, datasheetId), queryParam, RecordResult.class);
+    public Pager<Record> getRecords(String datasheetId, ApiQueryParam queryParam) throws ApiException {
+        return new Pager<>(this, String.format(PATH, datasheetId), queryParam, Record.class);
     }
 
-    public List<RecordResult> addRecords(String datasheetId, CreateRecordRequest record) throws ApiException {
+    public List<Record> addRecords(String datasheetId, CreateRecordRequest record) throws ApiException {
         if (!StringUtil.hasText(datasheetId)) {
             throw new ApiException("datasheet id must be not null");
         }
@@ -98,18 +98,18 @@ public class RecordApi extends AbstractApi {
         if (record.getRecords().size() > 10) {
             throw new ApiException("record only can add 10 every request");
         }
-        HttpResult<RecordResultList> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, new GenericTypeReference<HttpResult<RecordResultList>>() {});
+        HttpResult<Records> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, new GenericTypeReference<HttpResult<Records>>() {});
         return result.getData().getRecords();
     }
 
-    public List<RecordResult> updateRecords(String datasheetId, UpdateRecordRequest record) throws ApiException {
+    public List<Record> updateRecords(String datasheetId, UpdateRecordRequest record) throws ApiException {
         if (!StringUtil.hasText(datasheetId)) {
             throw new ApiException("datasheet id must be not null");
         }
         if (record == null) {
             throw new RuntimeException("Record instance cannot be null.");
         }
-        HttpResult<RecordResultList> result = getDefaultHttpClient().patch(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, new GenericTypeReference<HttpResult<RecordResultList>>() {});
+        HttpResult<Records> result = getDefaultHttpClient().patch(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, new GenericTypeReference<HttpResult<Records>>() {});
         return result.getData().getRecords();
     }
 

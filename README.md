@@ -86,7 +86,7 @@ Most simple usage for query record quickly
 
 ```java
 // Get 10 records on first page
-List<RecordResult> records = vikaApiClient.getRecordApi().getRecords("datasheetId", 1, 10);
+List<Record> records = vikaApiClient.getRecordApi().getRecords("datasheetId", 1, 10);
 ```
 
 #### **Pager Resulting**
@@ -96,11 +96,11 @@ Below code are a couple of examples on how to use the Pager:
 
 ```java
 // Get a Pager instance that will page through the records with 100 record per page
-Pager<RecordResult> pager = vikaApiClient.getRecordApi().getRecords("datasheet_id", 100);
+Pager<Record> pager = vikaApiClient.getRecordApi().getRecords("datasheet_id", 100);
 
 // Iterate through the pages and print out the per record detail
 while (pager.hasNext())) {
-    for (RecordResult record : pager.next()) {
+    for (Record record : pager.next()) {
         System.out.println(record.getRecordId() + " -: " + record.getFields());
     }
 }
@@ -109,8 +109,8 @@ while (pager.hasNext())) {
 you can also fetch all the items as a single list using a Pager instance:
 ```java
 // Get a Pager instance so we can load all the records into a single list, 100 record at a time:
-Pager<RecordResult> pager = vikaApiClient.getRecordApi().getRecords("datasheet_id", 100);
-List<RecordResult> records = pager.all();
+Pager<Record> pager = vikaApiClient.getRecordApi().getRecords("datasheet_id", 100);
+List<Record> records = pager.all();
 ```
 
 **Java 8 Stream Support**
@@ -118,10 +118,10 @@ List<RecordResult> records = pager.all();
 also provide method that returns a Java 8 Stream.
 ```java
 // Pager as stream,support forEach、Group、Filter operation
-Stream<RecordResult> records = vikaApiClient.getRecordApi().getRecordsAsStream("datasheet_id");
+Stream<Record> records = vikaApiClient.getRecordApi().getRecordsAsStream("datasheet_id");
 
 // ex: extract record id to a list
-records.map(RecordResult::getRecordId).collect(Collectors.toList());
+records.map(Record::getRecordId).collect(Collectors.toList());
 ```
 
 **Advance Query**
@@ -135,7 +135,7 @@ ApiQueryParam queryParam = new ApiQueryParam(1, 50)
             .withSort("fieldName", Order.DESC).withSort("fieldName", Order.ASC)
             .withFilter("{fieldName}>1");
 // query return pager result
-Pager<RecordResult> pager = vikaApiClient.getRecordApi().getRecords("datasheet_id", queryParam);
+Pager<Record> pager = vikaApiClient.getRecordApi().getRecords("datasheet_id", queryParam);
 ```
 
 #### **Add Record**
@@ -159,7 +159,7 @@ List<RecordMap> recordMaps = JacksonConverter.unmarshalToList(RecordMap.class, a
 // create record request
 CreateRecordRequest recordRequest = new CreateRecordRequest().withRecords(recordMaps);
 // ok
-List<RecordResult> newRecords = vikaApiClient.getRecordApi().addRecords("datasheet_id", recordRequest);
+List<Record> newRecords = vikaApiClient.getRecordApi().addRecords("datasheet_id", recordRequest);
 ```
 
 #### **Update Record**
@@ -178,7 +178,7 @@ UpdateRecord record = new UpdateRecord()
 UpdateRecordRequest updateRecordRequest = new UpdateRecordRequest()
                 .withRecords(Collections.singletonList(record));
 // request send
-List<RecordResult> updateRecords = vikaApiClient.getRecordApi().updateRecords("datasheet_id", updateRecordRequest);
+List<Record> updateRecords = vikaApiClient.getRecordApi().updateRecords("datasheet_id", updateRecordRequest);
 ```
 
 #### **Delete Record**
@@ -189,6 +189,28 @@ vikaApiClient.getRecordApi().deleteRecord("datasheet_id", "recXXXXXX");
 
 // DELETE many record
 vikaApiClient.getRecordApi().deleteRecords("datasheet_id", Arrays.asList("recXXXXXX", "recXXXXXX"));
+```
+
+#### **Upload Attachment**
+
+sdk provide several way to upload attachment, You can choose the way to upload anything that suits you
+
+```java
+// classPath resource on src/main/resource/test.txt
+ResourceLoader classPathResource = new ClassPathResourceLoader("test.txt");
+Attachment attachment = vikaApiClient.getAttachmentApi().upload("datasheet_id", classPathResource);
+
+// or url resource from web
+ResourceLoader urlResource = new UrlResourceLoader(UrlUtil.url("https://test.com/image.png"))
+Attachment attachment = vikaApiClient.getAttachmentApi().upload("datasheet_id", urlResource);
+
+// or file resource
+File file = new File("/Users/Document/test.txt");
+Attachment attachment = vikaApiClient.getAttachmentApi().upload("datasheet_id", new FileResourceLoader(file));
+
+// or upload file type directly
+File file = new File("/Users/Document/test.txt");
+Attachment attachment = vikaApiClient.getAttachmentApi().upload("datasheet_id", file);
 ```
 
 ## Reporting Issues
