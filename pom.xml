@@ -29,6 +29,7 @@
         <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
         <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
         <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
+        <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <flatten-maven-plugin.version>1.1.0</flatten-maven-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
@@ -37,19 +38,19 @@
         <version-maven-plugin.version>2.8.1</version-maven-plugin.version>
 
         <!--Dependency Version-->
-        <jackson.version>2.11.3</jackson.version>
+        <jackson.version>2.12.1</jackson.version>
         <slf4j-api.version>1.7.30</slf4j-api.version>
         <logback.version>1.2.3</logback.version>
         <log4j.version>2.13.3</log4j.version>
         <httpclient.version>4.5.13</httpclient.version>
-        <okhttp.version>4.9.0</okhttp.version>
+        <okhttp.version>5.0.0-alpha.2</okhttp.version>
+        <jmimemagic.version>0.1.5</jmimemagic.version>
         <assertj.version>3.19.0</assertj.version>
         <junit.version>5.7.0</junit.version>
     </properties>
 
     <modules>
         <module>core</module>
-        <module>api</module>
         <module>client</module>
     </modules>
 
@@ -98,12 +99,6 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>vika-core</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>vika-api</artifactId>
                 <version>${revision}</version>
             </dependency>
 
@@ -169,6 +164,12 @@
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-slf4j-impl</artifactId>
                 <version>${log4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.sf.jmimemagic</groupId>
+                <artifactId>jmimemagic</artifactId>
+                <version>${jmimemagic.version}</version>
             </dependency>
 
             <!--Http Libs-->
@@ -316,6 +317,11 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>${maven-source-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven-deploy-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

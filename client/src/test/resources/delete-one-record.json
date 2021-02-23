@@ -1,0 +1,14 @@
+[
+    {
+        "fields": {
+            "ShortText": "This is from unit Test delete one record",
+            "LongText": "This is from unit Test delete one record",
+            "Options": [
+                "A"
+            ],
+            "MultiSelect": [
+                "HH"
+            ]
+        }
+    }
+]

@@ -18,10 +18,6 @@
 
 package cn.vika.core.http;
 
-import java.nio.charset.StandardCharsets;
-
-import cn.vika.core.utils.StringUtil;
-
 /**
  * Http Media type.
  *
@@ -41,49 +37,4 @@ public final class HttpMediaType {
     public static final String TEXT_PLAIN = "text/plain";
 
     public static final String APPLICATION_OCTET_STREAM = "application/octet-stream";
-
-    private HttpMediaType(String type, String charset) {
-        this.type = type;
-        this.charset = charset;
-    }
-
-    /**
-     * content type.
-     */
-    private final String type;
-
-    /**
-     * content type charset.
-     */
-    private final String charset;
-
-    public static HttpMediaType valueOf(String contentType) {
-        if (StringUtil.isEmpty(contentType)) {
-            throw new IllegalArgumentException("MediaType must not be empty");
-        }
-        String[] values = contentType.split(";");
-        String charset = StandardCharsets.UTF_8.name();
-        for (String value : values) {
-            if (value.startsWith("charset=")) {
-                charset = value.substring("charset=".length());
-            }
-        }
-        return new HttpMediaType(values[0], charset);
-    }
-
-    public static HttpMediaType valueOf(String contentType, String charset) {
-        if (StringUtil.isEmpty(contentType)) {
-            throw new IllegalArgumentException("HttpMediaType must not be empty");
-        }
-        String[] values = contentType.split(";");
-        return new HttpMediaType(values[0], StringUtil.isEmpty(charset) ? StandardCharsets.UTF_8.name() : charset);
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getCharset() {
-        return charset;
-    }
 }

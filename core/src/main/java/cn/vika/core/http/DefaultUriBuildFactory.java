@@ -52,8 +52,7 @@ public class DefaultUriBuildFactory implements UriHandler {
         }
         // set value
         if (!defaultUriVariables.isEmpty()) {
-            Map<String, Object> map = new HashMap<>();
-            map.putAll(defaultUriVariables);
+            Map<String, Object> map = new HashMap<>(defaultUriVariables);
             map.putAll(uriVariables);
             uriVariables = map;
         }

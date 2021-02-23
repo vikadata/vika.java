@@ -19,10 +19,19 @@
 package cn.vika.core.exception;
 
 /**
+ * Base Http Client Exception
  * @author Shawn Deng
  * @date 2020-11-11 23:55:45
  */
-public class HttpClientException extends RuntimeException{
+public class HttpClientException extends RuntimeException {
 
+    private static final long serialVersionUID = 8823763329544096996L;
 
+    public HttpClientException(String message) {
+        super(message);
+    }
+
+    public HttpClientException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

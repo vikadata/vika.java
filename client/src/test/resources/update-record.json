@@ -1,0 +1,14 @@
+[
+    {
+        "fields": {
+            "ShortText": "This is from unit Test update record",
+            "LongText": "This is from unit Test update record",
+            "Options": [
+                "A"
+            ],
+            "MultiSelect": [
+                "FF"
+            ]
+        }
+    }
+]

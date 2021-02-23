@@ -35,5 +35,5 @@ public interface ResponseHandler<T> {
      * @return the extracted data
      * @throws IOException in case of I/O errors
      */
-    T extractData(ClientHttpResponse response) throws IOException;
+    T extractData(ClientHttpResponse response, ResponseBodyHandler handler) throws IOException;
 }
