@@ -18,113 +18,54 @@
 
 package cn.vika.client.api.datasheet;
 
-import java.io.ByteArrayOutputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.UUID;
+import java.io.File;
 
 import cn.vika.client.api.exception.ApiException;
 import cn.vika.client.api.http.AbstractApi;
 import cn.vika.client.api.http.ApiHttpClient;
-import cn.vika.client.api.model.AbstractModel;
 import cn.vika.client.api.model.HttpResult;
+import cn.vika.client.api.models.AttachmentInfo;
+import cn.vika.core.http.FormDataMap;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
 import cn.vika.core.http.HttpMediaType;
-import net.sf.jmimemagic.Magic;
-import net.sf.jmimemagic.MagicMatch;
+import cn.vika.core.http.ResourceLoader;
+import cn.vika.core.utils.AssertUtil;
 
 /**
- * test
+ * api method for datasheet attachment field operation
  *
  * @author Zoe Zheng
  * @date 2020-12-17 16:25:42
  */
-public class AttachmentApi extends AbstractApi implements IAttachmentApi {
-    private static final String PATH = "/datasheets/%s/attachments";
+public class AttachmentApi extends AbstractApi {
 
-    /**
-     * datasheetId
-     */
+    private static final String PATH = "/datasheets/%s/attachments";
 
     public AttachmentApi(ApiHttpClient apiHttpClient) {
         super(apiHttpClient);
     }
 
-    /**
-     * upload datasheet attachment
-     *
-     * @param params add attachment data
-     * @param responseType response type
-     * @return responseType
-     */
-    @Override
-    public <T> T uploadAttachment(String datasheetId, AbstractModel params, GenericTypeReference<HttpResult<T>> responseType) throws ApiException {
-        HttpHeader header = HttpHeader.EMPTY;
-        String boundary = UUID.randomUUID().toString();
-        header.setContentType("multipart/form-data; charset=utf-8" + "; boundary=" + boundary);
-        HttpResult<T> result;
-        try {
-            byte[] binary = getMultipartPayload(params, boundary);
-            result = getDefaultHttpClient().upload(datasheetId, HttpHeader.EMPTY, binary, responseType);
-        }
-        catch (Exception e) {
-            throw new ApiException(e);
-        }
-        if (result.isSuccess()) {
-            return result.getData();
-        }
-        throw new ApiException(result.getCode(), result.getMessage());
+    public AttachmentInfo upload(String datasheetId, ResourceLoader loader) throws ApiException {
+        HttpHeader httpHeader = HttpHeader.EMPTY;
+        httpHeader.setContentType(HttpMediaType.MULTIPART_FORM_DATA);
+        FormDataMap formDataMap = new FormDataMap();
+        formDataMap.put("file", loader);
+        HttpResult<AttachmentInfo> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), httpHeader, formDataMap, new GenericTypeReference<HttpResult<AttachmentInfo>>() {});
+        return result.getData();
     }
 
-    /**
-     *
-     * @param params attachment data
-     * @param boundary unique key
-     * @return byte[]
-     * @throws Exception IO exception maybe
-     */
-    private byte[] getMultipartPayload(AbstractModel params, String boundary) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        String[] binaryParams = params.getBinaryParams();
-        for (Map.Entry<String, byte[]> entry : params.getMultipartRequestParams().entrySet()) {
-            baos.write("--".getBytes(StandardCharsets.UTF_8));
-            baos.write(boundary.getBytes(StandardCharsets.UTF_8));
-            baos.write("\r\n".getBytes(StandardCharsets.UTF_8));
-            baos.write("Content-Disposition: form-data; name=\"".getBytes(StandardCharsets.UTF_8));
-            // binary
-            if (Arrays.asList(binaryParams).contains(entry.getKey())) {
-                baos.write(entry.getKey().getBytes(StandardCharsets.UTF_8));
-                baos.write("\"; filename=\"".getBytes(StandardCharsets.UTF_8));
-                baos.write(params.getBinaryParamNames().get(entry.getKey()));
-                baos.write("\"\r\n".getBytes(StandardCharsets.UTF_8));
-                baos.write("Content-Type:".getBytes(StandardCharsets.UTF_8));
-                MagicMatch match = Magic.getMagicMatch(entry.getValue(), false);
-                if (match != null) {
-                    baos.write(match.getMimeType().getBytes(StandardCharsets.UTF_8));
-                }
-                else {
-                    baos.write(HttpMediaType.APPLICATION_OCTET_STREAM.getBytes(StandardCharsets.UTF_8));
-                }
-                baos.write(";charset=utf-8".getBytes(StandardCharsets.UTF_8));
-                baos.write("\r\n".getBytes(StandardCharsets.UTF_8));
-            }
-            else {
-                baos.write(entry.getKey().getBytes(StandardCharsets.UTF_8));
-                baos.write("\"\r\n".getBytes(StandardCharsets.UTF_8));
-            }
-            baos.write("\r\n".getBytes(StandardCharsets.UTF_8));
-            baos.write(entry.getValue());
-            baos.write("\r\n".getBytes(StandardCharsets.UTF_8));
-        }
-        if (baos.size() != 0) {
-            baos.write("--".getBytes(StandardCharsets.UTF_8));
-            baos.write(boundary.getBytes(StandardCharsets.UTF_8));
-            baos.write("--\r\n".getBytes(StandardCharsets.UTF_8));
-        }
-        byte[] bytes = baos.toByteArray();
-        baos.close();
-        return bytes;
+    public AttachmentInfo upload(String datasheetId, File file) throws ApiException {
+        AssertUtil.notNull(file, "file can not be null");
+        FormDataMap formDataMap = new FormDataMap();
+        formDataMap.put("file", file);
+        return upload(datasheetId, formDataMap);
+    }
+
+    public AttachmentInfo upload(String datasheetId, FormDataMap formData) throws ApiException {
+        HttpHeader httpHeader = HttpHeader.EMPTY;
+        httpHeader.setContentType(HttpMediaType.MULTIPART_FORM_DATA);
+        HttpResult<AttachmentInfo> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), httpHeader, formData, new GenericTypeReference<HttpResult<AttachmentInfo>>() {});
+        return result.getData();
     }
 }

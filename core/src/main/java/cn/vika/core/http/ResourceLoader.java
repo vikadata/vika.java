@@ -16,26 +16,41 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api.datasheet;
+package cn.vika.core.http;
 
-import cn.vika.client.api.model.AbstractModel;
-import cn.vika.client.api.model.HttpResult;
-import cn.vika.core.http.GenericTypeReference;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 /**
- * attachment api
- *
- * @author Zoe Zheng
- * @date 2020-12-17 16:15:54
+ * Resource Loader interface
+ * @author Shawn Deng
+ * @date 2021-02-23 10:13:18
  */
-public interface IAttachmentApi {
+public interface ResourceLoader {
 
     /**
-     * upload datasheet attachment
-     *
-     * @param params add attachment data
-     * @param responseType response type
-     * @return responseType
+     * Resource Name
      */
-    <T> T uploadAttachment(String datasheetId, AbstractModel params, GenericTypeReference<HttpResult<T>> responseType) throws Exception;
+    String getName();
+
+    /**
+     * Resource Url
+     */
+    URL getUrl();
+
+    /**
+     * Resource to input stream
+     */
+    InputStream getInputStream() throws IOException;
+
+    /**
+     * Resource to byte
+     */
+    byte[] readBytes() throws IOException;
+
+    /**
+     * Resource content length
+     */
+    long contentLength() throws IOException;
 }

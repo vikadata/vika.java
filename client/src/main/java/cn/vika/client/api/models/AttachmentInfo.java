@@ -27,13 +27,21 @@ import java.math.BigInteger;
  * @date 2020-12-17 18:30:44
  */
 public class AttachmentInfo {
+
     private String token;
+
     private String name;
+
     private BigInteger size;
+
     private Integer width;
+
     private Integer height;
+
     private String mimeType;
+
     private String preview;
+
     private String url;
 
     public String getToken() {

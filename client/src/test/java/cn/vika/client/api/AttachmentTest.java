@@ -18,7 +18,22 @@
 
 package cn.vika.client.api;
 
-import java.io.IOException;
+import java.io.File;
+
+import cn.vika.client.api.models.AttachmentInfo;
+import cn.vika.core.http.ClassPathResourceLoader;
+import cn.vika.core.http.FileResourceLoader;
+import cn.vika.core.http.UrlResourceLoader;
+import cn.vika.core.utils.UrlUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+import static cn.vika.client.api.ConstantKey.TEST_DATASHEET_ID;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * attachment test
@@ -26,15 +41,48 @@ import java.io.IOException;
  * @author Zoe Zheng
  * @date 2020-12-17 18:49:24
  */
-public class AttachmentTest {
+@TestMethodOrder(OrderAnnotation.class)
+public class AttachmentTest extends BaseTest {
 
-    public void testUploadAttachment() throws IOException {
-//        ApiCredential credential = new ApiCredential(System.getenv("VIKA_TOKEN"));
-//        AttachmentRequest param = new AttachmentRequest();
-//        param.setFileName("维格数表通讯录导入模板.xlsx");
-//        param.setFile(Files.readAllBytes(Paths.get("/**/**/维格数表通讯录导入模板.xlsx")));
-//        AttachmentClient attachmentClient = new AttachmentClient(credential, "dst0Yj5aNeoHldqvf6");
-//        AttachmentInfo attachmentInfo = attachmentClient.uploadAttachment(param);
-//        Assertions.assertNotNull(attachmentInfo);
+    private static VikaApiClient vikaApiClient;
+
+    @BeforeAll
+    public static void setup() {
+        vikaApiClient = testInitApiClient();
     }
+
+    @Test
+    @Order(1)
+    public void testUploadWithClassPathResource() throws JsonProcessingException {
+        AttachmentInfo attachmentInfo = vikaApiClient.getAttachmentApi().upload(TEST_DATASHEET_ID.get(), new ClassPathResourceLoader("test.txt"));
+        assertThat(attachmentInfo).isNotNull();
+        System.out.println(JacksonJsonUtil.toJson(attachmentInfo, true));
+    }
+
+    @Test
+    @Order(2)
+    public void testUploadWithUrlResource() throws JsonProcessingException {
+        AttachmentInfo attachmentInfo = vikaApiClient.getAttachmentApi().upload(TEST_DATASHEET_ID.get(), new UrlResourceLoader(UrlUtil.url("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3483500324,2196746779&fm=26&gp=0.jpg")));
+        assertThat(attachmentInfo).isNotNull();
+        System.out.println(JacksonJsonUtil.toJson(attachmentInfo, true));
+    }
+
+    @Test
+    @Order(3)
+    public void testUploadWithFileResource() throws JsonProcessingException {
+        File file = new File("/Users/shawndeng/Documents/Project/vika.java/client/src/test/resources/test.docx");
+        AttachmentInfo attachmentInfo = vikaApiClient.getAttachmentApi().upload(TEST_DATASHEET_ID.get(), new FileResourceLoader(file));
+        assertThat(attachmentInfo).isNotNull();
+        System.out.println(JacksonJsonUtil.toJson(attachmentInfo, true));
+    }
+
+    @Test
+    @Order(4)
+    public void testUploadWithFile() throws JsonProcessingException {
+        File file = new File("/Users/shawndeng/Documents/Project/vika.java/client/src/test/resources/test.docx");
+        AttachmentInfo attachmentInfo = vikaApiClient.getAttachmentApi().upload(TEST_DATASHEET_ID.get(), file);
+        assertThat(attachmentInfo).isNotNull();
+        System.out.println(JacksonJsonUtil.toJson(attachmentInfo, true));
+    }
+
 }

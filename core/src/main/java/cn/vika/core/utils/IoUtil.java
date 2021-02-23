@@ -87,12 +87,22 @@ public class IoUtil {
         return byteCount;
     }
 
-    private static void close(Closeable closeable) {
-        try {
-            closeable.close();
-        }
-        catch (IOException ex) {
-            // ignore
+    public static void copy(byte[] in, OutputStream out) throws IOException {
+        AssertUtil.notNull(in, "No input byte array specified");
+        AssertUtil.notNull(out, "No OutputStream specified");
+
+        out.write(in);
+        out.flush();
+    }
+
+    public static void close(Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            }
+            catch (IOException ex) {
+                // ignore
+            }
         }
     }
 }

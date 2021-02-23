@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import cn.vika.core.utils.AssertUtil;
+import cn.vika.core.utils.StringUtil;
 
 /**
  * A data structure representing HTTP request or response headers,
@@ -41,6 +42,8 @@ import cn.vika.core.utils.AssertUtil;
 public class HttpHeader implements Map<String, List<String>>, Serializable {
 
     private static final long serialVersionUID = -7828980872691946594L;
+
+    public static final String ALL = "*/*";
 
     /**
      * The HTTP {@code User-Agent} header field name.
@@ -57,10 +60,14 @@ public class HttpHeader implements Map<String, List<String>>, Serializable {
      */
     public static final String CONTENT_LENGTH = "Content-Length";
 
+    public static final String CONTENT_DISPOSITION = "Content-Disposition";
+
     /**
      * The HTTP {@code Authorization} header field name.
      */
     public static final String AUTHORIZATION = "Authorization";
+
+    public static final String TRANSFER_ENCODING = "Transfer-Encoding";
 
     /**
      * create a empty map
@@ -136,6 +143,19 @@ public class HttpHeader implements Map<String, List<String>>, Serializable {
 
     public String getContentType() {
         return getFirstValue(CONTENT_TYPE);
+    }
+
+    public void setContentDispositionFormData(String name, String filename) {
+        AssertUtil.notNull(name, "Name must not be null");
+        if (StringUtil.hasText(filename)) {
+            setContentDisposition(buildContentDisposition("form-data", name, filename));
+        } else {
+            setContentDisposition(buildContentDisposition("form-data", name));
+        }
+    }
+
+    public void setContentDisposition(String contentDisposition) {
+        set(CONTENT_DISPOSITION, contentDisposition);
     }
 
     public void add(String headerName, String headerValue) {
@@ -256,6 +276,47 @@ public class HttpHeader implements Map<String, List<String>>, Serializable {
                             values.stream().map(s -> "\"" + s + "\"").collect(Collectors.joining(", ")));
                 })
                 .collect(Collectors.joining(", ", "[", "]"));
+    }
+
+    public static String buildContentDisposition(String type, String name) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(type);
+        sb.append("; name=\"");
+        sb.append(name).append('\"');
+        return sb.toString();
+    }
+
+    public static String buildContentDisposition(String type, String name, String filename) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(type);
+        sb.append("; name=\"");
+        sb.append(name).append('\"');
+        sb.append("; filename=\"");
+        sb.append(quoteFilename(filename)).append('\"');
+        return sb.toString();
+    }
+
+    private static String quoteFilename(String filename) {
+        if (filename.indexOf('"') == -1 && filename.indexOf('\\') == -1) {
+            return filename;
+        }
+        boolean escaped = false;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < filename.length() ; i++) {
+            char c = filename.charAt(i);
+            if (!escaped && c == '"') {
+                sb.append("\\\"");
+            }
+            else {
+                sb.append(c);
+            }
+            escaped = (!escaped && c == '\\');
+        }
+        // Remove backslash at the end..
+        if (escaped) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        return sb.toString();
     }
 
 }

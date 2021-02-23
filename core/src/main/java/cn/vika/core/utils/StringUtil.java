@@ -18,6 +18,7 @@
 
 package cn.vika.core.utils;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,8 +29,19 @@ import java.util.Map;
  */
 public class StringUtil {
 
+    public static final char SLASH_CHAR = '/';
+
+    private static final char BACKSLASH_CHAR = '\\';
+
     public static final String SLASH = "/";
+
     public static final String EMPTY = "";
+
+    public static final String DOT = ".";
+
+    public static final String DOUBLE_DOT = "..";
+
+    public static final String COLON = ":";
 
     /**
      * Check whether the given {@code String} contains actual <em>text</em>.
@@ -73,7 +85,7 @@ public class StringUtil {
         for (Map.Entry<String, ?> entry : values.entrySet()) {
             value = entry.getValue().toString();
             if (null != value) {
-                template2 = replace(template2, 0,"{" + entry.getKey() + "}", value);
+                template2 = replace(template2, 0, "{" + entry.getKey() + "}", value);
             }
         }
         return template2;
@@ -101,7 +113,8 @@ public class StringUtil {
         final int searchStrLength = searchStr.length();
         if (fromIndex > strLength) {
             return str;
-        } else if (fromIndex < 0) {
+        }
+        else if (fromIndex < 0) {
             fromIndex = 0;
         }
 
@@ -124,6 +137,10 @@ public class StringUtil {
         return result.toString();
     }
 
+    public static boolean isEmpty(CharSequence str) {
+        return str == null || str.length() == 0;
+    }
+
     public static boolean isEmpty(String str) {
         return str == null || str.length() == 0;
     }
@@ -142,5 +159,132 @@ public class StringUtil {
 
     public static String nullToDefault(CharSequence str, String defaultStr) {
         return (str == null) ? defaultStr : str.toString();
+    }
+
+    public static String getName(String filePath) {
+        if (null == filePath) {
+            return null;
+        }
+        int len = filePath.length();
+        if (0 == len) {
+            return filePath;
+        }
+        if (isFileSeparator(filePath.charAt(len - 1))) {
+            // 以分隔符结尾的去掉结尾分隔符
+            len--;
+        }
+
+        int begin = 0;
+        char c;
+        for (int i = len - 1; i > -1; i--) {
+            c = filePath.charAt(i);
+            if (isFileSeparator(c)) {
+                // 查找最后一个路径分隔符（/或者\）
+                begin = i + 1;
+                break;
+            }
+        }
+
+        return filePath.substring(begin, len);
+    }
+
+    public static boolean isFileSeparator(char c) {
+        return SLASH_CHAR == c || BACKSLASH_CHAR == c;
+    }
+
+    public static String removePrefix(CharSequence str, CharSequence prefix) {
+        if (isEmpty(str) || isEmpty(prefix)) {
+            return null == str ? null : str.toString();
+        }
+
+        final String str2 = str.toString();
+        if (str2.startsWith(prefix.toString())) {
+            return sub(str2, prefix.length(), str2.length());// 截取后半段
+        }
+        return str2;
+    }
+
+    public static String removePrefixIgnoreCase(CharSequence str, CharSequence prefix) {
+        if (isEmpty(str) || isEmpty(prefix)) {
+            return null == str ? null : str.toString();
+        }
+
+        final String str2 = str.toString();
+        if (str2.toLowerCase().startsWith(prefix.toString().toLowerCase())) {
+            if (isEmpty(str2)) {
+                return null;
+            }
+            return sub(str2, prefix.length(), str2.length());
+        }
+        return str2;
+    }
+
+    public static String sub(CharSequence str, int fromIndex, int toIndex) {
+        if (isEmpty(str)) {
+            return null == str ? null : str.toString();
+        }
+        int len = str.length();
+
+        if (fromIndex < 0) {
+            fromIndex = len + fromIndex;
+            if (fromIndex < 0) {
+                fromIndex = 0;
+            }
+        }
+        else if (fromIndex > len) {
+            fromIndex = len;
+        }
+
+        if (toIndex < 0) {
+            toIndex = len + toIndex;
+            if (toIndex < 0) {
+                toIndex = len;
+            }
+        }
+        else if (toIndex > len) {
+            toIndex = len;
+        }
+
+        if (toIndex < fromIndex) {
+            int tmp = fromIndex;
+            fromIndex = toIndex;
+            toIndex = tmp;
+        }
+
+        if (fromIndex == toIndex) {
+            return EMPTY;
+        }
+
+        return str.toString().substring(fromIndex, toIndex);
+    }
+
+    public static String join(List<String> list,  CharSequence conjunction) {
+        if (null == list) {
+            return null;
+        }
+
+        final StringBuilder sb = new StringBuilder();
+        for (String s : list) {
+            sb.append(conjunction);
+            sb.append(s);
+        }
+        return sb.toString();
+    }
+
+    public static String getFilenameExtension(String fileName) {
+        if (fileName == null) {
+            return null;
+        }
+
+        int extIndex = fileName.lastIndexOf(DOT);
+        if (extIndex == -1) {
+            return null;
+        }
+
+        int folderIndex = fileName.lastIndexOf(SLASH);
+        if (folderIndex > extIndex) {
+            return null;
+        }
+        return fileName.substring(extIndex + 1);
     }
 }

@@ -18,23 +18,24 @@
 
 package cn.vika.core.http;
 
+import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
- * Http Media type.
- *
+ * Form Data Map
  * @author Shawn Deng
- * @date 2020-11-07 00:32:45
+ * @date 2021-02-22 17:16:50
  */
-public final class HttpMediaType {
+public class FormDataMap extends LinkedHashMap<String, Object> implements Serializable {
 
-    public static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
+    private static final long serialVersionUID = -8944555209120084438L;
 
-    public static final String APPLICATION_JSON = "application/json";
+    public FormDataMap() {
+        super();
+    }
 
-    public static final String MULTIPART_FORM_DATA = "multipart/form-data";
-
-    public static final String TEXT_HTML = "text/html";
-
-    public static final String TEXT_PLAIN = "text/plain";
-
-    public static final String APPLICATION_OCTET_STREAM = "application/octet-stream";
+    public FormDataMap(Map<String, Object> otherMap) {
+        super(otherMap);
+    }
 }

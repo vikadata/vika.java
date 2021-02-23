@@ -18,23 +18,23 @@
 
 package cn.vika.core.http;
 
+import java.io.File;
+
+import cn.vika.core.utils.StringUtil;
+import cn.vika.core.utils.UrlUtil;
+
 /**
- * Http Media type.
- *
+ * File resource loader
  * @author Shawn Deng
- * @date 2020-11-07 00:32:45
+ * @date 2021-02-23 16:06:26
  */
-public final class HttpMediaType {
+public class FileResourceLoader extends UrlResourceLoader {
 
-    public static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
+    public FileResourceLoader(File file) {
+        this(file, file.getName());
+    }
 
-    public static final String APPLICATION_JSON = "application/json";
-
-    public static final String MULTIPART_FORM_DATA = "multipart/form-data";
-
-    public static final String TEXT_HTML = "text/html";
-
-    public static final String TEXT_PLAIN = "text/plain";
-
-    public static final String APPLICATION_OCTET_STREAM = "application/octet-stream";
+    public FileResourceLoader(File file, String fileName) {
+        super(UrlUtil.getURL(file), !StringUtil.hasText(fileName) ? file.getName() : fileName);
+    }
 }
