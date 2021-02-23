@@ -191,6 +191,28 @@ vikaApiClient.getRecordApi().deleteRecord("datasheet_id", "recXXXXXX");
 vikaApiClient.getRecordApi().deleteRecords("datasheet_id", Arrays.asList("recXXXXXX", "recXXXXXX"));
 ```
 
+#### **Upload Attachment**
+
+sdk provide several way to upload attachment, You can choose the way to upload anything that suits you
+
+```java
+// classPath resource on src/main/resource/test.txt
+ResourceLoader classPathResource = new ClassPathResourceLoader("test.txt");
+AttachmentInfo attachmentInfo = vikaApiClient.getAttachmentApi().upload("datasheet_id", classPathResource);
+
+// or url resource from web
+ResourceLoader urlResource = new UrlResourceLoader(UrlUtil.url("https://test.com/image.png"))
+AttachmentInfo attachmentInfo = vikaApiClient.getAttachmentApi().upload("datasheet_id", urlResource);
+
+// or file resource
+File file = new File("/Users/Document/test.txt");
+AttachmentInfo attachmentInfo = vikaApiClient.getAttachmentApi().upload("datasheet_id", new FileResourceLoader(file));
+
+// or upload file type directly
+File file = new File("/Users/Document/test.txt");
+AttachmentInfo attachmentInfo = vikaApiClient.getAttachmentApi().upload("datasheet_id", file);
+```
+
 ## Reporting Issues
 Vika java sdk project uses GitHub's integrated issue tracking system to record bugs and feature requests.
 If you want to raise an issue, please follow the recommendations below:
