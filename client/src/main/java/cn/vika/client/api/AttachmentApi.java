@@ -23,7 +23,7 @@ import java.io.File;
 import cn.vika.client.api.exception.ApiException;
 import cn.vika.client.api.http.AbstractApi;
 import cn.vika.client.api.http.ApiHttpClient;
-import cn.vika.client.api.model.AttachmentInfo;
+import cn.vika.client.api.model.Attachment;
 import cn.vika.client.api.model.HttpResult;
 import cn.vika.core.http.FormDataMap;
 import cn.vika.core.http.GenericTypeReference;
@@ -46,26 +46,26 @@ public class AttachmentApi extends AbstractApi {
         super(apiHttpClient);
     }
 
-    public AttachmentInfo upload(String datasheetId, ResourceLoader loader) throws ApiException {
+    public Attachment upload(String datasheetId, ResourceLoader loader) throws ApiException {
         HttpHeader httpHeader = HttpHeader.EMPTY;
         httpHeader.setContentType(HttpMediaType.MULTIPART_FORM_DATA);
         FormDataMap formDataMap = new FormDataMap();
         formDataMap.put("file", loader);
-        HttpResult<AttachmentInfo> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), httpHeader, formDataMap, new GenericTypeReference<HttpResult<AttachmentInfo>>() {});
+        HttpResult<Attachment> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), httpHeader, formDataMap, new GenericTypeReference<HttpResult<Attachment>>() {});
         return result.getData();
     }
 
-    public AttachmentInfo upload(String datasheetId, File file) throws ApiException {
+    public Attachment upload(String datasheetId, File file) throws ApiException {
         AssertUtil.notNull(file, "file can not be null");
         FormDataMap formDataMap = new FormDataMap();
         formDataMap.put("file", file);
         return upload(datasheetId, formDataMap);
     }
 
-    public AttachmentInfo upload(String datasheetId, FormDataMap formData) throws ApiException {
+    public Attachment upload(String datasheetId, FormDataMap formData) throws ApiException {
         HttpHeader httpHeader = HttpHeader.EMPTY;
         httpHeader.setContentType(HttpMediaType.MULTIPART_FORM_DATA);
-        HttpResult<AttachmentInfo> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), httpHeader, formData, new GenericTypeReference<HttpResult<AttachmentInfo>>() {});
+        HttpResult<Attachment> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), httpHeader, formData, new GenericTypeReference<HttpResult<Attachment>>() {});
         return result.getData();
     }
 }

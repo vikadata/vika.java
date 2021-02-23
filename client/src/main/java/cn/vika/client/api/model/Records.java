@@ -26,19 +26,19 @@ import java.util.List;
  * @author Zoe Zheng
  * @date 2020-12-17 11:22:01
  */
-public class RecordResultList {
+public class Records {
 
-    private List<RecordResult> records;
+    private List<Record> records;
 
-    public List<RecordResult> getRecords() {
+    public List<Record> getRecords() {
         return records;
     }
 
-    public void setRecords(List<RecordResult> records) {
+    public void setRecords(List<Record> records) {
         this.records = records;
     }
 
-    public RecordResultList withRecords(List<RecordResult> records) {
+    public Records withRecords(List<Record> records) {
         this.records = records;
         return this;
     }

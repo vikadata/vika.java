@@ -24,7 +24,7 @@ package cn.vika.client.api.model;
  * @author Zoe Zheng
  * @date 2020-12-16 14:10:31
  */
-public class RecordResult extends RecordMap {
+public class Record extends RecordMap {
 
     /**
      * record id

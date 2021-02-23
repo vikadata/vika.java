@@ -31,7 +31,7 @@ import cn.vika.client.api.model.ApiQueryParam;
 import cn.vika.client.api.model.Pager;
 import cn.vika.client.api.model.CreateRecordRequest;
 import cn.vika.client.api.model.RecordMap;
-import cn.vika.client.api.model.RecordResult;
+import cn.vika.client.api.model.Record;
 import cn.vika.client.api.model.UpdateRecord;
 import cn.vika.client.api.model.UpdateRecordRequest;
 import cn.vika.core.utils.JacksonConverter;
@@ -74,12 +74,12 @@ public class RecordOperationTest extends BaseTest {
     public void testCreateRecordFromFile() throws IOException, ApiException {
         List<RecordMap> recordMaps = JacksonJsonUtil.unmarshalResourceToList(RecordMap.class, "create-record.json");
         CreateRecordRequest recordRequest = new CreateRecordRequest().withRecords(recordMaps);
-        List<RecordResult> newRecords = vikaApiClient.getRecordApi().addRecords(TEST_DATASHEET_ID.get(), recordRequest);
+        List<Record> newRecords = vikaApiClient.getRecordApi().addRecords(TEST_DATASHEET_ID.get(), recordRequest);
         assertThat(newRecords).isNotNull();
         assertThat(newRecords).isNotEmpty();
         // compare result for create record
         int i = 0;
-        for (RecordResult newRecord : newRecords) {
+        for (Record newRecord : newRecords) {
             Map<String, Object> recordMap = recordMaps.get(i).getFields();
             for (Entry<String, Object> entry : newRecord.getFields().entrySet()) {
                 if (recordMap.containsKey(entry.getKey())) {
@@ -88,7 +88,7 @@ public class RecordOperationTest extends BaseTest {
             }
             i++;
         }
-        List<String> recordIds = newRecords.stream().map(RecordResult::getRecordId).collect(Collectors.toList());
+        List<String> recordIds = newRecords.stream().map(Record::getRecordId).collect(Collectors.toList());
         assertThat(recordIds).isNotEmpty();
         deleteTestData(recordIds);
     }
@@ -106,12 +106,12 @@ public class RecordOperationTest extends BaseTest {
         ArrayNode arrayNode = JsonNodeFactory.instance.arrayNode().add(fields);
         List<RecordMap> recordMaps = JacksonJsonUtil.unmarshalJsonNodeToList(RecordMap.class, arrayNode);
         CreateRecordRequest recordRequest = new CreateRecordRequest().withRecords(recordMaps);
-        List<RecordResult> newRecords = vikaApiClient.getRecordApi().addRecords(TEST_DATASHEET_ID.get(), recordRequest);
+        List<Record> newRecords = vikaApiClient.getRecordApi().addRecords(TEST_DATASHEET_ID.get(), recordRequest);
         assertThat(newRecords).isNotNull();
         assertThat(newRecords).isNotEmpty();
         // compare result for create record
         int i = 0;
-        for (RecordResult newRecord : newRecords) {
+        for (Record newRecord : newRecords) {
             Map<String, Object> recordMap = recordMaps.get(i).getFields();
             for (Entry<String, Object> entry : newRecord.getFields().entrySet()) {
                 if (recordMap.containsKey(entry.getKey())) {
@@ -120,7 +120,7 @@ public class RecordOperationTest extends BaseTest {
             }
             i++;
         }
-        List<String> recordIds = newRecords.stream().map(RecordResult::getRecordId).collect(Collectors.toList());
+        List<String> recordIds = newRecords.stream().map(Record::getRecordId).collect(Collectors.toList());
         assertThat(recordIds).isNotEmpty();
         deleteTestData(recordIds);
     }
@@ -136,12 +136,12 @@ public class RecordOperationTest extends BaseTest {
 
         List<RecordMap> recordMaps = Collections.singletonList(new RecordMap().withFields(JacksonConverter.toMap(fieldDTO)));
         CreateRecordRequest recordRequest = new CreateRecordRequest().withRecords(recordMaps);
-        List<RecordResult> newRecords = vikaApiClient.getRecordApi().addRecords(TEST_DATASHEET_ID.get(), recordRequest);
+        List<Record> newRecords = vikaApiClient.getRecordApi().addRecords(TEST_DATASHEET_ID.get(), recordRequest);
         assertThat(newRecords).isNotNull();
         assertThat(newRecords).isNotEmpty();
         // compare result for create record
         int i = 0;
-        for (RecordResult newRecord : newRecords) {
+        for (Record newRecord : newRecords) {
             Map<String, Object> recordMap = recordMaps.get(i).getFields();
             for (Entry<String, Object> entry : newRecord.getFields().entrySet()) {
                 if (recordMap.containsKey(entry.getKey())) {
@@ -150,7 +150,7 @@ public class RecordOperationTest extends BaseTest {
             }
             i++;
         }
-        List<String> recordIds = newRecords.stream().map(RecordResult::getRecordId).collect(Collectors.toList());
+        List<String> recordIds = newRecords.stream().map(Record::getRecordId).collect(Collectors.toList());
         assertThat(recordIds).isNotEmpty();
         deleteTestData(recordIds);
     }
@@ -160,12 +160,12 @@ public class RecordOperationTest extends BaseTest {
     public void testUpdateRecord() throws IOException, ApiException {
         List<RecordMap> recordMaps = JacksonJsonUtil.unmarshalResourceToList(RecordMap.class, "update-record.json");
         CreateRecordRequest createRecordRequest = new CreateRecordRequest().withRecords(recordMaps);
-        List<RecordResult> newRecords = vikaApiClient.getRecordApi().addRecords(TEST_DATASHEET_ID.get(), createRecordRequest);
+        List<Record> newRecords = vikaApiClient.getRecordApi().addRecords(TEST_DATASHEET_ID.get(), createRecordRequest);
         assertThat(newRecords).isNotNull();
         assertThat(newRecords).isNotEmpty();
         assertThat(newRecords).hasSize(1);
 
-        RecordResult recordResult = newRecords.get(0);
+        Record recordResult = newRecords.get(0);
         assertThat(recordResult).isNotNull();
 
         String recordId = recordResult.getRecordId();
@@ -180,17 +180,17 @@ public class RecordOperationTest extends BaseTest {
         UpdateRecordRequest updateRecordRequest = new UpdateRecordRequest()
                 .withRecords(Collections.singletonList(record));
 
-        List<RecordResult> updateRecords = vikaApiClient.getRecordApi().updateRecords(TEST_DATASHEET_ID.get(), updateRecordRequest);
+        List<Record> updateRecords = vikaApiClient.getRecordApi().updateRecords(TEST_DATASHEET_ID.get(), updateRecordRequest);
         assertThat(updateRecords).isNotNull();
         assertThat(updateRecords).isNotEmpty();
         assertThat(updateRecords).hasSize(1);
 
-        RecordResult returnResult = updateRecords.get(0);
+        Record returnResult = updateRecords.get(0);
         assertThat(returnResult).isNotNull();
         assertThat(returnResult.getRecordId()).isEqualTo(recordId);
         assertThat(returnResult.getFields()).isNotNull();
 
-        List<String> recordIds = newRecords.stream().map(RecordResult::getRecordId).collect(Collectors.toList());
+        List<String> recordIds = newRecords.stream().map(Record::getRecordId).collect(Collectors.toList());
         assertThat(recordIds).isNotEmpty();
         deleteTestData(recordIds);
     }
@@ -200,21 +200,21 @@ public class RecordOperationTest extends BaseTest {
     public void testDeleteRecord() throws IOException, ApiException {
         List<RecordMap> recordMaps = JacksonJsonUtil.unmarshalResourceToList(RecordMap.class, "delete-one-record.json");
         CreateRecordRequest createRecordRequest = new CreateRecordRequest().withRecords(recordMaps);
-        List<RecordResult> newRecords = vikaApiClient.getRecordApi().addRecords(TEST_DATASHEET_ID.get(), createRecordRequest);
+        List<Record> newRecords = vikaApiClient.getRecordApi().addRecords(TEST_DATASHEET_ID.get(), createRecordRequest);
         assertThat(newRecords).isNotNull();
         assertThat(newRecords).isNotEmpty();
         assertThat(newRecords).hasSize(1);
 
-        RecordResult recordResult = newRecords.get(0);
-        assertThat(recordResult).isNotNull();
+        Record record = newRecords.get(0);
+        assertThat(record).isNotNull();
 
-        String recordId = recordResult.getRecordId();
+        String recordId = record.getRecordId();
 
         vikaApiClient.getRecordApi().deleteRecord(TEST_DATASHEET_ID.get(), recordId);
 
         // assert query whether record exist
         ApiQueryParam queryParam = ApiQueryParam.EMPTY.withRecordIds(Collections.singletonList(recordId));
-        Pager<RecordResult> pager = vikaApiClient.getRecordApi().getRecords(ConstantKey.TEST_DATASHEET_ID.get(), queryParam);
+        Pager<Record> pager = vikaApiClient.getRecordApi().getRecords(ConstantKey.TEST_DATASHEET_ID.get(), queryParam);
         assertThat(pager).isNotNull();
         assertThat(pager.getTotalItems()).isZero();
     }
@@ -225,19 +225,19 @@ public class RecordOperationTest extends BaseTest {
         // First create three record
         List<RecordMap> recordMaps = JacksonJsonUtil.unmarshalResourceToList(RecordMap.class, "delete-many-record.json");
         CreateRecordRequest createRecordRequest = new CreateRecordRequest().withRecords(recordMaps);
-        List<RecordResult> newRecords = vikaApiClient.getRecordApi().addRecords(TEST_DATASHEET_ID.get(), createRecordRequest);
+        List<Record> newRecords = vikaApiClient.getRecordApi().addRecords(TEST_DATASHEET_ID.get(), createRecordRequest);
         assertThat(newRecords).isNotNull();
         assertThat(newRecords).isNotEmpty();
         assertThat(newRecords).hasSize(3);
 
-        List<String> recordIds = newRecords.stream().map(RecordResult::getRecordId).collect(Collectors.toList());
+        List<String> recordIds = newRecords.stream().map(Record::getRecordId).collect(Collectors.toList());
 
         // Now delete record which above code for creating record
         vikaApiClient.getRecordApi().deleteRecords(TEST_DATASHEET_ID.get(), recordIds);
 
         // assert query whether record exist
         ApiQueryParam queryParam = ApiQueryParam.EMPTY.withRecordIds(recordIds);
-        Pager<RecordResult> pager = vikaApiClient.getRecordApi().getRecords(ConstantKey.TEST_DATASHEET_ID.get(), queryParam);
+        Pager<Record> pager = vikaApiClient.getRecordApi().getRecords(ConstantKey.TEST_DATASHEET_ID.get(), queryParam);
         assertThat(pager).isNotNull();
         assertThat(pager.getTotalItems()).isZero();
     }

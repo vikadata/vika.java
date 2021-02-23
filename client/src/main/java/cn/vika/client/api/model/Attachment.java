@@ -26,7 +26,7 @@ import java.math.BigInteger;
  * @author Zoe Zheng
  * @date 2020-12-17 18:30:44
  */
-public class AttachmentInfo {
+public class Attachment {
 
     private String token;
 
