@@ -4,6 +4,7 @@ notifications:
   email:
     recipients:
       - dengguiheng@vikadata.com
+      - dev@vikadata.com
     on_success: change
     on_failure: always
 
@@ -30,12 +31,12 @@ before_install:
 deploy:
   - skip_cleanup: true
     provider: script
-    script: bash .ci/deploy.sh snapshot
+    script: bash .ci/deploy.sh
     on:
       branch: master
   - skip_cleanup: true
     provider: script
-    script: bash .ci/deploy.sh release
+    script: bash .ci/release.sh
     on:
       tags: true
 
