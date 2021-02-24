@@ -23,11 +23,6 @@ if [ -z "$GPG_PASSPHRASE" ]; then
   exit 1
 fi
 
-if [ -z "$1" ]; then
-  echo "missing environment value: Maven BUILD PROFILE" >&2
-  exit 1
-fi
-
 version=$(mvn exec:exec -q -N -Dexec.executable="echo" -Dexec.args='${project.version}' | awk -F '-' '{print $2}')
 echo "${version}"
 
