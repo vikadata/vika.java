@@ -94,7 +94,7 @@ public class RecordPagerTest {
 
     @Test
     @Order(101)
-    void testGetAll() throws ApiException, JsonProcessingException {
+    void testGetAll() throws ApiException, JsonProcessingException, InterruptedException {
         assertThat(DATASHEET_ID).isNotNull();
         Pager<Record> pager = vikaApiClient.getRecordApi().getRecords(DATASHEET_ID);
         assertThat(pager).isNotNull();
@@ -103,19 +103,21 @@ public class RecordPagerTest {
         for (Record record : records) {
             System.out.format("record: %s \n", JacksonJsonUtil.toJson(record, true));
         }
+        Thread.sleep(1000);
     }
 
     @Test
     @Order(102)
-    void testPageStream() throws ApiException {
+    void testPageStream() throws ApiException, InterruptedException {
         Stream<Record> records = vikaApiClient.getRecordApi().getRecordsAsStream(DATASHEET_ID);
         assertThat(records).isNotNull();
         assertThat(records.findFirst()).isPresent();
+        Thread.sleep(1000);
     }
 
     @Test
     @Order(103)
-    void testWithPageNumAndPageSize() throws ApiException, JsonProcessingException {
+    void testWithPageNumAndPageSize() throws ApiException, JsonProcessingException, InterruptedException {
         int page = Integer.parseInt(ConstantKey.PAGE_NUM.get());
         int itemPerPage = Integer.parseInt(ConstantKey.PAGE_SIZE.get());
         List<Record> records = vikaApiClient.getRecordApi().getRecords(DATASHEET_ID, page, itemPerPage);
@@ -124,11 +126,12 @@ public class RecordPagerTest {
         for (Record record : records) {
             System.out.format("record: %s \n", JacksonJsonUtil.toJson(record, true));
         }
+        Thread.sleep(1000);
     }
 
     @Test
     @Order(104)
-    void testPageWithPageSize() throws ApiException, JsonProcessingException {
+    void testPageWithPageSize() throws ApiException, JsonProcessingException, InterruptedException {
         int itemPerPage = Integer.parseInt(ConstantKey.PAGE_SIZE.get());
         Pager<Record> pager = vikaApiClient.getRecordApi().getRecords(DATASHEET_ID, itemPerPage);
         assertThat(pager).isNotNull();
@@ -151,11 +154,12 @@ public class RecordPagerTest {
             }
         }
         assertThat(pageIndex).isEqualTo(pager.getTotalPages());
+        Thread.sleep(1000);
     }
 
     @Test
     @Order(105)
-    void testPageWithView() throws ApiException, JsonProcessingException {
+    void testPageWithView() throws ApiException, JsonProcessingException, InterruptedException {
         ApiQueryParam queryParam = ApiQueryParam.EMPTY.withView(ConstantKey.TEST_VIEW_ID.get());
         Pager<Record> pager = vikaApiClient.getRecordApi().getRecords(DATASHEET_ID, queryParam);
         assertThat(pager).isNotNull();
@@ -170,11 +174,12 @@ public class RecordPagerTest {
                 System.out.format("record: %s \n", JacksonJsonUtil.toJson(record, true));
             }
         }
+        Thread.sleep(1000);
     }
 
     @Test
     @Order(106)
-    void testPageWithSort() throws ApiException, JsonProcessingException {
+    void testPageWithSort() throws ApiException, JsonProcessingException, InterruptedException {
         String[] sorts = TEST_SORT.get().split(",");
         ApiQueryParam queryParam = ApiQueryParam.EMPTY;
         for (String s : sorts) {
@@ -194,6 +199,7 @@ public class RecordPagerTest {
                 System.out.format("record: %s \n", JacksonJsonUtil.toJson(record, true));
             }
         }
+        Thread.sleep(1000);
     }
 
     @Test
@@ -218,7 +224,7 @@ public class RecordPagerTest {
 
     @Test
     @Order(108)
-    void testPagesWithRecordIds() throws ApiException, JsonProcessingException {
+    void testPagesWithRecordIds() throws ApiException, JsonProcessingException, InterruptedException {
         Random random = new Random();
         List<String> randomRecordIds = new ArrayList<>(2);
         int length = 2;
@@ -240,11 +246,12 @@ public class RecordPagerTest {
                 System.out.format("record: %s \n", JacksonJsonUtil.toJson(record, true));
             }
         }
+        Thread.sleep(1000);
     }
 
     @Test
     @Order(109)
-    void testPagesWithFormulaFilter() throws ApiException, JsonProcessingException {
+    void testPagesWithFormulaFilter() throws ApiException, JsonProcessingException, InterruptedException {
         ApiQueryParam queryParam = ApiQueryParam.EMPTY.withFilter(ConstantKey.TEST_FILTER_FORMULA.get());
         Pager<Record> pager = vikaApiClient.getRecordApi().getRecords(DATASHEET_ID, queryParam);
         assertThat(pager).isNotNull();
@@ -259,5 +266,6 @@ public class RecordPagerTest {
                 System.out.format("record: %s \n", JacksonJsonUtil.toJson(record, true));
             }
         }
+        Thread.sleep(1000);
     }
 }
