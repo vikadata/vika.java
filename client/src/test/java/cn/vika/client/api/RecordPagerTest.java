@@ -22,15 +22,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import cn.vika.client.api.exception.ApiException;
 import cn.vika.client.api.model.ApiQueryParam;
-import cn.vika.client.api.model.Pager;
 import cn.vika.client.api.model.CreateRecordRequest;
-import cn.vika.client.api.model.RecordMap;
+import cn.vika.client.api.model.Pager;
 import cn.vika.client.api.model.Record;
+import cn.vika.client.api.model.RecordMap;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -41,8 +42,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import static cn.vika.client.api.ConstantKey.TEST_DATASHEET_ID;
-import static cn.vika.client.api.model.Order.ASC;
-import static cn.vika.client.api.model.Order.DESC;
+import static cn.vika.client.api.ConstantKey.TEST_SORT;
+import static cn.vika.client.api.model.Order.of;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -165,7 +166,12 @@ public class RecordPagerTest extends BaseTest {
     @Test
     @Order(6)
     public void testPageWithSort() throws ApiException, InterruptedException, JsonProcessingException {
-        ApiQueryParam queryParam = ApiQueryParam.EMPTY.withSort("AutoNumber", DESC).withSort("Options", ASC);
+        String[] sorts = TEST_SORT.get().split(",");
+        ApiQueryParam queryParam = ApiQueryParam.EMPTY;
+        for (String s : sorts) {
+            String[] sort = s.split(":");
+            queryParam.withSort(sort[0], of(sort[1]));
+        }
         Pager<Record> pager = vikaApiClient.getRecordApi().getRecords(ConstantKey.TEST_DATASHEET_ID.get(), queryParam);
         assertThat(pager).isNotNull();
         int pageIndex = 0;
@@ -206,8 +212,14 @@ public class RecordPagerTest extends BaseTest {
     @Test
     @Order(8)
     public void testPagesWithRecordIds() throws ApiException, InterruptedException, JsonProcessingException {
-        String[] recordIds = ConstantKey.TEST_RECORD_IDS.get().split(",");
-        ApiQueryParam queryParam = ApiQueryParam.EMPTY.withRecordIds(Arrays.asList(recordIds));
+        Random random = new Random();
+        List<String> randomRecordIds = new ArrayList<>(2);
+        int length = 2;
+        for (int i = 0; i < length; i++) {
+            randomRecordIds.add(initRecordIds.get(random.nextInt(initRecordIds.size())));
+        }
+        System.out.format("Record Id Filter List: %s", randomRecordIds);
+        ApiQueryParam queryParam = ApiQueryParam.EMPTY.withRecordIds(randomRecordIds);
         Pager<Record> pager = vikaApiClient.getRecordApi().getRecords(ConstantKey.TEST_DATASHEET_ID.get(), queryParam);
         assertThat(pager).isNotNull();
         int pageIndex = 0;
