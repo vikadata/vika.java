@@ -28,9 +28,10 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-version=$(mvn exec:exec -q -N -Dexec.executable="echo" -Dexec.args='${project.version}' | awk -F '-' '{print $2}')
-echo "${version}"
-
-if [ "$version" ]; then
-  mvn clean deploy -Psnapshot --settings "${TRAVIS_BUILD_DIR}"/.mvn/settings.xml -Dgpg.executable=gpg2 -Dgpg.keyname="$GPG_KEY_NAME"-Dgpg.passphrase="$GPG_PASSPHRASE"
+if [ "$TRAVIS_TAG" ]; then
+  mvn clean deploy -Prelease --settings "${TRAVIS_BUILD_DIR}"/.mvn/settings.xml -Dgpg.executable=gpg2 -Dgpg.keyname="$GPG_KEY_NAME"-Dgpg.passphrase="$GPG_PASSPHRASE"
+else
+  echo "not create a tag"
 fi
+
+

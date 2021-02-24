@@ -501,6 +501,20 @@
                         </configuration>
                     </plugin>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
                         <executions>
@@ -509,12 +523,11 @@
                                 <phase>deploy</phase>
                                 <goals>
                                     <goal>deploy</goal>
-                                    <goal>release</goal>
                                 </goals>
                             </execution>
                         </executions>
                         <configuration>
-                            <serverId>sonatype</serverId>
+                            <serverId>sonatype-release</serverId>
                             <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                         </configuration>
                     </plugin>
@@ -526,12 +539,12 @@
     <distributionManagement>
         <!--ID must exist in file .m2/setting.xml. server ID-->
         <snapshotRepository>
-            <id>sonatype</id>
+            <id>sonatype-snapshot</id>
             <name>Nexus Snapshot Repository</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </snapshotRepository>
         <repository>
-            <id>sonatype</id>
+            <id>sonatype-release</id>
             <name>Nexus Release Repository</name>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
