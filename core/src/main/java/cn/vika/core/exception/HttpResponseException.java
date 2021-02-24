@@ -85,4 +85,14 @@ public class HttpResponseException extends HttpClientException {
     public String getResponseBodyAsString() {
         return new String(this.responseBody, DEFAULT_CHARSET);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("code:").append(rawStatusCode).append(",");
+        sb.append("statusText:").append(statusText).append(",");
+        responseHeaders.forEach((k, v) -> sb.append(k).append(":").append(v.toString()).append(","));
+        sb.append("body:").append(new String(responseBody, StandardCharsets.UTF_8)).append(",");
+        return sb.toString();
+    }
 }

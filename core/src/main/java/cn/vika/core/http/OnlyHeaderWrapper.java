@@ -16,19 +16,28 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package cn.vika.client.api;
+package cn.vika.core.http;
 
-import cn.vika.client.api.http.ApiCredential;
+import java.io.IOException;
 
 /**
  *
  * @author Shawn Deng
- * @date 2021-02-18 14:37:15
+ * @date 2021-02-24 15:55:18
  */
-public abstract class BaseTest {
+public class OnlyHeaderWrapper implements RequestWrapper{
 
-    protected static VikaApiClient testInitApiClient() {
-        ApiCredential apiCredential = new ApiCredential(ConstantKey.TEST_API_KEY.get());
-        return new VikaApiClient(ConstantKey.TEST_HOST_URL.get(), apiCredential);
+    private final HttpHeader header;
+
+    public OnlyHeaderWrapper(HttpHeader header) {
+        this.header = header;
+    }
+
+    @Override
+    public void wrapper(ClientHttpRequest request) throws IOException {
+        if (!this.header.isEmpty()) {
+            HttpHeader httpHeader = request.getHeaders();
+            this.header.forEach(httpHeader::put);
+        }
     }
 }

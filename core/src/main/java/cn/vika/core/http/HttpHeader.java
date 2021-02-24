@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 
 import cn.vika.core.utils.AssertUtil;
 import cn.vika.core.utils.StringUtil;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A data structure representing HTTP request or response headers,
@@ -42,8 +43,6 @@ import cn.vika.core.utils.StringUtil;
 public class HttpHeader implements Map<String, List<String>>, Serializable {
 
     private static final long serialVersionUID = -7828980872691946594L;
-
-    public static final String ALL = "*/*";
 
     /**
      * The HTTP {@code User-Agent} header field name.
@@ -69,11 +68,6 @@ public class HttpHeader implements Map<String, List<String>>, Serializable {
 
     public static final String TRANSFER_ENCODING = "Transfer-Encoding";
 
-    /**
-     * create a empty map
-     */
-    public static final HttpHeader EMPTY = HttpHeader.newInstance();
-
     final Map<String, List<String>> headers;
 
     /**
@@ -86,10 +80,6 @@ public class HttpHeader implements Map<String, List<String>>, Serializable {
     public HttpHeader(Map<String, List<String>> headers) {
         AssertUtil.notNull(headers, "headers must not be null");
         this.headers = headers;
-    }
-
-    public static HttpHeader newInstance() {
-        return new HttpHeader();
     }
 
     public List<String> getOrEmpty(Object headerName) {
@@ -224,16 +214,19 @@ public class HttpHeader implements Map<String, List<String>>, Serializable {
         this.headers.clear();
     }
 
+    @NotNull
     @Override
     public Set<String> keySet() {
         return this.headers.keySet();
     }
 
+    @NotNull
     @Override
     public Collection<List<String>> values() {
         return this.headers.values();
     }
 
+    @NotNull
     @Override
     public Set<Entry<String, List<String>>> entrySet() {
         return this.headers.entrySet();

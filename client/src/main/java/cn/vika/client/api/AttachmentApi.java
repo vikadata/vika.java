@@ -47,7 +47,7 @@ public class AttachmentApi extends AbstractApi {
     }
 
     public Attachment upload(String datasheetId, ResourceLoader loader) throws ApiException {
-        HttpHeader httpHeader = HttpHeader.EMPTY;
+        HttpHeader httpHeader = new HttpHeader();
         httpHeader.setContentType(HttpMediaType.MULTIPART_FORM_DATA);
         FormDataMap formDataMap = new FormDataMap();
         formDataMap.put("file", loader);
@@ -63,7 +63,7 @@ public class AttachmentApi extends AbstractApi {
     }
 
     public Attachment upload(String datasheetId, FormDataMap formData) throws ApiException {
-        HttpHeader httpHeader = HttpHeader.EMPTY;
+        HttpHeader httpHeader = new HttpHeader();
         httpHeader.setContentType(HttpMediaType.MULTIPART_FORM_DATA);
         HttpResult<Attachment> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), httpHeader, formData, new GenericTypeReference<HttpResult<Attachment>>() {});
         return result.getData();

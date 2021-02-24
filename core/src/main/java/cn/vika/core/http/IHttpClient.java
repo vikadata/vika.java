@@ -76,7 +76,7 @@ public interface IHttpClient {
      * GenericTypeReference&lt;List&lt;MyBean&gt;&gt; reference =
      *     new GenericTypeReference&lt;List&lt;MyBean&gt;&gt;() {};
      *
-     * List&lt;MyBean&gt;&gt; response = client.get(&quot;/get/me&quot;, HttpHeader.EMPTY, reference, uriVariables);
+     * List&lt;MyBean&gt;&gt; response = client.get(&quot;/get/me&quot;, new HttpHeader(), reference, uriVariables);
      * </pre>
      *
      * @param urlTemplate  the URL Template
@@ -95,7 +95,7 @@ public interface IHttpClient {
      * GenericTypeReference&lt;List&lt;MyBean&gt;&gt; reference =
      *     new GenericTypeReference&lt;List&lt;MyBean&gt;&gt;() {};
      *
-     * List&lt;MyBean&gt;&gt; response = client.get(&quot;/get/me&quot;, HttpHeader.EMPTY, reference, uriVariables);
+     * List&lt;MyBean&gt;&gt; response = client.get(&quot;/get/me&quot;, new HttpHeader(), reference, uriVariables);
      * </pre>
      *
      * @param urlTemplate  the URL Template
@@ -160,7 +160,7 @@ public interface IHttpClient {
      * user.setName(&quot;jack&quot;);
      *
      * List&lt;MyBean&gt;&gt; response =
-     *     client.post(&quot;/get/me&quot;, HttpHeader.EMPTY,
+     *     client.post(&quot;/get/me&quot;, new HttpHeader(),
      *     user, reference, uriVariables);
      *
      * </pre>
@@ -186,7 +186,7 @@ public interface IHttpClient {
      * user.setName(&quot;jack&quot;);
      *
      * List&lt;MyBean&gt;&gt; response =
-     *     client.post(&quot;/get/me&quot;, HttpHeader.EMPTY,
+     *     client.post(&quot;/get/me&quot;, new HttpHeader(),
      *     user, reference, uriVariables);
      *
      * </pre>
@@ -254,7 +254,7 @@ public interface IHttpClient {
      * user.setName(&quot;jack&quot;);
      *
      * List&lt;MyBean&gt;&gt; response =
-     *     client.put(&quot;/get/me&quot;, HttpHeader.EMPTY,
+     *     client.put(&quot;/get/me&quot;, new HttpHeader(),
      *     user, reference, uriVariables);
      *
      * </pre>
@@ -280,7 +280,7 @@ public interface IHttpClient {
      * user.setName(&quot;jack&quot;);
      *
      * List&lt;MyBean&gt;&gt; response =
-     *     client.put(&quot;/get/me&quot;, HttpHeader.EMPTY,
+     *     client.put(&quot;/get/me&quot;, new HttpHeader(),
      *     user, reference, uriVariables);
      *
      * </pre>
@@ -346,7 +346,7 @@ public interface IHttpClient {
      * user.setName(&quot;jack&quot;);
      *
      * List&lt;MyBean&gt;&gt; response =
-     *     client.patch(&quot;/get/me&quot;, HttpHeader.EMPTY,
+     *     client.patch(&quot;/get/me&quot;, new HttpHeader(),
      *     user, reference, uriVariables);
      *
      * </pre>
@@ -372,7 +372,7 @@ public interface IHttpClient {
      * user.setName(&quot;jack&quot;);
      *
      * List&lt;MyBean&gt;&gt; response =
-     *     client.patch(&quot;/get/me&quot;, HttpHeader.EMPTY,
+     *     client.patch(&quot;/get/me&quot;, new HttpHeader(),
      *     user, reference, uriVariables);
      *
      * </pre>
@@ -431,7 +431,7 @@ public interface IHttpClient {
      * GenericTypeReference&lt;Void&gt; reference =
      *     new GenericTypeReference&lt;Void&gt;() {};
      *
-     * client.delete(&quot;/user&quot;, HttpHeader.EMPTY,
+     * client.delete(&quot;/user&quot;, new HttpHeader(),
      *     reference, uriVariables);
      *
      * </pre>
@@ -452,7 +452,7 @@ public interface IHttpClient {
      * GenericTypeReference&lt;Void&gt; reference =
      *     new GenericTypeReference&lt;Void&gt;() {};
      *
-     * client.delete(&quot;/user&quot;, HttpHeader.EMPTY,
+     * client.delete(&quot;/user&quot;, new HttpHeader(),
      *     reference, uriVariables);
      *
      * </pre>

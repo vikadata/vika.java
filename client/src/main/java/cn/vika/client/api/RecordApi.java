@@ -29,8 +29,8 @@ import cn.vika.client.api.http.ApiHttpClient;
 import cn.vika.client.api.model.ApiQueryParam;
 import cn.vika.client.api.model.CreateRecordRequest;
 import cn.vika.client.api.model.HttpResult;
-import cn.vika.client.api.model.PagerInfo;
 import cn.vika.client.api.model.Pager;
+import cn.vika.client.api.model.PagerInfo;
 import cn.vika.client.api.model.Record;
 import cn.vika.client.api.model.Records;
 import cn.vika.client.api.model.UpdateRecordRequest;
@@ -66,7 +66,7 @@ public class RecordApi extends AbstractApi {
         Map<String, String> uriVariables = queryParam.toMap();
         GenericTypeReference<HttpResult<PagerInfo<Record>>> reference = new GenericTypeReference<HttpResult<PagerInfo<Record>>>() {};
         String uri = String.format(PATH, datasheetId) + MapUtil.extractKeyToVariables(uriVariables);
-        HttpResult<PagerInfo<Record>> result = getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
+        HttpResult<PagerInfo<Record>> result = getDefaultHttpClient().get(uri, new HttpHeader(), reference, uriVariables);
         return result.getData().getRecords();
     }
 
@@ -98,7 +98,7 @@ public class RecordApi extends AbstractApi {
         if (record.getRecords().size() > 10) {
             throw new ApiException("record only can add 10 every request");
         }
-        HttpResult<Records> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, new GenericTypeReference<HttpResult<Records>>() {});
+        HttpResult<Records> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), new HttpHeader(), record, new GenericTypeReference<HttpResult<Records>>() {});
         return result.getData().getRecords();
     }
 
@@ -109,7 +109,7 @@ public class RecordApi extends AbstractApi {
         if (record == null) {
             throw new RuntimeException("Record instance cannot be null.");
         }
-        HttpResult<Records> result = getDefaultHttpClient().patch(String.format(PATH, datasheetId), HttpHeader.EMPTY, record, new GenericTypeReference<HttpResult<Records>>() {});
+        HttpResult<Records> result = getDefaultHttpClient().patch(String.format(PATH, datasheetId), new HttpHeader(), record, new GenericTypeReference<HttpResult<Records>>() {});
         return result.getData().getRecords();
     }
 
@@ -129,6 +129,6 @@ public class RecordApi extends AbstractApi {
         }
         Map<String, String> uriVariables = MapUtil.listToUriVariableMap("recordIds", recordIds);
         String uri = String.format(PATH, datasheetId) + MapUtil.extractKeyToVariables(uriVariables);
-        getDefaultHttpClient().delete(uri, HttpHeader.EMPTY, Void.class, uriVariables);
+        getDefaultHttpClient().delete(uri, new HttpHeader(), Void.class, uriVariables);
     }
 }

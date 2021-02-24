@@ -54,8 +54,7 @@ public class JacksonJsonUtil {
         return objectMapper.readValue(reader, javaType);
     }
 
-    static <T> List<T> unmarshalResourceToList(Class<T> returnType, String filename) throws IOException {
-        InputStream in = JacksonJsonUtil.class.getClassLoader().getResourceAsStream(filename);
+    static <T> List<T> unmarshalInputStreamToList(Class<T> returnType, InputStream in) throws IOException {
         Assertions.assertNotNull(in);
         InputStreamReader reader = new InputStreamReader(in);
         return unmarshalList(returnType, reader);

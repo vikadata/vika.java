@@ -46,7 +46,7 @@ public enum ConstantKey {
     }
 
     public String get() {
-        String value =  PropertiesUtil.getProperty(this.key);
+        String value =  PropertiesUtil.getProperty(key);
         assertThat(value).isNotNull();
         return value;
     }

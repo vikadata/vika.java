@@ -76,7 +76,7 @@ public class Pager<T> implements Iterator<List<T>> {
         Map<String, String> uriVariables = this.queryParam.toMap();
         GenericTypeReference<HttpResult<PagerInfo<T>>> reference = new GenericTypeReference<HttpResult<PagerInfo<T>>>() {};
         String uri = url + MapUtil.extractKeyToVariables(uriVariables);
-        HttpResult<PagerInfo<T>> result = api.getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
+        HttpResult<PagerInfo<T>> result = api.getDefaultHttpClient().get(uri, new HttpHeader(), reference, uriVariables);
         if (result.getData().getRecords() != null) {
             this.currentItems = JacksonConverter.toGenericBean(result.getData().getRecords(), javaType);
             if (this.currentItems == null) {
@@ -99,7 +99,7 @@ public class Pager<T> implements Iterator<List<T>> {
         GenericTypeReference<HttpResult<PagerInfo<T>>> reference = new GenericTypeReference<HttpResult<PagerInfo<T>>>() {};
         Map<String, String> uriVariables = this.queryParam.toMap();
         String uri = url + MapUtil.extractKeyToVariables(uriVariables);
-        HttpResult<PagerInfo<T>> result = api.getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
+        HttpResult<PagerInfo<T>> result = api.getDefaultHttpClient().get(uri, new HttpHeader(), reference, uriVariables);
         if (result.getData().getRecords() != null) {
             this.currentItems = JacksonConverter.toGenericBean(result.getData().getRecords(), javaType);
             if (this.currentItems == null) {
@@ -180,7 +180,7 @@ public class Pager<T> implements Iterator<List<T>> {
             // do Nothing
         }
         String uri = url + MapUtil.extractKeyToVariables(uriVariables);
-        HttpResult<PagerInfo<T>> result = api.getDefaultHttpClient().get(uri, HttpHeader.EMPTY, reference, uriVariables);
+        HttpResult<PagerInfo<T>> result = api.getDefaultHttpClient().get(uri, new HttpHeader(), reference, uriVariables);
         if (result.getData().getRecords() != null) {
             this.currentItems = JacksonConverter.toGenericBean(result.getData().getRecords(), javaType);
         }
