@@ -32,5 +32,14 @@ public enum Order {
     /**
      * sort records ascending
      */
-    ASC
+    ASC;
+
+    public static Order of(String name) {
+        for (Order value : Order.values()) {
+            if (value.name().toLowerCase().equals(name)) {
+                return value;
+            }
+        }
+        throw new NullPointerException("not support name: " + name);
+    }
 }

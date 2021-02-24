@@ -63,7 +63,7 @@ public class ApiHttpClient {
     }
 
     private HttpHeader setDefaultHeader(ApiCredential apiCredential) {
-        HttpHeader header = HttpHeader.EMPTY;
+        HttpHeader header = new HttpHeader();
         header.setUserAgent("vika-java-client");
         header.setBearerAuth(apiCredential.getToken());
         return header;

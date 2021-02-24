@@ -27,9 +27,6 @@ before_install:
   # attention: only repo member can build, contribute user has no permission
   - openssl aes-256-cbc -K $encrypted_171b1c559d7b_key -iv $encrypted_171b1c559d7b_iv -in signingkey.asc.enc -out signingkey.asc -d
 
-script:
-  - mvn test -B
-
 deploy:
   - skip_cleanup: true
     provider: script

@@ -35,7 +35,6 @@ public enum ConstantKey {
     TEST_VIEW_ID("TEST_VIEW_ID"),
     TEST_SORT("TEST_SORT"),
     TEST_FIELDS("TEST_FIELDS"),
-    TEST_RECORD_IDS("TEST_RECORD_IDS"),
     TEST_FILTER_FORMULA("TEST_FILTER_FORMULA"),
     TEST_FIELD_KEY("TEST_FIELD_KEY"),
     TEST_MAX_RECORDS("TEST_MAX_RECORDS");
@@ -47,7 +46,7 @@ public enum ConstantKey {
     }
 
     public String get() {
-        String value =  PropertiesUtil.getProperty(this.key);
+        String value =  PropertiesUtil.getProperty(key);
         assertThat(value).isNotNull();
         return value;
     }

@@ -58,7 +58,6 @@ public class DefaultHttpResponseErrorHandler implements HttpResponseErrorHandler
         HttpHeader headers = response.getHeaders();
         byte[] body = getResponseBody(response);
         String message = getErrorMessage(statusCode.code(), statusText, body);
-
         switch (statusCode.series()) {
             case CLIENT_ERROR:
                 throw new ClientErrorException(message, statusCode, statusText, headers, body);

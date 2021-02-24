@@ -12,7 +12,7 @@
 
 [Vika](https://vika.cn) Official Java SDK
 
-Vikadata&trade; Java API (*vika.js*) provides a full featured and easy to consume Java
+Vikadata&trade; Java API (*vika.java*) provides a full featured and easy to consume Java
 library for working with vikadata via the Vikadata OpenAPI.<br/>
 
 --- 
@@ -34,7 +34,7 @@ Java 8+ is required to use sdk. not support Java 8 below
 <dependency>
     <groupId>cn.vika</groupId>
     <artifactId>vika-client</artifactId>
-    <version>0.1.0</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
@@ -43,7 +43,7 @@ Java 8+ is required to use sdk. not support Java 8 below
 ```groovy
 dependencies {
   ... ...
-  implementation('cn.vika:vika-client:0.1.0')
+  implementation('cn.vika:vika-client:1.0.0')
 }
 ```
 

@@ -26,6 +26,8 @@ package cn.vika.core.http;
  */
 public final class HttpMediaType {
 
+    public static final String ALL = "*/*";
+
     public static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
 
     public static final String APPLICATION_JSON = "application/json";
