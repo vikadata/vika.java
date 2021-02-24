@@ -19,6 +19,7 @@
 package cn.vika.client.api;
 
 import java.io.File;
+import java.net.URL;
 
 import cn.vika.client.api.model.Attachment;
 import cn.vika.core.http.ClassPathResourceLoader;
@@ -70,7 +71,11 @@ public class AttachmentTest extends BaseTest {
     @Test
     @Order(3)
     public void testUploadWithFileResource() throws JsonProcessingException {
-        File file = new File("/Users/shawndeng/Documents/Project/vika.java/client/src/test/resources/test.docx");
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL url = classLoader.getResource("test.txt");
+        assertThat(url).isNotNull();
+        File file = new File(url.getFile());
+        assertThat(file).isNotNull();
         Attachment attachment = vikaApiClient.getAttachmentApi().upload(TEST_DATASHEET_ID.get(), new FileResourceLoader(file));
         assertThat(attachment).isNotNull();
         System.out.println(JacksonJsonUtil.toJson(attachment, true));
@@ -79,7 +84,11 @@ public class AttachmentTest extends BaseTest {
     @Test
     @Order(4)
     public void testUploadWithFile() throws JsonProcessingException {
-        File file = new File("/Users/shawndeng/Documents/Project/vika.java/client/src/test/resources/test.docx");
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL url = classLoader.getResource("test.txt");
+        assertThat(url).isNotNull();
+        File file = new File(url.getFile());
+        assertThat(file).isNotNull();
         Attachment attachment = vikaApiClient.getAttachmentApi().upload(TEST_DATASHEET_ID.get(), file);
         assertThat(attachment).isNotNull();
         System.out.println(JacksonJsonUtil.toJson(attachment, true));
