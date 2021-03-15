@@ -219,7 +219,7 @@ If you want to raise an issue, please follow the recommendations below:
 
 * Before you log a bug, please search the [issue tracker][github_issues] to see if someone has already reported the problem.
 * If the issue doesn't already exist, [create a new issue][github_issues_new].
-* Please provide as much information as possible with the issue report, we like to know the version of Spring Boot that you are using, as well as your Operating System and JVM version.
+* Please provide as much information as possible with the issue report, we like to know the version that you are using, as well as your Operating System and JVM version.
 * If you need to paste code, or include a stack trace use Markdown escapes before and after your text.
 
 ## License
