@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
 
 import cn.vika.core.utils.AssertUtil;
 import cn.vika.core.utils.StringUtil;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * A data structure representing HTTP request or response headers,
@@ -214,19 +213,16 @@ public class HttpHeader implements Map<String, List<String>>, Serializable {
         this.headers.clear();
     }
 
-    @NotNull
     @Override
     public Set<String> keySet() {
         return this.headers.keySet();
     }
 
-    @NotNull
     @Override
     public Collection<List<String>> values() {
         return this.headers.values();
     }
 
-    @NotNull
     @Override
     public Set<Entry<String, List<String>>> entrySet() {
         return this.headers.entrySet();
@@ -272,21 +268,15 @@ public class HttpHeader implements Map<String, List<String>>, Serializable {
     }
 
     public static String buildContentDisposition(String type, String name) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(type);
-        sb.append("; name=\"");
-        sb.append(name).append('\"');
-        return sb.toString();
+        return type + "; name=\"" + name + '\"';
     }
 
     public static String buildContentDisposition(String type, String name, String filename) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(type);
-        sb.append("; name=\"");
-        sb.append(name).append('\"');
-        sb.append("; filename=\"");
-        sb.append(quoteFilename(filename)).append('\"');
-        return sb.toString();
+        return type
+            + "; name=\""
+            + name + '\"'
+            + "; filename=\""
+            + quoteFilename(filename) + '\"';
     }
 
     private static String quoteFilename(String filename) {
