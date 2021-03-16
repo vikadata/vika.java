@@ -89,7 +89,7 @@ public class OkHttpClientHttpRequestFactory implements ClientHttpRequestFactory 
         // create Request Body by OkHttp
         RequestBody body = content.length > 0 ||
             okhttp3.internal.http.HttpMethod.requiresRequestBody(httpMethod.name()) ?
-            RequestBody.create(content, contentType) : null;
+            RequestBody.create(contentType, content) : null;
         // Create Okhttp Request
         Request.Builder builder = new Request.Builder().url(uri.toURL()).method(httpMethod.name(), body);
         // Add Header
