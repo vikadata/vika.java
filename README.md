@@ -3,7 +3,7 @@
 [![LGPL-2.1](https://img.shields.io/badge/License-LGPL--2.1-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/vikadata/vika-sdk-java/badge.svg)](https://search.maven.org/artifact/cn.vika/vika-client)
 [![Build](https://www.travis-ci.com/vikadata/vika.java.svg?branch=master)](https://www.travis-ci.com/github/vikadata/vika.java)
-[![JavaDoc](https://javadoc.io/badge2/cn.vika/vika.java/javadoc.io.svg)](https://javadoc.io/doc/cn.vika/vika.java)
+[![JavaDoc](https://javadoc.io/badge2/cn.vika/vika.java/javadoc.io.svg)](https://javadoc.io/doc/cn.vika/vika-client)
 
 [github_issues]:https://github.com/vikadata/vika.java/issues
 [github_issues_new]:https://github.com/vikadata/vika.java/issues/new
@@ -15,7 +15,7 @@
 Vikadata&trade; Java API (*vika.java*) provides a full featured and easy to consume Java
 library for working with vikadata via the Vikadata OpenAPI.<br/>
 
---- 
+---
 
 ## Usage
 
@@ -56,7 +56,7 @@ simple as:
 First, you need to set api credential which belong your personal api key.
 
 ```java
-ApiCredential credential=new ApiCredential("Your API Key");
+ApiCredential credential = new ApiCredential("Your API Key");
 ```
 
 Then, Init client instance
@@ -65,7 +65,7 @@ Then, Init client instance
 VikaApiClient vikaApiClient = new VikaApiClient(credential);
 ```
 
-By default, the API client has been added for setting connect and read timeouts, you can also change: 
+By default, the API client has been added for setting connect and read timeouts, you can also change:
 
 ```java
 // Set the connect timeout to 8 second and the read timeout to 9 seconds
@@ -142,6 +142,9 @@ Pager<Record> pager = vikaApiClient.getRecordApi().getRecords("datasheet_id", qu
 
 Class ``RecordMap`` is a key-value structure like ``Map<String, Object>``, all thing you do is converting json to map, you can use convert util from sdk provide which is named ``JacksonConverter``, you also can use jackson api build json structure data, more detail please reference unit test.
 
+you can add record through two difference way, `id` or `name`, default is `name` fieldKey.
+
+using default fieldKey `name` example:
 ```java
 // Build Record Map by jackson api
 ObjectNode fieldMap = JsonNodeFactory.instance.objectNode()
@@ -157,26 +160,74 @@ ArrayNode arrayNode = JsonNodeFactory.instance.arrayNode().add(fields);
 // convert json to Map List
 List<RecordMap> recordMaps = JacksonConverter.unmarshalToList(RecordMap.class, arrayNode);
 // create record request
-CreateRecordRequest recordRequest = new CreateRecordRequest().withRecords(recordMaps);
+CreateRecordRequest recordRequest = new CreateRecordRequest()
+    .withRecords(recordMaps);
+// ok
+List<Record> newRecords = vikaApiClient.getRecordApi().addRecords("datasheet_id", recordRequest);
+```
+
+using fieldKey `id` example:
+```java
+// Build Record Map by jackson api
+ObjectNode fieldMap = JsonNodeFactory.instance.objectNode()
+        // simple data
+        .put("fld_id", "string")
+        .put("fld_id", 1234);
+        // sub tree node
+        .set("fld_id", JsonNodeFactory.instance.arrayNode().add("NewYork").add("Bejing"));
+// put record map into fields key
+ObjectNode fields = JsonNodeFactory.instance.objectNode().set("fields", fieldMap);
+// only one record, warp record into array node
+ArrayNode arrayNode = JsonNodeFactory.instance.arrayNode().add(fields);
+// convert json to Map List
+List<RecordMap> recordMaps = JacksonConverter.unmarshalToList(RecordMap.class, arrayNode);
+// create record request
+CreateRecordRequest recordRequest = new CreateRecordRequest()
+    .withRecords(recordMaps)
+    .withFieldKey(FieldKey.ID);
 // ok
 List<Record> newRecords = vikaApiClient.getRecordApi().addRecords("datasheet_id", recordRequest);
 ```
 
 #### **Update Record**
 
+update record also provide two difference way to modifying data, using fieldKey `id` or `name`, default is `name` fieldKey.
+
+using default fieldKey `name` example:
+
 ```java
 // Build update record model
 UpdateRecord record = new UpdateRecord()
                 // row record id from query result or add record result
                 .withRecordId("recXXXXX")
-                // single-text type field cell 
+                // single-text type field cell
                 .withField("SingleText", "ABC")
-                // single-select type field cell, 
+                // single-select type field cell,
                 // it can be set null or empty array if you want to clear field value: withField("Options", null)
                 .withField("Options", Arrays.asList("LL", "NN"));
 // new Request model
 UpdateRecordRequest updateRecordRequest = new UpdateRecordRequest()
-                .withRecords(Collections.singletonList(record));
+    .withRecords(Collections.singletonList(record));
+// request send
+List<Record> updateRecords = vikaApiClient.getRecordApi().updateRecords("datasheet_id", updateRecordRequest);
+```
+
+using fieldKey `id` example:
+
+```java
+// Build update record model
+UpdateRecord record = new UpdateRecord()
+                // row record id from query result or add record result
+                .withRecordId("recXXXXX")
+                // single-text type field cell
+                .withField("fld_id", "ABC")
+                // single-select type field cell,
+                // it can be set null or empty array if you want to clear field value: withField("Options", null)
+                .withField("fld_id", Arrays.asList("LL", "NN"));
+// new Request model
+UpdateRecordRequest updateRecordRequest = new UpdateRecordRequest()
+    .withRecords(Collections.singletonList(record))
+    .withFieldKey(FieldKey.ID);
 // request send
 List<Record> updateRecords = vikaApiClient.getRecordApi().updateRecords("datasheet_id", updateRecordRequest);
 ```

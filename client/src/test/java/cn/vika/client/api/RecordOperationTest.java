@@ -32,6 +32,7 @@ import cn.vika.client.api.exception.ApiException;
 import cn.vika.client.api.http.ApiCredential;
 import cn.vika.client.api.model.ApiQueryParam;
 import cn.vika.client.api.model.CreateRecordRequest;
+import cn.vika.client.api.model.FieldKey;
 import cn.vika.client.api.model.Pager;
 import cn.vika.client.api.model.Record;
 import cn.vika.client.api.model.RecordMap;
@@ -81,12 +82,41 @@ public class RecordOperationTest {
 
     @Test
     @Order(10)
-    void testCreateRecordFromFile() throws IOException, ApiException {
+    void testCreateRecordByNameFromFile() throws IOException, ApiException {
         ClassLoader classLoader = getClass().getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream("create-record.json");
         assertThat(inputStream).isNotNull();
         List<RecordMap> recordMaps = JacksonJsonUtil.unmarshalInputStreamToList(RecordMap.class, inputStream);
-        CreateRecordRequest recordRequest = new CreateRecordRequest().withRecords(recordMaps);
+        CreateRecordRequest recordRequest = new CreateRecordRequest()
+            .withRecords(recordMaps);
+        List<Record> newRecords = vikaApiClient.getRecordApi().addRecords(DATASHEET_ID, recordRequest);
+        assertThat(newRecords).isNotNull();
+        assertThat(newRecords).isNotEmpty();
+        // compare result for create record
+        int i = 0;
+        for (Record newRecord : newRecords) {
+            Map<String, Object> recordMap = recordMaps.get(i).getFields();
+            for (Entry<String, Object> entry : newRecord.getFields().entrySet()) {
+                if (recordMap.containsKey(entry.getKey())) {
+                    assertThat(recordMap.get(entry.getKey())).isEqualTo(entry.getValue());
+                }
+            }
+            i++;
+        }
+        deleteRecordIds = newRecords.stream().map(Record::getRecordId).collect(Collectors.toList());
+        assertThat(deleteRecordIds).isNotEmpty();
+    }
+
+    @Test
+    @Order(11)
+    void testCreateRecordByIdFromFile() throws IOException, ApiException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream("create-record-by-id.json");
+        assertThat(inputStream).isNotNull();
+        List<RecordMap> recordMaps = JacksonJsonUtil.unmarshalInputStreamToList(RecordMap.class, inputStream);
+        CreateRecordRequest recordRequest = new CreateRecordRequest()
+            .withRecords(recordMaps)
+            .withFieldKey(FieldKey.ID);
         List<Record> newRecords = vikaApiClient.getRecordApi().addRecords(DATASHEET_ID, recordRequest);
         assertThat(newRecords).isNotNull();
         assertThat(newRecords).isNotEmpty();
@@ -109,15 +139,16 @@ public class RecordOperationTest {
     @Order(20)
     void testCreateRecordFromJson() throws IOException, ApiException {
         ObjectNode fieldMap = JsonNodeFactory.instance.objectNode()
-                .put("ShortText", "Json manual builder")
-                .put("LongText", "Json manual builder")
-                .set("Options", JsonNodeFactory.instance.arrayNode().add("A"));
+            .put("ShortText", "Json manual builder")
+            .put("LongText", "Json manual builder")
+            .set("Options", JsonNodeFactory.instance.arrayNode().add("A"));
         fieldMap.set("Options", JsonNodeFactory.instance.arrayNode().add("A"));
         fieldMap.set("MultiSelect", JsonNodeFactory.instance.arrayNode().add("GG"));
         ObjectNode fields = JsonNodeFactory.instance.objectNode().set("fields", fieldMap);
         ArrayNode arrayNode = JsonNodeFactory.instance.arrayNode().add(fields);
         List<RecordMap> recordMaps = JacksonJsonUtil.unmarshalJsonNodeToList(RecordMap.class, arrayNode);
-        CreateRecordRequest recordRequest = new CreateRecordRequest().withRecords(recordMaps);
+        CreateRecordRequest recordRequest = new CreateRecordRequest()
+            .withRecords(recordMaps);
         List<Record> newRecords = vikaApiClient.getRecordApi().addRecords(DATASHEET_ID, recordRequest);
         assertThat(newRecords).isNotNull();
         assertThat(newRecords).isNotEmpty();
@@ -146,7 +177,8 @@ public class RecordOperationTest {
         fieldDTO.setMultiSelect(Collections.singletonList(("KK")));
 
         List<RecordMap> recordMaps = Collections.singletonList(new RecordMap().withFields(JacksonConverter.toMap(fieldDTO)));
-        CreateRecordRequest recordRequest = new CreateRecordRequest().withRecords(recordMaps);
+        CreateRecordRequest recordRequest = new CreateRecordRequest()
+            .withRecords(recordMaps);
         List<Record> newRecords = vikaApiClient.getRecordApi().addRecords(DATASHEET_ID, recordRequest);
         assertThat(newRecords).isNotNull();
         assertThat(newRecords).isNotEmpty();
@@ -172,7 +204,8 @@ public class RecordOperationTest {
         InputStream inputStream = classLoader.getResourceAsStream("update-record.json");
         assertThat(inputStream).isNotNull();
         List<RecordMap> recordMaps = JacksonJsonUtil.unmarshalInputStreamToList(RecordMap.class, inputStream);
-        CreateRecordRequest createRecordRequest = new CreateRecordRequest().withRecords(recordMaps);
+        CreateRecordRequest createRecordRequest = new CreateRecordRequest()
+            .withRecords(recordMaps);
         List<Record> newRecords = vikaApiClient.getRecordApi().addRecords(DATASHEET_ID, createRecordRequest);
         assertThat(newRecords).isNotNull();
         assertThat(newRecords).isNotEmpty();
@@ -184,14 +217,59 @@ public class RecordOperationTest {
         String recordId = recordResult.getRecordId();
 
         UpdateRecord record = new UpdateRecord()
-                .withRecordId(recordId)
-                .withField("ShortText", "Ps: Test Update, content is 'This is from unit Test update record' before")
-                // select can be set null or empty array if you want to clear field value
-                .withField("Options", Collections.emptyList())
-                .withField("MultiSelect", Arrays.asList("LL", "NN"));
+            .withRecordId(recordId)
+            .withField("ShortText", "Ps: Test Update, content is 'This is from unit Test update record' before")
+            // select can be set null or empty array if you want to clear field value
+            .withField("Options", Collections.emptyList())
+            .withField("MultiSelect", Arrays.asList("LL", "NN"));
 
         UpdateRecordRequest updateRecordRequest = new UpdateRecordRequest()
-                .withRecords(Collections.singletonList(record));
+            .withRecords(Collections.singletonList(record));
+
+        List<Record> updateRecords = vikaApiClient.getRecordApi().updateRecords(DATASHEET_ID, updateRecordRequest);
+        assertThat(updateRecords).isNotNull();
+        assertThat(updateRecords).isNotEmpty();
+        assertThat(updateRecords).hasSize(1);
+
+        Record returnResult = updateRecords.get(0);
+        assertThat(returnResult).isNotNull();
+        assertThat(returnResult.getRecordId()).isEqualTo(recordId);
+        assertThat(returnResult.getFields()).isNotNull();
+
+        deleteRecordIds = newRecords.stream().map(Record::getRecordId).collect(Collectors.toList());
+        assertThat(deleteRecordIds).isNotEmpty();
+    }
+
+    @Test
+    @Order(41)
+    void testUpdateRecordByFieldId() throws IOException, ApiException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream("update-record-by-id.json");
+        assertThat(inputStream).isNotNull();
+        List<RecordMap> recordMaps = JacksonJsonUtil.unmarshalInputStreamToList(RecordMap.class, inputStream);
+        CreateRecordRequest createRecordRequest = new CreateRecordRequest()
+            .withRecords(recordMaps)
+            .withFieldKey(FieldKey.ID);
+        List<Record> newRecords = vikaApiClient.getRecordApi().addRecords(DATASHEET_ID, createRecordRequest);
+        assertThat(newRecords).isNotNull();
+        assertThat(newRecords).isNotEmpty();
+        assertThat(newRecords).hasSize(1);
+
+        Record recordResult = newRecords.get(0);
+        assertThat(recordResult).isNotNull();
+
+        String recordId = recordResult.getRecordId();
+
+        UpdateRecord record = new UpdateRecord()
+            .withRecordId(recordId)
+            .withField("fldjoQSlHfV2z", "Ps: Test Update, content is 'This is from unit Test update record' before")
+            // select can be set null or empty array if you want to clear field value
+            .withField("fldAY9mW7MUdW", Collections.emptyList())
+            .withField("fld8w4C5fwDBl", Arrays.asList("LL", "NN"));
+
+        UpdateRecordRequest updateRecordRequest = new UpdateRecordRequest()
+            .withRecords(Collections.singletonList(record))
+            .withFieldKey(FieldKey.ID);
 
         List<Record> updateRecords = vikaApiClient.getRecordApi().updateRecords(DATASHEET_ID, updateRecordRequest);
         assertThat(updateRecords).isNotNull();
@@ -214,7 +292,8 @@ public class RecordOperationTest {
         InputStream inputStream = classLoader.getResourceAsStream("delete-one-record.json");
         assertThat(inputStream).isNotNull();
         List<RecordMap> recordMaps = JacksonJsonUtil.unmarshalInputStreamToList(RecordMap.class, inputStream);
-        CreateRecordRequest createRecordRequest = new CreateRecordRequest().withRecords(recordMaps);
+        CreateRecordRequest createRecordRequest = new CreateRecordRequest()
+            .withRecords(recordMaps);
         List<Record> newRecords = vikaApiClient.getRecordApi().addRecords(DATASHEET_ID, createRecordRequest);
         assertThat(newRecords).isNotNull();
         assertThat(newRecords).isNotEmpty();

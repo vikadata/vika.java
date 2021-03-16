@@ -1,0 +1,26 @@
+[
+    {
+        "fields": {
+            "fldjoQSlHfV2z": "This is from unit Test create record 1 by field id",
+            "fldo5VxaiCBUk": "This is from unit Test create record 1 by field id",
+            "fldAY9mW7MUdW": [
+                "A"
+            ],
+            "fld8w4C5fwDBl": [
+                "EE"
+            ]
+        }
+    },
+    {
+        "fields": {
+            "fldjoQSlHfV2z": "This is from unit Test create record 2 by field id",
+            "fldo5VxaiCBUk": "This is from unit Test create record 2 by field id",
+            "fldAY9mW7MUdW": [
+                "F"
+            ],
+            "fld8w4C5fwDBl": [
+                "LL"
+            ]
+        }
+    }
+]
