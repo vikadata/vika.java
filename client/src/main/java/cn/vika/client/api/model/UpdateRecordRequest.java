@@ -20,6 +20,9 @@ package cn.vika.client.api.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 /**
  * Create Record Model
  * @author Shawn Deng
@@ -27,7 +30,18 @@ import java.util.List;
  */
 public class UpdateRecordRequest {
 
+    @JsonInclude(Include.NON_NULL)
+    private FieldKey fieldKey;
+
     private List<UpdateRecord> records;
+
+    public FieldKey getFieldKey() {
+        return fieldKey;
+    }
+
+    public void setFieldKey(FieldKey fieldKey) {
+        this.fieldKey = fieldKey;
+    }
 
     public List<UpdateRecord> getRecords() {
         return records;
@@ -39,6 +53,11 @@ public class UpdateRecordRequest {
 
     public UpdateRecordRequest withRecords(List<UpdateRecord> records) {
         this.records = records;
+        return this;
+    }
+
+    public UpdateRecordRequest withFieldKey(FieldKey fieldKey) {
+        this.fieldKey = fieldKey;
         return this;
     }
 }
