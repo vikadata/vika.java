@@ -18,6 +18,8 @@
 
 package cn.vika.client.api.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * FieldKey enum
  *
@@ -28,9 +30,20 @@ public enum FieldKey {
     /**
      * find fields with name
      */
-    Name,
+    Name("name"),
     /**
      * find fields with id
      */
-    ID
+    ID("id");
+
+    private final String value;
+
+    FieldKey(String value) {
+        this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
 }
