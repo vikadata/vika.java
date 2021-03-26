@@ -101,7 +101,7 @@ Below code are a couple of examples on how to use the Pager:
 Pager<Record> pager = vikaApiClient.getRecordApi().getRecords("datasheet_id", 100);
 
 // Iterate through the pages and print out the per record detail
-while (pager.hasNext())) {
+while (pager.hasNext()) {
     for (Record record : pager.next()) {
         System.out.println(record.getRecordId() + " -: " + record.getFields());
     }
