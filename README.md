@@ -1,5 +1,7 @@
 # Vikadata&trade; Java SDK (*vika.java*)<br />Java Client Library for the Vikadata OpenAPI
 
+![vika.java](https://socialify.git.ci/vikadata/vika.java/image?description=1&descriptionEditable=Vika%20is%20a%20API-based%20SaaS%20database%20platform%20for%20users%20and%20developers%2C%20Java%20SDK%20for%20connecting%20vikadata%20Open%20API.&font=Inter&forks=1&issues=1&language=1&logo=http%3A%2F%2Fs1.vika.ltd%2Fdatasheet%2Flogo.png&owner=1&pattern=Charlie%20Brown&stargazers=1&theme=Dark)
+
 [![LGPL-2.1](https://img.shields.io/badge/License-LGPL--2.1-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/vikadata/vika-sdk-java/badge.svg)](https://search.maven.org/artifact/cn.vika/vika-client)
 [![Build](https://www.travis-ci.com/vikadata/vika.java.svg?branch=master)](https://www.travis-ci.com/github/vikadata/vika.java)
