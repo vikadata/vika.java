@@ -36,7 +36,7 @@ Java 8+ is required to use sdk. not support Java 8 below
 <dependency>
     <groupId>cn.vika</groupId>
     <artifactId>vika-client</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 

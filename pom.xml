@@ -12,7 +12,7 @@
     <url>https://github.com/vikadata/vika.java</url>
 
     <properties>
-        <revision>1.0.2</revision>
+        <revision>1.0.3-SNAPSHOT</revision>
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
