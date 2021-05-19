@@ -242,6 +242,9 @@ vikaApiClient.getRecordApi().deleteRecord("datasheet_id", "recXXXXXX");
 
 // DELETE many record
 vikaApiClient.getRecordApi().deleteRecords("datasheet_id", Arrays.asList("recXXXXXX", "recXXXXXX"));
+
+// Delete all records, may be slowly work if sheet have large records
+vikaApiClient.getRecordApi().deleteAllRecords("datasheet_id");
 ```
 
 #### **Upload Attachment**
