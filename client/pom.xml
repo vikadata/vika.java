@@ -11,6 +11,7 @@
     <artifactId>vika-client</artifactId>
     <name>Vika Sdk Client</name>
     <description>Vika Sdk Client</description>
+    <url>https://github.com/vikadata/vika.java</url>
 
     <dependencies>
         <dependency>
