@@ -27,5 +27,6 @@ version=$(mvn exec:exec -q -N -Dexec.executable="echo" -Dexec.args='${project.ve
 echo "${version}"
 
 if [ "$version" ]; then
+  export GPG_TTY=$(tty)
   mvn clean deploy -Psnapshot --settings "${TRAVIS_BUILD_DIR}"/.mvn/settings.xml -Dgpg.executable=gpg2 -Dgpg.keyname="$GPG_KEY_NAME"-Dgpg.passphrase="$GPG_PASSPHRASE"
 fi

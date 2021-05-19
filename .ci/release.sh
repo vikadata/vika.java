@@ -24,6 +24,7 @@ if [ -z "$GPG_PASSPHRASE" ]; then
 fi
 
 if [ "$TRAVIS_TAG" ]; then
+  export GPG_TTY=$(tty)
   mvn clean deploy -Prelease --settings "${TRAVIS_BUILD_DIR}"/.mvn/settings.xml -Dgpg.executable=gpg2 -Dgpg.keyname="$GPG_KEY_NAME"-Dgpg.passphrase="$GPG_PASSPHRASE"
 else
   echo "not create a tag"
