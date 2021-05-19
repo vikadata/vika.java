@@ -21,6 +21,7 @@ package cn.vika.client.api;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import cn.vika.client.api.exception.ApiException;
@@ -36,6 +37,7 @@ import cn.vika.client.api.model.Records;
 import cn.vika.client.api.model.UpdateRecordRequest;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
+import cn.vika.core.utils.CollectionUtil;
 import cn.vika.core.utils.MapUtil;
 import cn.vika.core.utils.StringUtil;
 
@@ -127,6 +129,24 @@ public class RecordApi extends AbstractApi {
         if (recordIds.isEmpty()) {
             throw new ApiException("record id array must be not empty");
         }
+        if (recordIds.size() > 10) {
+            List<List<String>> splitList = CollectionUtil.splitListParallel(recordIds, 10);
+            splitList.forEach(split -> deleteLimitSize(datasheetId, split));
+        }
+        else {
+            deleteLimitSize(datasheetId, recordIds);
+        }
+    }
+
+    public void deleteAllRecords(String datasheetId) throws ApiException {
+        Stream<Record> recordStream = getRecordsAsStream(datasheetId);
+        List<String> recordIds = recordStream.map(Record::getRecordId).collect(Collectors.toList());
+        if (!recordIds.isEmpty()) {
+            deleteRecords(datasheetId, recordIds);
+        }
+    }
+
+    private void deleteLimitSize(String datasheetId, List<String> recordIds) {
         Map<String, String> uriVariables = MapUtil.listToUriVariableMap("recordIds", recordIds);
         String uri = String.format(PATH, datasheetId) + MapUtil.extractKeyToVariables(uriVariables);
         getDefaultHttpClient().delete(uri, new HttpHeader(), Void.class, uriVariables);

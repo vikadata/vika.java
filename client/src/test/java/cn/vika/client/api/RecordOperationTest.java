@@ -325,7 +325,7 @@ public class RecordOperationTest {
         List<Record> newRecords = vikaApiClient.getRecordApi().addRecords(DATASHEET_ID, createRecordRequest);
         assertThat(newRecords).isNotNull();
         assertThat(newRecords).isNotEmpty();
-        assertThat(newRecords).hasSize(3);
+        assertThat(newRecords).hasSize(10);
 
         List<String> recordIds = newRecords.stream().map(Record::getRecordId).collect(Collectors.toList());
 
@@ -335,6 +335,33 @@ public class RecordOperationTest {
         // assert query whether record exist
         ApiQueryParam queryParam = ApiQueryParam.EMPTY.withRecordIds(recordIds);
         Pager<Record> pager = vikaApiClient.getRecordApi().getRecords(DATASHEET_ID, queryParam);
+        assertThat(pager).isNotNull();
+        assertThat(pager.getTotalItems()).isZero();
+    }
+
+    @Test
+    @Order(61)
+    public void testDeleteAllRecordsOnEmptyData() {
+        vikaApiClient.getRecordApi().deleteAllRecords(DATASHEET_ID);
+    }
+
+    @Test
+    @Order(62)
+    public void testDeleteAllRecordsOnNoEmptyData() throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream("delete-many-record.json");
+        assertThat(inputStream).isNotNull();
+        List<RecordMap> recordMaps = JacksonJsonUtil.unmarshalInputStreamToList(RecordMap.class, inputStream);
+        CreateRecordRequest createRecordRequest = new CreateRecordRequest().withRecords(recordMaps);
+        List<Record> newRecords = vikaApiClient.getRecordApi().addRecords(DATASHEET_ID, createRecordRequest);
+        assertThat(newRecords).isNotNull();
+        assertThat(newRecords).isNotEmpty();
+        assertThat(newRecords).hasSize(10);
+
+        vikaApiClient.getRecordApi().deleteAllRecords(DATASHEET_ID);
+
+        // assert query whether record exist
+        Pager<Record> pager = vikaApiClient.getRecordApi().getRecords(DATASHEET_ID);
         assertThat(pager).isNotNull();
         assertThat(pager.getTotalItems()).isZero();
     }

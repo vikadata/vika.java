@@ -34,5 +34,89 @@
                 "EE"
             ]
         }
+    },
+    {
+        "fields": {
+            "ShortText": "This is from unit Test create record 4",
+            "LongText": "This is from unit Test create record 4",
+            "Options": [
+                "F"
+            ],
+            "MultiSelect": [
+                "LL"
+            ]
+        }
+    },
+    {
+        "fields": {
+            "ShortText": "This is from unit Test create record 5",
+            "LongText": "This is from unit Test create record 5",
+            "Options": [
+                "F"
+            ],
+            "MultiSelect": [
+                "LL"
+            ]
+        }
+    },
+    {
+        "fields": {
+            "ShortText": "This is from unit Test create record 6",
+            "LongText": "This is from unit Test create record 6",
+            "Options": [
+                "F"
+            ],
+            "MultiSelect": [
+                "LL"
+            ]
+        }
+    },
+    {
+        "fields": {
+            "ShortText": "This is from unit Test create record 7",
+            "LongText": "This is from unit Test create record 7",
+            "Options": [
+                "F"
+            ],
+            "MultiSelect": [
+                "LL"
+            ]
+        }
+    },
+    {
+        "fields": {
+            "ShortText": "This is from unit Test create record 8",
+            "LongText": "This is from unit Test create record 8",
+            "Options": [
+                "F"
+            ],
+            "MultiSelect": [
+                "LL"
+            ]
+        }
+    },
+    {
+        "fields": {
+            "ShortText": "This is from unit Test create record 9",
+            "LongText": "This is from unit Test create record 9",
+            "Options": [
+                "F"
+            ],
+            "MultiSelect": [
+                "LL"
+            ]
+        }
+    },
+    {
+        "fields": {
+            "ShortText": "This is from unit Test create record 10",
+            "LongText": "This is from unit Test create record 10",
+            "Options": [
+                "F"
+            ],
+            "MultiSelect": [
+                "LL"
+            ]
+        }
     }
 ]
