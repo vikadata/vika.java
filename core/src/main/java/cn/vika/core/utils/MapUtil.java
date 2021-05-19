@@ -42,7 +42,7 @@ public class MapUtil {
         String uri = "";
         for (Map.Entry<String, String> entry : map.entrySet()) {
             int index = entry.getKey().lastIndexOf('.');
-            if (index == entry.getKey().length() - 2) {
+            if ((entry.getKey().length() - index - 1) == 0 ) {
                 uri = setUriTemplate(uri, entry.getKey().substring(0, index), entry.getKey());
             }
             else {
