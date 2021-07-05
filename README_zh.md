@@ -7,4 +7,4 @@
 
 简体中文 | [English](./README-en.md)
 
-[维格表](https://vika.cn) 官方Java SDK, 让你轻松集成维格表的API连接能力。
+[维格表](https://vika.cn) Java SDK, 让你轻松集成维格表的API连接能力。
