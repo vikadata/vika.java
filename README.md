@@ -1,4 +1,4 @@
-# Vikadata&trade; Java SDK (*vika.java*)<br />Java Client Library for the Vikadata OpenAPI
+# Vikadata&trade; Java SDK (*vika.java*)<br />Java Client Library for the Vika OpenAPI
 
 ![vika.java](https://socialify.git.ci/vikadata/vika.java/image?description=1&descriptionEditable=Vika%20is%20a%20API-based%20SaaS%20database%20platform%20for%20users%20and%20developers%2C%20Java%20SDK%20for%20connecting%20vikadata%20Open%20API.&font=Inter&forks=1&issues=1&language=1&logo=http%3A%2F%2Fs1.vika.ltd%2Fdatasheet%2Flogo.png&owner=1&pattern=Charlie%20Brown&stargazers=1&theme=Dark)
 
@@ -12,7 +12,7 @@
 
 [简体中文](./README_zh.md) | English
 
-[Vika](https://vika.cn) Official Java SDK
+[Vika](https://vika.cn) Java SDK
 
 Vikadata&trade; Java API (*vika.java*) provides a full featured and easy to consume Java
 library for working with vikadata via the Vikadata OpenAPI.<br/>
