@@ -2,17 +2,17 @@
 
 ![vika.java](https://socialify.git.ci/vikadata/vika.java/image?description=1&descriptionEditable=Vika%20is%20a%20API-based%20SaaS%20database%20platform%20for%20users%20and%20developers%2C%20Java%20SDK%20for%20connecting%20vikadata%20Open%20API.&font=Inter&forks=1&issues=1&language=1&logo=http%3A%2F%2Fs1.vika.ltd%2Fdatasheet%2Flogo.png&owner=1&pattern=Charlie%20Brown&stargazers=1&theme=Dark)
 
-[![LGPL-2.1](https://img.shields.io/badge/License-LGPL--2.1-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/vikadata/vika-sdk-java/badge.svg)](https://search.maven.org/artifact/cn.vika/vika-client)
+[![MIT](https://img.shields.io/badge/licenses-MIT-blue)](https://vikadata.mit-license.org/)
+[![Maven Central](https://img.shields.io/maven-central/v/cn.vika/vika-client.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22cn.vika%22%20AND%20a:%22vika-client%22)
 [![Build](https://www.travis-ci.com/vikadata/vika.java.svg?branch=master)](https://www.travis-ci.com/github/vikadata/vika.java)
-[![JavaDoc](https://javadoc.io/badge2/cn.vika/vika.java/javadoc.io.svg)](https://javadoc.io/doc/cn.vika/vika-client)
+[![javadoc](https://javadoc.io/badge2/cn.vika/vika-client/javadoc.svg)](https://javadoc.io/doc/cn.vika/vika-client)
 
 [github_issues]:https://github.com/vikadata/vika.java/issues
 [github_issues_new]:https://github.com/vikadata/vika.java/issues/new
 
 [简体中文](./README_zh.md) | English
 
-[Vika](https://vika.cn) Official Java SDK
+[Vika](https://vika.cn) Java SDK
 
 Vikadata&trade; Java API (*vika.java*) provides a full featured and easy to consume Java
 library for working with vikadata via the Vikadata OpenAPI.<br/>
@@ -51,7 +51,7 @@ dependencies {
 
 ## **Usage Example**
 
-vika java client is quite simple to use, you don't need to set api url, all you need is the
+vika java sdk is quite simple to use, you don't need to set api url, all you need is the
 ``Personal Api Key`` from your vika account settings page. Once you have that info it is as
 simple as:
 
@@ -279,6 +279,6 @@ If you want to raise an issue, please follow the recommendations below:
 * If you need to paste code, or include a stack trace use Markdown escapes before and after your text.
 
 ## License
-Open Source software released under the [LGPL-2.1](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt).
+Open Source software released under the [MIT License](https://vikadata.mit-license.org).
 
 

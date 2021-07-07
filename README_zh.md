@@ -1,10 +1,11 @@
 # vika.java
-[![LGPL-2.1](https://img.shields.io/badge/License-LGPL--2.1-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/vikadata/vika-sdk-java/badge.svg)](https://search.maven.org/artifact/cn.vika/vika-client)
+[![MIT](https://img.shields.io/badge/licenses-MIT-blue)](https://vikadata.mit-license.org/)
+[![Maven Central](https://img.shields.io/maven-central/v/cn.vika/vika-client.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22cn.vika%22%20AND%20a:%22vika-client%22)
 [![Build](https://www.travis-ci.com/vikadata/vika.java.svg?branch=master)](https://www.travis-ci.com/github/vikadata/vika.java)
+[![javadoc](https://javadoc.io/badge2/cn.vika/vika-client/javadoc.svg)](https://javadoc.io/doc/cn.vika/vika-client)
 
 ![](./image/logo.png)
 
 简体中文 | [English](./README-en.md)
 
-[维格表](https://vika.cn) 官方Java SDK, 让你轻松集成维格表的API连接能力。
+[维格表](https://vika.cn) Java SDK (非官方), 让你轻松集成维格表的API连接能力。
