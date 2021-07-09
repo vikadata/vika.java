@@ -10,8 +10,6 @@
 [github_issues]:https://github.com/vikadata/vika.java/issues
 [github_issues_new]:https://github.com/vikadata/vika.java/issues/new
 
-[简体中文](./README_zh.md) | English
-
 [Vika](https://vika.cn) Java SDK
 
 Vikadata&trade; Java API (*vika.java*) provides a full featured and easy to consume Java
