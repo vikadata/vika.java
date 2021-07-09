@@ -47,6 +47,8 @@ public class VikaApiClient {
 
     private AttachmentApi attachmentApi;
 
+    private NodeApi nodeApi;
+
     public VikaApiClient(ApiCredential credential) {
         this(ApiVersion.V1, DEFAULT_HOST, credential);
     }
@@ -145,5 +147,16 @@ public class VikaApiClient {
             }
         }
         return this.attachmentApi;
+    }
+
+    public NodeApi getNodeApi() {
+        if (this.nodeApi == null) {
+            synchronized (this) {
+                if (this.nodeApi == null) {
+                    this.nodeApi = new NodeApi(this.apiHttpClient);
+                }
+            }
+        }
+        return this.nodeApi;
     }
 }

@@ -20,42 +20,24 @@
  * SOFTWARE.
  */
 
-package cn.vika.core.utils;
+package cn.vika.client.api.model;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
- * Utils for Collection
+ * get node api result data
  * @author Shawn Deng
- * @date 2021-05-19 23:52:38
+ * @date 2021-07-09 14:04:09
  */
-public class CollectionUtil {
+public class GetNodeResult {
 
-    public static boolean isNotEmpty(Collection<?> collection) {
-        return !isEmpty(collection);
+    private List<Node> nodes;
+
+    public List<Node> getNodes() {
+        return nodes;
     }
 
-    public static boolean isEmpty(Collection<?> collection) {
-        return collection == null || collection.isEmpty();
-    }
-
-    /**
-     * Split collection by size using parallel stream
-     * @param list List
-     * @param splitSize split size
-     * @param <T> Class Type
-     * @return Split List Collection
-     */
-    public static <T> List<List<T>> splitListParallel(List<T> list, int splitSize) {
-        int limit = (list.size() + splitSize - 1) / splitSize;
-        return Stream.iterate(0, n -> n + 1)
-                .limit(limit).parallel().map(item ->
-                        list.stream().skip((long) item * splitSize)
-                                .limit(splitSize).parallel()
-                                .collect(Collectors.toList()))
-                .collect(Collectors.toList());
+    public void setNodes(List<Node> nodes) {
+        this.nodes = nodes;
     }
 }
