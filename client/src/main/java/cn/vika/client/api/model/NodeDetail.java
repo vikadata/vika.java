@@ -20,42 +20,74 @@
  * SOFTWARE.
  */
 
-package cn.vika.core.utils;
+package cn.vika.client.api.model;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
- * Utils for Collection
+ *
  * @author Shawn Deng
- * @date 2021-05-19 23:52:38
+ * @date 2021-07-09 14:07:26
  */
-public class CollectionUtil {
+public class NodeDetail {
 
-    public static boolean isNotEmpty(Collection<?> collection) {
-        return !isEmpty(collection);
+    private String id;
+
+    private String name;
+
+    private String type;
+
+    private String icon;
+
+    private boolean isFav;
+
+    private List<NodeDetail> children;
+
+    public String getId() {
+        return id;
     }
 
-    public static boolean isEmpty(Collection<?> collection) {
-        return collection == null || collection.isEmpty();
+    public void setId(String id) {
+        this.id = id;
     }
 
-    /**
-     * Split collection by size using parallel stream
-     * @param list List
-     * @param splitSize split size
-     * @param <T> Class Type
-     * @return Split List Collection
-     */
-    public static <T> List<List<T>> splitListParallel(List<T> list, int splitSize) {
-        int limit = (list.size() + splitSize - 1) / splitSize;
-        return Stream.iterate(0, n -> n + 1)
-                .limit(limit).parallel().map(item ->
-                        list.stream().skip((long) item * splitSize)
-                                .limit(splitSize).parallel()
-                                .collect(Collectors.toList()))
-                .collect(Collectors.toList());
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public boolean isFav() {
+        return isFav;
+    }
+
+    public void setFav(boolean fav) {
+        isFav = fav;
+    }
+
+    public List<NodeDetail> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<NodeDetail> children) {
+        this.children = children;
     }
 }
