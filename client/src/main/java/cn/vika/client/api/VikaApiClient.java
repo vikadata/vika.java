@@ -49,6 +49,10 @@ public class VikaApiClient {
 
     private NodeApi nodeApi;
 
+    private volatile FieldApi fieldApi;
+
+    private volatile DatasheetApi datasheetApi;
+
     public VikaApiClient(ApiCredential credential) {
         this(ApiVersion.V1, DEFAULT_HOST, credential);
     }
@@ -158,5 +162,27 @@ public class VikaApiClient {
             }
         }
         return this.nodeApi;
+    }
+
+    public FieldApi getFieldApi() {
+        if (this.fieldApi == null) {
+            synchronized (this) {
+                if (this.fieldApi == null) {
+                    this.fieldApi = new FieldApi(this.apiHttpClient);
+                }
+            }
+        }
+        return fieldApi;
+    }
+
+    public DatasheetApi getDatasheetApi() {
+        if (this.datasheetApi == null) {
+            synchronized (this) {
+                if (this.datasheetApi == null) {
+                    this.datasheetApi = new DatasheetApi(this.apiHttpClient);
+                }
+            }
+        }
+        return datasheetApi;
     }
 }
