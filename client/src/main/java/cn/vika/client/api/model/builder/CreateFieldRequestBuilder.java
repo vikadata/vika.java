@@ -3,6 +3,7 @@ package cn.vika.client.api.model.builder;
 import cn.vika.client.api.model.CreateFieldRequest;
 import cn.vika.client.api.model.field.FieldType;
 import cn.vika.client.api.model.field.property.BaseFieldProperty;
+import cn.vika.client.api.model.field.property.EmptyProperty;
 
 /**
  * @author tao
@@ -94,6 +95,11 @@ class PropertyOfCreateField implements IPropertyOfCreateField {
         return new BuildCreateField<>(context);
     }
 
+    @Override
+    public IBuildCreateField<EmptyProperty> withoutProperty() {
+        context.setProperty(new EmptyProperty());
+        return new BuildCreateField<>(context);
+    }
 }
 
 class BuildCreateField<T extends BaseFieldProperty>  implements IBuildCreateField<T> {

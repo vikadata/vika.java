@@ -1,13 +1,29 @@
 package cn.vika.client.api.model.field.property;
 
+import cn.vika.client.api.model.field.property.option.PrecisionEnum;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 /**
  * @author tao
  */
 public class NumberFieldProperty extends BaseFieldProperty {
 
+    @JsonInclude(Include.NON_NULL)
     private String defaultValue;
 
-    private int precision;
+    private PrecisionEnum precision;
+
+    @JsonInclude(Include.NON_NULL)
+    private String symbol;
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
 
     public String getDefaultValue() {
         return defaultValue;
@@ -17,11 +33,11 @@ public class NumberFieldProperty extends BaseFieldProperty {
         this.defaultValue = defaultValue;
     }
 
-    public int getPrecision() {
+    public PrecisionEnum getPrecision() {
         return precision;
     }
 
-    public void setPrecision(int precision) {
+    public void setPrecision(PrecisionEnum precision) {
         this.precision = precision;
     }
 }

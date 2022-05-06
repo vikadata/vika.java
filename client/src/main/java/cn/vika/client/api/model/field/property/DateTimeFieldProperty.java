@@ -1,37 +1,55 @@
 package cn.vika.client.api.model.field.property;
 
+import cn.vika.client.api.model.field.property.option.DateFormatEnum;
+import cn.vika.client.api.model.field.property.option.TimeFormatEnum;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 /**
  * @author tao
  */
 public class DateTimeFieldProperty extends BaseFieldProperty {
 
-    private String format;
+    private DateFormatEnum dateFormat;
 
-    private boolean autoFill = false;
+    @JsonInclude(Include.NON_NULL)
+    private TimeFormatEnum timeFormat;
 
-    private boolean bool = false;
+    @JsonInclude(Include.NON_NULL)
+    private Boolean autoFill;
 
-    public String getFormat() {
-        return format;
+    @JsonInclude(Include.NON_NULL)
+    private Boolean includeTime;
+
+    public DateFormatEnum getDateFormat() {
+        return dateFormat;
     }
 
-    public void setFormat(String format) {
-        this.format = format;
+    public void setDateFormat(DateFormatEnum dateFormat) {
+        this.dateFormat = dateFormat;
     }
 
-    public boolean isAutoFill() {
+    public TimeFormatEnum getTimeFormat() {
+        return timeFormat;
+    }
+
+    public void setTimeFormat(TimeFormatEnum timeFormat) {
+        this.timeFormat = timeFormat;
+    }
+
+    public Boolean isAutoFill() {
         return autoFill;
     }
 
-    public void setAutoFill(boolean autoFill) {
+    public void setAutoFill(Boolean autoFill) {
         this.autoFill = autoFill;
     }
 
-    public boolean isBool() {
-        return bool;
+    public Boolean isIncludeTime() {
+        return includeTime;
     }
 
-    public void setBool(boolean bool) {
-        this.bool = bool;
+    public void setIncludeTime(Boolean includeTime) {
+        this.includeTime = includeTime;
     }
 }

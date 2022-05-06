@@ -1,23 +1,19 @@
 package cn.vika.client.api.model.field.property.option;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 /**
  * @author tao
  */
 public class SelectOption {
 
-    private String id;
 
     private String name;
 
-    private SelectOptionColor color;
+    @JsonInclude(Include.NON_NULL)
+    private String color;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -27,11 +23,11 @@ public class SelectOption {
         this.name = name;
     }
 
-    public SelectOptionColor getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(SelectOptionColor color) {
+    public void setColor(String color) {
         this.color = color;
     }
 }

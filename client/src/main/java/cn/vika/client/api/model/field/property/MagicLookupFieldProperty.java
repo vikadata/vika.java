@@ -3,18 +3,24 @@ package cn.vika.client.api.model.field.property;
 import cn.vika.client.api.model.field.property.option.Format;
 import cn.vika.client.api.model.field.property.option.RollUpFunctionEnum;
 import cn.vika.client.api.model.field.property.option.TypeFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * @author tao
  */
 public class MagicLookupFieldProperty extends BaseFieldProperty {
 
+
     private String relatedLinkFieldId;
+
 
     private String targetFieldId;
 
+    @JsonInclude(Include.NON_NULL)
     private RollUpFunctionEnum rollupFunction;
 
+    @JsonInclude(Include.NON_NULL)
     private Format<?> format;
 
     public String getRelatedLinkFieldId() {

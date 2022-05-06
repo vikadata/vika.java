@@ -1,22 +1,36 @@
 package cn.vika.client.api.model.field.property;
 
-import java.util.List;
-
-import cn.vika.client.api.model.field.property.option.MemberOption;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author tao
  */
 public class MemberFieldProperty extends BaseFieldProperty {
 
-    private List<MemberOption> options;
+    @JsonInclude(Include.NON_NULL)
+    @JsonProperty("isMulti")
+    private Boolean isMulti;
 
-    public List<MemberOption> getOptions() {
-        return options;
+    @JsonInclude(Include.NON_NULL)
+    private Boolean shouldSendMsg;
+
+    @JsonIgnore
+    public Boolean getMulti() {
+        return isMulti;
     }
 
-    public void setOptions(List<MemberOption> options) {
-        this.options = options;
+    public void setMulti(boolean multi) {
+        isMulti = multi;
     }
 
+    public Boolean isShouldSendMsg() {
+        return shouldSendMsg;
+    }
+
+    public void setShouldSendMsg(boolean shouldSendMsg) {
+        this.shouldSendMsg = shouldSendMsg;
+    }
 }
