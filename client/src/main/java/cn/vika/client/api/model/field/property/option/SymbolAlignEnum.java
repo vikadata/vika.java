@@ -7,17 +7,18 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum SymbolAlignEnum {
     /**
-     *
+     * the monetary unit is fixed to the left.
      */
     Default("Default"),
     /**
-     *
+     * the monetary unit is fixed to the left.
      */
     Left("Left"),
     /**
-     *
+     * the monetary unit is fixed to the right.
      */
     Right("Right");
+
     private final String value;
 
     SymbolAlignEnum(String value) {

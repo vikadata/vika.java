@@ -8,12 +8,6 @@ import cn.vika.client.api.model.field.property.EmptyProperty;
  */
 public interface IPropertyOfCreateField {
 
-    /**
-     *
-     * @param property
-     * @param <T>
-     * @return
-     */
     <T extends BaseFieldProperty> IBuildCreateField<T> withProperty(T property);
 
     IBuildCreateField<EmptyProperty> withoutProperty();

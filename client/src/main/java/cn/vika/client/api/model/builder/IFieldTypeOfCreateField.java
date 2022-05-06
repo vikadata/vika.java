@@ -7,11 +7,6 @@ import cn.vika.client.api.model.field.FieldType;
  */
 public interface IFieldTypeOfCreateField {
 
-    /**
-     *
-     * @param fieldType
-     * @return
-     */
     INameOfCreateField ofType(FieldType fieldType);
 
 }

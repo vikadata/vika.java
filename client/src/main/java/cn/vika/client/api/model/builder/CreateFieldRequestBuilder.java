@@ -89,8 +89,6 @@ class PropertyOfCreateField implements IPropertyOfCreateField {
     @Override
     public <T extends BaseFieldProperty> IBuildCreateField<T> withProperty(T property) {
 
-        // TODO: 泛型正确性判断
-
         context.setProperty(property);
         return new BuildCreateField<>(context);
     }

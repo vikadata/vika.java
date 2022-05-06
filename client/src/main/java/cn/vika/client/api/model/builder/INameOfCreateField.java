@@ -5,11 +5,6 @@ package cn.vika.client.api.model.builder;
  */
 public interface INameOfCreateField {
 
-    /**
-     *
-     * @param name
-     * @return
-     */
     IPropertyOfCreateField withName(String name);
 
 }

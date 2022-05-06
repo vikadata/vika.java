@@ -30,8 +30,6 @@ public class FieldApi extends AbstractApi {
 
         checkPostFieldPathArgs(spaceId, datasheetId);
 
-        // TODO: 校验CreateFieldRequest对象
-
         final String path = String.format(POST_FIELD_PATH, spaceId, datasheetId);
         HttpResult<CreateFieldResponse> result = getDefaultHttpClient().post(
                         path, new HttpHeader(), field,

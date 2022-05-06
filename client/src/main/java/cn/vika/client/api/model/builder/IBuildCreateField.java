@@ -8,10 +8,6 @@ import cn.vika.client.api.model.field.property.BaseFieldProperty;
  */
 public interface IBuildCreateField <T extends BaseFieldProperty>  {
 
-    /**
-     *
-     * @return
-     */
     CreateFieldRequest<T> build();
 
 }

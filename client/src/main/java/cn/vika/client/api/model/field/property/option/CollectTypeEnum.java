@@ -8,11 +8,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum CollectTypeEnum {
 
     /**
-     *
+     * Indicates that the value of any field is changed when it is updated
      */
     ALL(0),
     /**
-     *
+     *Indicates that the value of specified field is changed when it is updated
      */
     SPECIFIED(1);
 

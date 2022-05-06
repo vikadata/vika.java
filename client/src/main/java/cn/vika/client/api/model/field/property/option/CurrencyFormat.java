@@ -3,7 +3,7 @@ package cn.vika.client.api.model.field.property.option;
 /**
  * @author tao
  */
-public class Currency extends TypeFormat{
+public class CurrencyFormat extends TypeFormat{
 
     private int precision;
 

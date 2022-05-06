@@ -7,11 +7,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum TimeFormatEnum {
     /**
-     *
+     * 12-hour clock
      */
     HOUR_MINUTE_12("hh:mm"),
     /**
-     *
+     * 24-hour clock
      */
     HOUR_MINUTE_24("HH:mm");
 
