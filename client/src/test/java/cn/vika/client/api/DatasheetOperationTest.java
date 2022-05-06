@@ -1,8 +1,16 @@
 package cn.vika.client.api;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.vika.client.api.http.ApiCredential;
 import cn.vika.client.api.model.CreateDatasheetRequest;
 import cn.vika.client.api.model.CreateDatasheetResponse;
+import cn.vika.client.api.model.CreateFieldRequest;
+import cn.vika.client.api.model.builder.CreateFieldRequestBuilder;
+import cn.vika.client.api.model.field.FieldType;
+import cn.vika.client.api.model.field.property.EmptyProperty;
+import cn.vika.client.api.model.field.property.SingleTextFieldProperty;
 import org.junit.jupiter.api.Test;
 
 import static cn.vika.client.api.ConstantKey.TEST_API_KEY;
@@ -26,7 +34,37 @@ public class DatasheetOperationTest {
     @Test
     void testAddDatasheet() {
         CreateDatasheetRequest request = new CreateDatasheetRequest();
-        request.setName("java test");
+        request.setName("datasheet");
+        CreateDatasheetResponse response = vikaApiClient.getDatasheetApi().addDatasheet(SPACE_ID, request);
+        assertThat(response).isNotNull();
+        assertThat(response.getId()).isNotNull();
+    }
+
+    @Test
+    void testAddDatasheetWithOtherInfo() {
+        CreateDatasheetRequest request = new CreateDatasheetRequest();
+        request.setName("datasheetWithOtherInfo");
+        request.setDescription("description");
+        request.setFolderId("fodBk37ziEJ22");
+        request.setPreNodeId("dstjWc5z2BJZ44sC9S");
+        SingleTextFieldProperty property = new SingleTextFieldProperty();
+        property.setDefaultValue("default");
+        CreateFieldRequest<SingleTextFieldProperty> singleSelectField = CreateFieldRequestBuilder
+                .create()
+                .ofType(FieldType.SingleText)
+                .withName("singleSelect")
+                .withProperty(property)
+                .build();
+        CreateFieldRequest<EmptyProperty> textField = CreateFieldRequestBuilder
+                .create()
+                .ofType(FieldType.Text)
+                .withName("text")
+                .withoutProperty()
+                .build();
+        List<CreateFieldRequest<?>> fields = new ArrayList<>();
+        fields.add(singleSelectField);
+        fields.add(textField);
+        request.setFields(fields);
         CreateDatasheetResponse response = vikaApiClient.getDatasheetApi().addDatasheet(SPACE_ID, request);
         assertThat(response).isNotNull();
         assertThat(response.getId()).isNotNull();
