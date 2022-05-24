@@ -12,7 +12,7 @@ public enum CollectTypeEnum {
      */
     ALL(0),
     /**
-     *Indicates that the value of specified field is changed when it is updated
+     * Indicates that the value of specified field is changed when it is updated
      */
     SPECIFIED(1);
 
