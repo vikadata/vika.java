@@ -267,7 +267,96 @@ File file = new File("/Users/Document/test.txt");
 Attachment attachment = vikaApiClient.getAttachmentApi().upload("datasheet_id", file);
 ```
 
+#### **Add Field**
+
+You can create field by sdk. Firstly, we need to build the property required by the field. Secondly, Using `CreateFieldRequestBuilder` to creating a `CreateFieldRequest` object. Finally, submitting the request to the specified space and the specified datasheet. If creating the field successfully, we can get the new field's `id` and `name`.
+
+> more detail about field type and property of field see official [API manual#create-field](https://vika.cn/developers/api/reference/#operation/create-fields)
+
+create single text field example:
+
+```java
+// build the SingleText field's property
+SingleTextFieldProperty singleTextFieldProperty = new SingleTextFieldProperty();
+singleTextFieldProperty.setDefaultValue("defaultValue");
+// create a CreateFieldRequest Object
+CreateFieldRequest<SingleTextFieldProperty> createFieldRequest = CreateFieldRequestBuilder
+                .create()
+                .ofType(FieldTypeEnum.SingleText)
+                .withName("singleText")
+                .withProperty(singleTextFieldProperty)
+                .build();
+// request to create a field
+CreateFieldResponse response = vikaApiClient.getFieldApi().addField("space_id", "datasheet_id", createFieldRequest);
+```
+
+ create text field example:
+
+```java
+// if field don't require property, we can skip the process that build the property
+CreateFieldRequest<EmptyProperty> createFieldRequest = CreateFieldRequestBuilder
+                .create()
+                .ofType(FieldTypeEnum.Text)
+                .withName("text")
+                .withoutProperty()
+                .build();
+// request to create a field
+CreateFieldResponse createFieldRequest = vikaApiClient.getFieldApi().addField("space_id", "datasheet_id", createFieldRequest);
+```
+
+#### **Detele Field**
+
+```java
+// we can use field_id to detele field
+vikaApiClient.getFieldApi().deleteField("space_id", "datasheet_id", "field_id");
+```
+
+#### **Add Datasheet**
+
+You can create a datasheet with the help of a `CreateDatasheetRequest` Object.  If creating the datasheet successfully, we can get the new datasheet's `id`, `name` and the fields' `id`, `name`. 
+
+> more detail see official [API munual#create-datasheet](https://vika.cn/developers/api/reference/#operation/create-datasheets)
+
+```java
+// create a CreateDatasheetRequest Object
+CreateDatasheetRequest createDatasheetRequest = new CreateDatasheetRequest();
+// datasheet's name is required.
+request.setName("datasheet");
+// add description to datasheet
+request.setDescription("description");
+// specify the folder where the datasheet is stored
+request.setFolderId("fold_id");
+// specify the datasheet's previous node
+request.setPreNodeId("pre_node_id");
+
+// datasheet's initial fields
+SingleTextFieldProperty property = new SingleTextFieldProperty();
+property.setDefaultValue("defaultValue");
+// a SingleText field
+CreateFieldRequest<SingleTextFieldProperty> singleSelectField = CreateFieldRequestBuilder
+                .create()
+                .ofType(FieldTypeEnum.SingleText)
+                .withName("singleSelect")
+                .withProperty(property)
+                .build();
+// a Text field
+CreateFieldRequest<EmptyProperty> textField = CreateFieldRequestBuilder
+                .create()
+                .ofType(FieldTypeEnum.Text)
+                .withName("text")
+                .withoutProperty()
+                .build();
+List<CreateFieldRequest<?>> fields = new ArrayList<>();
+fields.add(singleSelectField);
+fields.add(textField);
+request.setFields(fields);
+
+// request to create a datasheet
+CreateDatasheetResponse response = vikaApiClient.getDatasheetApi().addDatasheet("space_id", createDatasheetRequest);
+```
+
 ## Reporting Issues
+
 Vika java sdk project uses GitHub's integrated issue tracking system to record bugs and feature requests.
 If you want to raise an issue, please follow the recommendations below:
 
@@ -278,5 +367,4 @@ If you want to raise an issue, please follow the recommendations below:
 
 ## License
 Open Source software released under the [MIT License](https://vikadata.mit-license.org).
-
 
