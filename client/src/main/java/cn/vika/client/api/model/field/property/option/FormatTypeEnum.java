@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * @author tao
  */
-public enum FormatType {
+public enum FormatTypeEnum {
     /**
      * Format about DateTime
      * @see cn.vika.client.api.model.field.property.option.DateTimeFormat
@@ -25,12 +25,11 @@ public enum FormatType {
      * Format about Currency
      * @see cn.vika.client.api.model.field.property.option.CurrencyFormat
      */
-    Currency("Currency"),
-    ;
+    Currency("Currency");
 
     private final String value;
 
-    FormatType(String value) {
+    FormatTypeEnum(String value) {
         this.value = value;
     }
 

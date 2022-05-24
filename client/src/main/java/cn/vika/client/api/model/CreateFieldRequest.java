@@ -1,5 +1,6 @@
 package cn.vika.client.api.model;
 
+import cn.vika.client.api.model.field.FieldTypeEnum;
 import cn.vika.client.api.model.field.property.BaseFieldProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -11,7 +12,7 @@ public class CreateFieldRequest <T extends BaseFieldProperty> {
 
     /**
      * field type
-     * @see cn.vika.client.api.model.field.FieldType
+     * @see FieldTypeEnum
      */
     private String type;
 

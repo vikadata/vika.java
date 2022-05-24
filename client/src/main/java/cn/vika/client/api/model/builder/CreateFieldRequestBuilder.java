@@ -1,31 +1,85 @@
 package cn.vika.client.api.model.builder;
 
 import cn.vika.client.api.model.CreateFieldRequest;
-import cn.vika.client.api.model.field.FieldType;
+import cn.vika.client.api.model.field.FieldTypeEnum;
 import cn.vika.client.api.model.field.property.BaseFieldProperty;
 import cn.vika.client.api.model.field.property.EmptyProperty;
 
 /**
+ * step builder
+ *
  * @author tao
  */
-public class CreateFieldRequestBuilder{
+public class CreateFieldRequestBuilder implements IFieldTypeOfCreateField, INameOfCreateField, IPropertyOfCreateField {
+
+    private final ContextOfCreateField context;
 
     public static IFieldTypeOfCreateField create() {
-        return new FieldTypeOfCreateField(new ContextOfCreateField());
+        return new CreateFieldRequestBuilder();
+    }
+
+    public CreateFieldRequestBuilder() {
+        context = new ContextOfCreateField();
+    }
+
+    @Override
+    public INameOfCreateField ofType(FieldTypeEnum fieldType) {
+        context.setFieldType(fieldType);
+        return this;
+    }
+
+    @Override
+    public IPropertyOfCreateField withName(String name) {
+        context.setName(name);
+        return this;
+    }
+
+    @Override
+    public <T extends BaseFieldProperty> IBuildCreateField<T> withProperty(T property) {
+        context.setProperty(property);
+        return new BuildCreateField<>(context);
+    }
+
+    @Override
+    public IBuildCreateField<EmptyProperty> withoutProperty() {
+        return new BuildCreateField<>(context);
     }
 
 }
 
+class BuildCreateField<T extends BaseFieldProperty> implements IBuildCreateField<T> {
+
+    private final ContextOfCreateField context;
+
+    public BuildCreateField(ContextOfCreateField context) {
+        this.context = context;
+    }
+
+    @Override
+    public CreateFieldRequest<T> build() {
+        CreateFieldRequest<T> fieldRequest = new CreateFieldRequest<>();
+        fieldRequest.setType(context.getFieldType().getFieldType());
+        fieldRequest.setName(context.getName());
+        fieldRequest.setProperty((T) context.getProperty());
+        return fieldRequest;
+    }
+
+}
+
+
 class ContextOfCreateField {
-    private FieldType fieldType;
+
+    private FieldTypeEnum fieldType;
+
     private String name;
+
     private BaseFieldProperty property;
 
-    public FieldType getFieldType() {
+    public FieldTypeEnum getFieldType() {
         return fieldType;
     }
 
-    public void setFieldType(FieldType fieldType) {
+    public void setFieldType(FieldTypeEnum fieldType) {
         this.fieldType = fieldType;
     }
 
@@ -44,79 +98,6 @@ class ContextOfCreateField {
     public void setProperty(BaseFieldProperty property) {
         this.property = property;
     }
-}
-
-class FieldTypeOfCreateField implements IFieldTypeOfCreateField {
-
-    private final ContextOfCreateField context;
-
-    FieldTypeOfCreateField(ContextOfCreateField context) {
-        this.context = context;
-    }
-
-    @Override
-    public INameOfCreateField ofType(FieldType fieldType) {
-        context.setFieldType(fieldType);
-        return new NameOfCreateField(context);
-    }
-
-}
-
-class NameOfCreateField implements INameOfCreateField {
-
-    private final ContextOfCreateField context;
-
-    NameOfCreateField(ContextOfCreateField context) {
-        this.context = context;
-    }
-
-    @Override
-    public IPropertyOfCreateField withName(String name) {
-        context.setName(name);
-        return new PropertyOfCreateField(context);
-    }
-
-}
-
-class PropertyOfCreateField implements IPropertyOfCreateField {
-
-    private final ContextOfCreateField context;
-
-    PropertyOfCreateField(ContextOfCreateField context) {
-        this.context = context;
-    }
-
-    @Override
-    public <T extends BaseFieldProperty> IBuildCreateField<T> withProperty(T property) {
-
-        context.setProperty(property);
-        return new BuildCreateField<>(context);
-    }
-
-    @Override
-    public IBuildCreateField<EmptyProperty> withoutProperty() {
-        context.setProperty(new EmptyProperty());
-        return new BuildCreateField<>(context);
-    }
-}
-
-class BuildCreateField<T extends BaseFieldProperty>  implements IBuildCreateField<T> {
-
-    private final ContextOfCreateField context;
-
-    public BuildCreateField(ContextOfCreateField context) {
-        this.context = context;
-    }
-
-    @Override
-    public CreateFieldRequest<T> build() {
-        CreateFieldRequest<T> fieldRequest = new CreateFieldRequest<>();
-        fieldRequest.setType(context.getFieldType().getFieldType());
-        fieldRequest.setName(context.getName());
-        fieldRequest.setProperty((T) context.getProperty());
-        return fieldRequest;
-    }
-
 }
 
 

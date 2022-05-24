@@ -5,7 +5,7 @@ package cn.vika.client.api.model.field;
  *
  * @author tao
  */
-public enum FieldType {
+public enum FieldTypeEnum {
     /**
      *
      */
@@ -101,7 +101,7 @@ public enum FieldType {
 
     private final String fieldType;
 
-    FieldType(String fieldType) {
+    FieldTypeEnum(String fieldType) {
         this.fieldType = fieldType;
     }
 

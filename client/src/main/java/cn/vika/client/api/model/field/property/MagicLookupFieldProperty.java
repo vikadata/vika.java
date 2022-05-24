@@ -11,9 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  */
 public class MagicLookupFieldProperty extends BaseFieldProperty {
 
-
     private String relatedLinkFieldId;
-
 
     private String targetFieldId;
 

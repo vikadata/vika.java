@@ -10,7 +10,6 @@ public class MagicLinkFieldProperty extends BaseFieldProperty {
 
     private String foreignDatasheetId;
 
-
     @JsonInclude(Include.NON_NULL)
     private String limitToViewId;
 

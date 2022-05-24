@@ -5,15 +5,15 @@ package cn.vika.client.api.model.field.property.option;
  */
 public class Format<T extends TypeFormat> {
 
-    private FormatType type;
+    private FormatTypeEnum type;
 
     private T format;
 
-    public FormatType getType() {
+    public FormatTypeEnum getType() {
         return type;
     }
 
-    public void setType(FormatType type) {
+    public void setType(FormatTypeEnum type) {
         this.type = type;
     }
 

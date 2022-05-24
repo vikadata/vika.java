@@ -61,15 +61,15 @@ public class FieldApi extends AbstractApi {
 
     private void checkDeleteFieldPathArgs(String spaceId, String datasheetId, String fieldId) {
         if (!StringUtil.hasText(spaceId)) {
-            throw new ApiException("space id must be not null");
+            throw new ApiException("space id must not be null");
         }
 
         if (!StringUtil.hasText(datasheetId)) {
-            throw new ApiException("datasheet id must be not null");
+            throw new ApiException("datasheet id must not be null");
         }
 
         if (!StringUtil.hasText(fieldId)) {
-            throw new ApiException("fieldId id must be not null");
+            throw new ApiException("fieldId id must not be null");
         }
     }
 }

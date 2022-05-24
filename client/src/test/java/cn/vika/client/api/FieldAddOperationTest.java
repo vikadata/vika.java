@@ -7,7 +7,7 @@ import cn.vika.client.api.http.ApiCredential;
 import cn.vika.client.api.model.CreateFieldRequest;
 import cn.vika.client.api.model.CreateFieldResponse;
 import cn.vika.client.api.model.builder.CreateFieldRequestBuilder;
-import cn.vika.client.api.model.field.FieldType;
+import cn.vika.client.api.model.field.FieldTypeEnum;
 import cn.vika.client.api.model.field.property.CheckboxFieldProperty;
 import cn.vika.client.api.model.field.property.CreatedTimeFieldProperty;
 import cn.vika.client.api.model.field.property.CurrencyFieldProperty;
@@ -28,7 +28,7 @@ import cn.vika.client.api.model.field.property.TextFieldProperty;
 import cn.vika.client.api.model.field.property.option.CollectTypeEnum;
 import cn.vika.client.api.model.field.property.option.DateFormatEnum;
 import cn.vika.client.api.model.field.property.option.Format;
-import cn.vika.client.api.model.field.property.option.FormatType;
+import cn.vika.client.api.model.field.property.option.FormatTypeEnum;
 import cn.vika.client.api.model.field.property.option.NumberFormat;
 import cn.vika.client.api.model.field.property.option.PrecisionEnum;
 import cn.vika.client.api.model.field.property.option.RollUpFunctionEnum;
@@ -67,7 +67,7 @@ public class FieldAddOperationTest {
         SingleTextFieldProperty singleTextFieldProperty = new SingleTextFieldProperty();
         CreateFieldRequest<SingleTextFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.SingleText)
+                .ofType(FieldTypeEnum.SingleText)
                 .withName("singleText")
                 .withProperty(singleTextFieldProperty)
                 .build();
@@ -83,7 +83,7 @@ public class FieldAddOperationTest {
         singleTextFieldProperty.setDefaultValue("defaultValue");
         CreateFieldRequest<SingleTextFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.SingleText)
+                .ofType(FieldTypeEnum.SingleText)
                 .withName("singleTextWithOtherInfo")
                 .withProperty(singleTextFieldProperty)
                 .build();
@@ -98,7 +98,7 @@ public class FieldAddOperationTest {
         TextFieldProperty property = new TextFieldProperty();
         CreateFieldRequest<TextFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Text)
+                .ofType(FieldTypeEnum.Text)
                 .withName("text")
                 .withProperty(property)
                 .build();
@@ -112,7 +112,7 @@ public class FieldAddOperationTest {
         FieldApi fieldApi = vikaApiClient.getFieldApi();
         CreateFieldRequest<EmptyProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Text)
+                .ofType(FieldTypeEnum.Text)
                 .withName("textWithoutProperty")
                 .withoutProperty()
                 .build();
@@ -135,7 +135,7 @@ public class FieldAddOperationTest {
         property.setOptions(options);
         CreateFieldRequest<SingleSelectFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.SingleSelect)
+                .ofType(FieldTypeEnum.SingleSelect)
                 .withName("singleSelect")
                 .withProperty(property)
                 .build();
@@ -160,7 +160,7 @@ public class FieldAddOperationTest {
         property.setOptions(options);
         CreateFieldRequest<SingleSelectFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.SingleSelect)
+                .ofType(FieldTypeEnum.SingleSelect)
                 .withName("singleSelectWithOtherInfo")
                 .withProperty(property)
                 .build();
@@ -176,7 +176,7 @@ public class FieldAddOperationTest {
         property.setPrecision(PrecisionEnum.POINT0);
         CreateFieldRequest<NumberFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Number)
+                .ofType(FieldTypeEnum.Number)
                 .withName("number")
                 .withProperty(property).build();
         CreateFieldResponse response = fieldApi.addField(SPACE_ID, DATASHEET_ID, request);
@@ -193,7 +193,7 @@ public class FieldAddOperationTest {
         property.setSymbol("million");
         CreateFieldRequest<NumberFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Number)
+                .ofType(FieldTypeEnum.Number)
                 .withName("numberWithOtherInfo")
                 .withProperty(property)
                 .build();
@@ -208,7 +208,7 @@ public class FieldAddOperationTest {
         CurrencyFieldProperty property = new CurrencyFieldProperty();
         CreateFieldRequest<CurrencyFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Currency)
+                .ofType(FieldTypeEnum.Currency)
                 .withName("currency")
                 .withProperty(property)
                 .build();
@@ -227,7 +227,7 @@ public class FieldAddOperationTest {
         property.setSymbolAlign(SymbolAlignEnum.Default);
         CreateFieldRequest<CurrencyFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Currency)
+                .ofType(FieldTypeEnum.Currency)
                 .withName("currencyWithOtherInfo")
                 .withProperty(property)
                 .build();
@@ -243,7 +243,7 @@ public class FieldAddOperationTest {
         property.setPrecision(PrecisionEnum.POINT0);
         CreateFieldRequest<PercentFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Percent)
+                .ofType(FieldTypeEnum.Percent)
                 .withName("percent")
                 .withProperty(property)
                 .build();
@@ -260,7 +260,7 @@ public class FieldAddOperationTest {
         property.setDefaultValue("1");
         CreateFieldRequest<PercentFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Percent)
+                .ofType(FieldTypeEnum.Percent)
                 .withName("percentWithOtherInfo")
                 .withProperty(property)
                 .build();
@@ -279,7 +279,7 @@ public class FieldAddOperationTest {
         property.setIncludeTime(true);
         CreateFieldRequest<DateTimeFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.DateTime)
+                .ofType(FieldTypeEnum.DateTime)
                 .withName("dateTimeWithOtherInfo")
                 .withProperty(property)
                 .build();
@@ -295,7 +295,7 @@ public class FieldAddOperationTest {
         property.setDateFormat(DateFormatEnum.DATE_SLASH);
         CreateFieldRequest<DateTimeFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.DateTime)
+                .ofType(FieldTypeEnum.DateTime)
                 .withName("dateTime")
                 .withProperty(property)
                 .build();
@@ -309,7 +309,7 @@ public class FieldAddOperationTest {
         FieldApi fieldApi = vikaApiClient.getFieldApi();
         CreateFieldRequest<EmptyProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Attachment)
+                .ofType(FieldTypeEnum.Attachment)
                 .withName("attachment")
                 .withoutProperty()
                 .build();
@@ -324,7 +324,7 @@ public class FieldAddOperationTest {
         MemberFieldProperty property = new MemberFieldProperty();
         CreateFieldRequest<MemberFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Member)
+                .ofType(FieldTypeEnum.Member)
                 .withName("member")
                 .withProperty(property)
                 .build();
@@ -341,7 +341,7 @@ public class FieldAddOperationTest {
         property.setShouldSendMsg(false);
         CreateFieldRequest<MemberFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Member)
+                .ofType(FieldTypeEnum.Member)
                 .withName("memberWithOtherInfo")
                 .withProperty(property)
                 .build();
@@ -357,7 +357,7 @@ public class FieldAddOperationTest {
         property.setIcon("sweat_smile");
         CreateFieldRequest<CheckboxFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Checkbox)
+                .ofType(FieldTypeEnum.Checkbox)
                 .withName("checkbox")
                 .withProperty(property)
                 .build();
@@ -374,7 +374,7 @@ public class FieldAddOperationTest {
         property.setMax(5);
         CreateFieldRequest<RatingFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Rating)
+                .ofType(FieldTypeEnum.Rating)
                 .withName("rating")
                 .withProperty(property)
                 .build();
@@ -388,7 +388,7 @@ public class FieldAddOperationTest {
         FieldApi fieldApi = vikaApiClient.getFieldApi();
         CreateFieldRequest<EmptyProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.URL)
+                .ofType(FieldTypeEnum.URL)
                 .withName("url")
                 .withoutProperty()
                 .build();
@@ -402,7 +402,7 @@ public class FieldAddOperationTest {
         FieldApi fieldApi = vikaApiClient.getFieldApi();
         CreateFieldRequest<EmptyProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Phone)
+                .ofType(FieldTypeEnum.Phone)
                 .withName("phone")
                 .withoutProperty()
                 .build();
@@ -416,7 +416,7 @@ public class FieldAddOperationTest {
         FieldApi fieldApi = vikaApiClient.getFieldApi();
         CreateFieldRequest<EmptyProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Email)
+                .ofType(FieldTypeEnum.Email)
                 .withName("email")
                 .withoutProperty()
                 .build();
@@ -432,7 +432,7 @@ public class FieldAddOperationTest {
         property.setForeignDatasheetId("dstHQGoCG6sAFkrY3t");
         CreateFieldRequest<MagicLinkFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.MagicLink)
+                .ofType(FieldTypeEnum.MagicLink)
                 .withName("magicLink")
                 .withProperty(property)
                 .build();
@@ -450,7 +450,7 @@ public class FieldAddOperationTest {
         property.setLimitSingleRecord(true);
         CreateFieldRequest<MagicLinkFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.MagicLink)
+                .ofType(FieldTypeEnum.MagicLink)
                 .withName("magicLinkWithOtherInfo")
                 .withProperty(property)
                 .build();
@@ -467,7 +467,7 @@ public class FieldAddOperationTest {
         property.setTargetFieldId("fldLxKFAMZYXX");
         CreateFieldRequest<MagicLookupFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.MagicLookUp)
+                .ofType(FieldTypeEnum.MagicLookUp)
                 .withName("magicLookUp")
                 .withProperty(property)
                 .build();
@@ -485,7 +485,7 @@ public class FieldAddOperationTest {
         property.setRollupFunction(RollUpFunctionEnum.SUM);
         CreateFieldRequest<MagicLookupFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.MagicLookUp)
+                .ofType(FieldTypeEnum.MagicLookUp)
                 .withName("magicLookUpWithRollupFunction")
                 .withProperty(property)
                 .build();
@@ -500,14 +500,14 @@ public class FieldAddOperationTest {
         FormulaFieldProperty formulaFieldProperty = new FormulaFieldProperty();
         formulaFieldProperty.setExpression("1 / 3");
         Format<NumberFormat> numberFormatFormat = new Format<>();
-        numberFormatFormat.setType(FormatType.Number);
+        numberFormatFormat.setType(FormatTypeEnum.Number);
         NumberFormat numberFormat = new NumberFormat();
         numberFormat.setPrecision(3);
         numberFormatFormat.setFormat(numberFormat);
         formulaFieldProperty.setFormat(numberFormatFormat);
         CreateFieldRequest<FormulaFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Formula)
+                .ofType(FieldTypeEnum.Formula)
                 .withName("formula")
                 .withProperty(formulaFieldProperty)
                 .build();
@@ -521,7 +521,7 @@ public class FieldAddOperationTest {
         FieldApi fieldApi = vikaApiClient.getFieldApi();
         CreateFieldRequest<EmptyProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.AutoNumber)
+                .ofType(FieldTypeEnum.AutoNumber)
                 .withName("autoNumber")
                 .withoutProperty()
                 .build();
@@ -537,7 +537,7 @@ public class FieldAddOperationTest {
         property.setDateFormat(DateFormatEnum.DATE_SLASH);
         CreateFieldRequest<CreatedTimeFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.CreatedTime)
+                .ofType(FieldTypeEnum.CreatedTime)
                 .withName("createdTime")
                 .withProperty(property)
                 .build();
@@ -555,7 +555,7 @@ public class FieldAddOperationTest {
         property.setIncludeTime(true);
         CreateFieldRequest<CreatedTimeFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.CreatedTime)
+                .ofType(FieldTypeEnum.CreatedTime)
                 .withName("createdTimeWithOtherInfo")
                 .withProperty(property)
                 .build();
@@ -572,7 +572,7 @@ public class FieldAddOperationTest {
         property.setCollectType(CollectTypeEnum.ALL);
         CreateFieldRequest<LastModifiedTimeFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.LastModifiedTime)
+                .ofType(FieldTypeEnum.LastModifiedTime)
                 .withName("lastModifiedTime")
                 .withProperty(property)
                 .build();
@@ -592,7 +592,7 @@ public class FieldAddOperationTest {
         property.setFieldIdCollection(fieldIds);
         CreateFieldRequest<LastModifiedTimeFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.LastModifiedTime)
+                .ofType(FieldTypeEnum.LastModifiedTime)
                 .withName("lastModifiedTimeWithRemindSpecifiedField")
                 .withProperty(property)
                 .build();
@@ -606,7 +606,7 @@ public class FieldAddOperationTest {
         FieldApi fieldApi = vikaApiClient.getFieldApi();
         CreateFieldRequest<EmptyProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.CreatedBy)
+                .ofType(FieldTypeEnum.CreatedBy)
                 .withName("createdByField")
                 .withoutProperty()
                 .build();
@@ -622,7 +622,7 @@ public class FieldAddOperationTest {
         property.setCollectType(CollectTypeEnum.ALL);
         CreateFieldRequest<LastModifiedByFieldProperty> request = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.LastModifiedBy)
+                .ofType(FieldTypeEnum.LastModifiedBy)
                 .withName("LastModifiedBy")
                 .withProperty(property)
                 .build();

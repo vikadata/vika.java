@@ -8,7 +8,7 @@ import cn.vika.client.api.model.CreateDatasheetRequest;
 import cn.vika.client.api.model.CreateDatasheetResponse;
 import cn.vika.client.api.model.CreateFieldRequest;
 import cn.vika.client.api.model.builder.CreateFieldRequestBuilder;
-import cn.vika.client.api.model.field.FieldType;
+import cn.vika.client.api.model.field.FieldTypeEnum;
 import cn.vika.client.api.model.field.property.EmptyProperty;
 import cn.vika.client.api.model.field.property.SingleTextFieldProperty;
 import org.junit.jupiter.api.Test;
@@ -51,13 +51,13 @@ public class DatasheetOperationTest {
         property.setDefaultValue("default");
         CreateFieldRequest<SingleTextFieldProperty> singleSelectField = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.SingleText)
+                .ofType(FieldTypeEnum.SingleText)
                 .withName("singleSelect")
                 .withProperty(property)
                 .build();
         CreateFieldRequest<EmptyProperty> textField = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Text)
+                .ofType(FieldTypeEnum.Text)
                 .withName("text")
                 .withoutProperty()
                 .build();
