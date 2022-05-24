@@ -43,11 +43,11 @@ public class VikaApiClient {
 
     private final ApiHttpClient apiHttpClient;
 
-    private RecordApi recordApi;
+    private volatile RecordApi recordApi;
 
-    private AttachmentApi attachmentApi;
+    private volatile AttachmentApi attachmentApi;
 
-    private NodeApi nodeApi;
+    private volatile NodeApi nodeApi;
 
     private volatile FieldApi fieldApi;
 
