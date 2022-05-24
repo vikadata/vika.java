@@ -273,31 +273,35 @@ You can create field by sdk. Firstly, we need to build the property required by 
 
 > more detail about field type and property of field see official [API manual#create-field](https://vika.cn/developers/api/reference/#operation/create-fields)
 
+create single text field example:
+
 ```java
-// Example 1: create SingleText field
 // build the SingleText field's property
 SingleTextFieldProperty singleTextFieldProperty = new SingleTextFieldProperty();
 singleTextFieldProperty.setDefaultValue("defaultValue");
 // create a CreateFieldRequest Object
-CreateFieldRequest<SingleTextFieldProperty> request = CreateFieldRequestBuilder
+CreateFieldRequest<SingleTextFieldProperty> createFieldRequest = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.SingleText)
+                .ofType(FieldTypeEnum.SingleText)
                 .withName("singleText")
                 .withProperty(singleTextFieldProperty)
                 .build();
 // request to create a field
-CreateFieldResponse response = vikaApiClient.getFieldApi().addField("space_id", "datasheet_id", request);
+CreateFieldResponse response = vikaApiClient.getFieldApi().addField("space_id", "datasheet_id", createFieldRequest);
+```
 
-// Example 2: create Text field
+ create text field example:
+
+```java
 // if field don't require property, we can skip the process that build the property
-CreateFieldRequest<EmptyProperty> request = CreateFieldRequestBuilder
+CreateFieldRequest<EmptyProperty> createFieldRequest = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Text)
+                .ofType(FieldTypeEnum.Text)
                 .withName("text")
                 .withoutProperty()
                 .build();
 // request to create a field
-CreateFieldResponse response = vikaApiClient.getFieldApi().addField("space_id", "datasheet_id", request);
+CreateFieldResponse createFieldRequest = vikaApiClient.getFieldApi().addField("space_id", "datasheet_id", createFieldRequest);
 ```
 
 #### **Detele Field**
@@ -315,13 +319,13 @@ You can create a datasheet with the help of a `CreateDatasheetRequest` Object.  
 
 ```java
 // create a CreateDatasheetRequest Object
-CreateDatasheetRequest request = new CreateDatasheetRequest();
+CreateDatasheetRequest createDatasheetRequest = new CreateDatasheetRequest();
 // datasheet's name is required.
 request.setName("datasheet");
 // add description to datasheet
 request.setDescription("description");
 // specify the folder where the datasheet is stored
-request.setFolderId("fod_id");
+request.setFolderId("fold_id");
 // specify the datasheet's previous node
 request.setPreNodeId("pre_node_id");
 
@@ -331,14 +335,14 @@ property.setDefaultValue("defaultValue");
 // a SingleText field
 CreateFieldRequest<SingleTextFieldProperty> singleSelectField = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.SingleText)
+                .ofType(FieldTypeEnum.SingleText)
                 .withName("singleSelect")
                 .withProperty(property)
                 .build();
 // a Text field
 CreateFieldRequest<EmptyProperty> textField = CreateFieldRequestBuilder
                 .create()
-                .ofType(FieldType.Text)
+                .ofType(FieldTypeEnum.Text)
                 .withName("text")
                 .withoutProperty()
                 .build();
@@ -348,7 +352,7 @@ fields.add(textField);
 request.setFields(fields);
 
 // request to create a datasheet
-CreateDatasheetResponse response = vikaApiClient.getDatasheetApi().addDatasheet("space_id", request);
+CreateDatasheetResponse response = vikaApiClient.getDatasheetApi().addDatasheet("space_id", createDatasheetRequest);
 ```
 
 ## Reporting Issues
