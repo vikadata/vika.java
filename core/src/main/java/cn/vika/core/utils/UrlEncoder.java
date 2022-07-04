@@ -20,11 +20,9 @@
  * SOFTWARE.
  */
 
-package cn.vika.client.api.util;
+package cn.vika.core.utils;
 
 import java.nio.charset.StandardCharsets;
-
-import cn.vika.core.utils.StringUtil;
 
 /**
  * URL Query param encoder
