@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.vika.client.api.util.UrlEncoder;
+import cn.vika.core.utils.UrlEncoder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -66,7 +66,7 @@ public class ApiQueryParam extends HashMap<String, List<String>> {
     }
 
     public ApiQueryParam withSort(String fieldName, Order order) {
-        List<String> values = computeIfAbsent(SORT, k -> new ArrayList<>(1));
+        List<String> values = computeIfAbsent(UrlEncoder.encodeURIComponent(SORT), k -> new ArrayList<>(1));
         values.add(formatSort(fieldName, order));
         return this;
     }

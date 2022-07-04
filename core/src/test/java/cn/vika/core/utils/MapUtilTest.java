@@ -21,6 +21,6 @@ public class MapUtilTest {
         uriVariables.put("recordIds.0", "rec0");
         uriVariables.put("recordIds.1", "rec1");
         String urlParam = MapUtil.extractKeyToVariables(uriVariables);
-        assertThat(urlParam).isEqualTo("?recordIds={recordIds.0}&sort[]={sort[].0}&sort[]={sort[].1}&recordIds={recordIds.1}&pageSize={pageSize}&page={page}");
+        assertThat(urlParam).isEqualTo("?recordIds={recordIds.0}&sort%5B%5D={sort[].0}&sort%5B%5D={sort[].1}&recordIds={recordIds.1}&pageSize={pageSize}&page={page}");
     }
 }
