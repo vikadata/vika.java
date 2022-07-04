@@ -27,9 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * @author Shawn Deng
- * @date 2021-02-05 21:46:29
  */
 public class MapUtil {
 
@@ -46,8 +44,14 @@ public class MapUtil {
         String uri = "";
         for (Map.Entry<String, String> entry : map.entrySet()) {
             int index = entry.getKey().lastIndexOf('.');
-            if ((entry.getKey().length() - index - 1) == 0 ) {
-                uri = setUriTemplate(uri, entry.getKey().substring(0, index), entry.getKey());
+            if (index == -1) {
+                uri = setUriTemplate(uri, entry.getKey(), entry.getKey());
+                continue;
+            }
+            int length = entry.getKey().length();
+            if (length > (index + 1)) {
+                String key = entry.getKey().substring(0, index);
+                uri = setUriTemplate(uri, key, entry.getKey());
             }
             else {
                 uri = setUriTemplate(uri, entry.getKey(), entry.getKey());

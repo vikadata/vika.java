@@ -22,13 +22,14 @@
 
 package cn.vika.client.api.model;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import cn.vika.client.api.util.UrlEncoder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static cn.vika.client.api.Constants.CELL_FORMAT;
 import static cn.vika.client.api.Constants.FIELDS;
@@ -42,35 +43,31 @@ import static cn.vika.client.api.Constants.SORT;
 import static cn.vika.client.api.Constants.VIEW_ID;
 
 /**
- *
  * @author Shawn Deng
- * @date 2021-02-05 20:20:49
  */
 public class ApiQueryParam extends HashMap<String, List<String>> {
 
-    private Map<String, Order> orderByMap;
-
-    public static ApiQueryParam EMPTY = new ApiQueryParam();
+    public static ApiQueryParam newInstance() {
+        return new ApiQueryParam();
+    }
 
     public ApiQueryParam() {
         super(16);
-        orderByMap = new LinkedHashMap<>(16);
     }
 
     public ApiQueryParam(HashMap<String, List<String>> map) {
         super(map);
-        orderByMap = new LinkedHashMap<>(16);
     }
 
     public ApiQueryParam(int page, int pageSize) {
         super(16);
-        orderByMap = new LinkedHashMap<>(16);
         withParam(PAGE_NUM, Integer.toString(page));
         withParam(PAGE_SIZE, Integer.toString(pageSize));
     }
 
     public ApiQueryParam withSort(String fieldName, Order order) {
-        orderByMap.put(fieldName, order);
+        List<String> values = computeIfAbsent(SORT, k -> new ArrayList<>(1));
+        values.add(formatSort(fieldName, order));
         return this;
     }
 
@@ -103,19 +100,39 @@ public class ApiQueryParam extends HashMap<String, List<String>> {
     }
 
     public ApiQueryParam withParam(String key, String value) {
-        if (value == null) {
-            return this;
+        if (value != null && !value.isEmpty()) {
+            add(key, value);
         }
-        put(key, Collections.singletonList(value));
         return this;
     }
 
     public ApiQueryParam withParam(String key, List<String> value) {
-        if (value == null) {
-            return this;
+        if (value != null && !value.isEmpty()) {
+            addAll(key, value);
         }
-        put(key, value);
         return this;
+    }
+
+    private void addAll(String key, List<String> values) {
+        List<String> currentValues = this.computeIfAbsent(key, k -> new ArrayList<>(1));
+        currentValues.addAll(values);
+    }
+
+    private void add(String key, String value) {
+        List<String> values = this.computeIfAbsent(key, k -> new ArrayList<>(1));
+        values.add(value);
+    }
+
+    private String formatSort(String fieldName, Order order) {
+        Map<String, String> sortMap = new HashMap<>(2);
+        sortMap.put("field", fieldName);
+        sortMap.put("order", order.name().toLowerCase());
+        try {
+            return new ObjectMapper().writeValueAsString(sortMap);
+        }
+        catch (JsonProcessingException e) {
+            throw new IllegalArgumentException("can't format sort parameter", e);
+        }
     }
 
     public Map<String, String> toMap() {
@@ -128,14 +145,6 @@ public class ApiQueryParam extends HashMap<String, List<String>> {
                 for (int i = 0; i < entry.getValue().size(); i++) {
                     queryMap.put(entry.getKey() + "." + i, entry.getValue().get(i));
                 }
-            }
-        }
-        if (!orderByMap.isEmpty()) {
-            int i = 0;
-            for (Entry<String, Order> entry : orderByMap.entrySet()) {
-                queryMap.put(SORT + "." + i + ".field", entry.getKey());
-                queryMap.put(SORT + "." + i + ".order", entry.getValue().name().toLowerCase());
-                i++;
             }
         }
         return queryMap;
