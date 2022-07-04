@@ -23,9 +23,7 @@
 package cn.vika.client.api;
 
 /**
- *
  * @author Shawn Deng
- * @date 2021-02-05 18:22:10
  */
 public interface Constants {
 
@@ -33,7 +31,7 @@ public interface Constants {
 
     String PAGE_SIZE = "pageSize";
 
-    String SORT = "sort";
+    String SORT = "sort[]";
 
     String VIEW_ID = "viewId";
 
