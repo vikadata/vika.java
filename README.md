@@ -43,7 +43,7 @@ Java 8+ is required to use sdk. not support Java 8 below
 ```groovy
 dependencies {
   ... ...
-  implementation('cn.vika:vika-client:1.0.2')
+  implementation('cn.vika:vika-client:1.0.4')
 }
 ```
 
