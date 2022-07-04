@@ -128,7 +128,7 @@ public class ApiQueryParam extends HashMap<String, List<String>> {
         sortMap.put("field", fieldName);
         sortMap.put("order", order.name().toLowerCase());
         try {
-            return new ObjectMapper().writeValueAsString(sortMap);
+            return UrlEncoder.encodeURIComponent(new ObjectMapper().writeValueAsString(sortMap));
         }
         catch (JsonProcessingException e) {
             throw new IllegalArgumentException("can't format sort parameter", e);

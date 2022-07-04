@@ -37,7 +37,7 @@ public class ApiQueryParamTest {
         ApiQueryParam queryParam = new ApiQueryParam()
                 .withSort("id", Order.DESC);
         Map<String, String> queryMap = queryParam.toMap();
-        assertThat(queryMap).containsOnlyKeys("sort[]");
+        assertThat(queryMap).containsOnlyKeys("sort%5B%5D");
     }
 
     @Test
@@ -46,7 +46,7 @@ public class ApiQueryParamTest {
                 .withSort("id", Order.DESC)
                 .withSort("name", Order.DESC);
         Map<String, String> queryMap = queryParam.toMap();
-        assertThat(queryMap).containsOnlyKeys("sort[].0", "sort[].1");
+        assertThat(queryMap).containsOnlyKeys("sort%5B%5D.0", "sort%5B%5D.1");
     }
 
     @Test
