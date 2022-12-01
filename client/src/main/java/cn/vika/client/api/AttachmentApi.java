@@ -74,7 +74,7 @@ public class AttachmentApi extends AbstractApi {
             HttpResult<Attachment> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), httpHeader, formData, new GenericTypeReference<HttpResult<Attachment>>() {});
             return result.getData();
         } catch (HttpClientException e) {
-            throw new ApiException("timeout retry");
+            throw new HttpClientException("timeout retry", e);
         }
     }
 }
