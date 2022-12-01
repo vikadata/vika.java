@@ -50,6 +50,10 @@ public class ApiHttpClient {
 
     public static final int DEFAULT_READ_TIMEOUT = 60000;
 
+    public static final int DEFAULT_CALL_TIMEOUT = 60000;
+
+    public static final int DEFAULT_WRITE_TIMEOUT = 60000;
+
     private final DefaultHttpClient defaultHttpClient;
 
     private int defaultPerPage = DEFAULT_PER_PAGE;
@@ -57,6 +61,10 @@ public class ApiHttpClient {
     private Integer connectTimeout = DEFAULT_CONNECT_TIMEOUT;
 
     private Integer readTimeout = DEFAULT_READ_TIMEOUT;
+
+    private Integer writeTimeout = DEFAULT_WRITE_TIMEOUT;
+
+    private Integer callTimeout = DEFAULT_CALL_TIMEOUT;
 
     public ApiHttpClient(ApiVersion apiVersion, String baseUrl, ApiCredential apiCredential) {
         baseUrl += apiVersion.getApiNamespace();
@@ -80,6 +88,10 @@ public class ApiHttpClient {
     public void setReadTimeout(Integer readTimeout) {
         this.readTimeout = readTimeout;
     }
+
+    public void setWriteTimeout(Integer writeTimeout){ this.writeTimeout = writeTimeout; }
+
+    public void setCallTimeout(Integer callTimeout){ this.callTimeout = callTimeout; }
 
     public void setDefaultPerPage(int defaultPerPage) {
         this.defaultPerPage = defaultPerPage;
@@ -105,6 +117,23 @@ public class ApiHttpClient {
                 ((OkHttpClientHttpRequestFactory) requestFactory).setReadTimeout(readTimeout);
             }
         }
+
+        if (writeTimeout != null) {
+            // Sets the per request write timeout.
+            ClientHttpRequestFactory requestFactory = this.defaultHttpClient.getRequestFactory();
+            if (requestFactory instanceof OkHttpClientHttpRequestFactory) {
+                ((OkHttpClientHttpRequestFactory) requestFactory).setWriteTimeout(writeTimeout);
+            }
+        }
+
+        if (callTimeout != null) {
+            // Sets the per request call timeout.
+            ClientHttpRequestFactory requestFactory = this.defaultHttpClient.getRequestFactory();
+            if (requestFactory instanceof OkHttpClientHttpRequestFactory) {
+                ((OkHttpClientHttpRequestFactory) requestFactory).setCallTimeout(callTimeout);
+            }
+        }
+
         return this.defaultHttpClient;
     }
 }

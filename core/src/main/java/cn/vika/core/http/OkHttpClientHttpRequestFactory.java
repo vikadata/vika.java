@@ -72,6 +72,26 @@ public class OkHttpClientHttpRequestFactory implements ClientHttpRequestFactory 
                 .build();
     }
 
+    /**
+     * Set call timeout in milliseconds.
+     * @param callTimeout call timeout
+     */
+    public void setCallTimeout(int callTimeout){
+        this.client = this.client.newBuilder()
+            .callTimeout(callTimeout, TimeUnit.MICROSECONDS)
+            .build();
+    }
+
+    /**
+     * Set write timeout in milliseconds.
+     * @param writeTimeout write timeout
+     */
+    public void setWriteTimeout(int writeTimeout){
+        this.client = this.client.newBuilder()
+            .writeTimeout(writeTimeout, TimeUnit.MILLISECONDS)
+            .build();
+    }
+
     @Override
     public ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod) {
         return new OkHttpClientRequest(this.client, uri, httpMethod);
