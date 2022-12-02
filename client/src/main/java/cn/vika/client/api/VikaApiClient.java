@@ -131,6 +131,44 @@ public class VikaApiClient {
         return this;
     }
 
+    /**
+     * Sets the per request write timeout.
+     *
+     * @param writeTimeout the per request read timeout in milliseconds, can be null to use default
+     */
+    public void setWriteTimeout(Integer writeTimeout) {
+        this.apiHttpClient.setWriteTimeout(writeTimeout);
+    }
+
+    /**
+     * Build method that sets the per request write timeout.
+     * @param writeTimeout the per request write timeout in milliseconds, can be null to use default
+     * @return VikaApiClient instance
+     */
+    public VikaApiClient withWriteTimeout(Integer writeTimeout) {
+        apiHttpClient.setWriteTimeout(writeTimeout);
+        return this;
+    }
+
+    /**
+     * Sets the per request call timeout.
+     *
+     * @param callTimeout the per request call timeout in milliseconds, can be null to use default
+     */
+    public void setCallTimeout(Integer callTimeout) {
+        this.apiHttpClient.setCallTimeout(callTimeout);
+    }
+
+    /**
+     * Build method that sets the per request call timeout.
+     * @param callTimeout the per request call timeout in milliseconds, can be null to use default
+     * @return VikaApiClient instance
+     */
+    public VikaApiClient withCallTimeout(Integer callTimeout) {
+        apiHttpClient.setCallTimeout(callTimeout);
+        return this;
+    }
+
     public RecordApi getRecordApi() {
         if (this.recordApi == null) {
             synchronized (this) {

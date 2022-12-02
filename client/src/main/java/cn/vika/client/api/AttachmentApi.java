@@ -29,6 +29,7 @@ import cn.vika.client.api.http.AbstractApi;
 import cn.vika.client.api.http.ApiHttpClient;
 import cn.vika.client.api.model.Attachment;
 import cn.vika.client.api.model.HttpResult;
+import cn.vika.core.exception.HttpClientException;
 import cn.vika.core.http.FormDataMap;
 import cn.vika.core.http.GenericTypeReference;
 import cn.vika.core.http.HttpHeader;
@@ -69,7 +70,11 @@ public class AttachmentApi extends AbstractApi {
     public Attachment upload(String datasheetId, FormDataMap formData) throws ApiException {
         HttpHeader httpHeader = new HttpHeader();
         httpHeader.setContentType(HttpMediaType.MULTIPART_FORM_DATA);
-        HttpResult<Attachment> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), httpHeader, formData, new GenericTypeReference<HttpResult<Attachment>>() {});
-        return result.getData();
+        try {
+            HttpResult<Attachment> result = getDefaultHttpClient().post(String.format(PATH, datasheetId), httpHeader, formData, new GenericTypeReference<HttpResult<Attachment>>() {});
+            return result.getData();
+        } catch (HttpClientException e) {
+            throw new HttpClientException("timeout retry", e);
+        }
     }
 }
