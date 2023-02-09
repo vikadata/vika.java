@@ -126,13 +126,13 @@ public class ApiHttpClient {
             }
         }
 
-        if (callTimeout != null) {
-            // Sets the per request call timeout.
-            ClientHttpRequestFactory requestFactory = this.defaultHttpClient.getRequestFactory();
-            if (requestFactory instanceof OkHttpClientHttpRequestFactory) {
-                ((OkHttpClientHttpRequestFactory) requestFactory).setCallTimeout(callTimeout);
-            }
-        }
+//        if (callTimeout != null) {
+//            // Sets the per request call timeout.
+//            ClientHttpRequestFactory requestFactory = this.defaultHttpClient.getRequestFactory();
+//            if (requestFactory instanceof OkHttpClientHttpRequestFactory) {
+//                ((OkHttpClientHttpRequestFactory) requestFactory).setCallTimeout(callTimeout);
+//            }
+//        }
 
         return this.defaultHttpClient;
     }
